@@ -8,7 +8,7 @@ export default function Login() {
       <div class="login-box">
         <div className="box-1">
           <Image className="img-logo"
-            src="/logo.jpg"
+            src="/logo3.jpg"
             width={100}
             height={100}
             alt="logo"
