@@ -3,8 +3,15 @@ import Link from "next/link";
 
 export default function Sell() {
   return (
-    <div className="container">
-      <h1>Sell page</h1>
-    </div>
+    <>
+      <head>
+        <title>Forget Password</title>
+      </head>
+      <body>
+        <div className="container">
+          <h1>success_charge</h1>
+        </div>
+      </body>
+    </>
   );
 }

@@ -30,7 +30,7 @@ export default function Login() {
                   <input type="text" name="username" placeholder="กรอกรหัสผ่าน" /><br />
                   <button type="submit">เข้าสู่ระบบ</button>
                 </form>
-                <Link href="/">ลืมรหัสผ่าน</Link>
+                <Link href="/forget_password">ลืมรหัสผ่าน</Link>
               </div>
             </div>
           </div>

@@ -9,7 +9,7 @@ export default function Sell() {
       </head>
       <body>
         <div className="container">
-          <h1>product_detail</h1>
+          <h1>profile</h1>
         </div>
       </body>
     </>
