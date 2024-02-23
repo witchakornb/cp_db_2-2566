@@ -23,7 +23,7 @@ export default function Sell() {
                   <label for="confirm_password">ยืนยันรหัสผ่านใหม่</label><br />
                   <input type="text" name="confirm_password" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง" /><br />
                   <div className="btn-box">
-                    <button type="submit" href="/sale">ยืนยัน</button>
+                    <button type="submit">ยืนยัน</button>
                     <a href="/sale">ยกเลิก</a>
                   </div>
                 </form>

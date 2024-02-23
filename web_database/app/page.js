@@ -29,7 +29,7 @@ export default function Login() {
                   <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br />
                   <label for="username">รหัสผ่าน</label><br />
                   <input type="text" name="username" placeholder="กรอกรหัสผ่าน" /><br />
-                  <button type="submit">เข้าสู่ระบบ</button>
+                  <button type="submit" href="./sale">เข้าสู่ระบบ</button>
                 </form>
                   <a href="/forget_password">ลืมรหัสผ่าน</a>
               </div>
