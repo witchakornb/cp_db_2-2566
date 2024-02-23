@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./login.css";
 
 export default function Login() {
   return (
@@ -9,7 +10,6 @@ export default function Login() {
       </head>
       <body>
         <div className="container">
-          <h1 className="h1home">First page (login page)</h1>
           <div class="login-box">
             <div className="box-1">
               <Image className="img-logo"

@@ -1,0 +1,35 @@
+body{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 90vh;
+}
+.login-box {
+     box-shadow: 5px 5px 3px #888888;
+     text-align: center;
+     padding: 2rem 4rem 3rem 4rem;
+     border: 1px solid;
+     border-radius: 10px;
+     height: fit-content;
+     width: fit-content;
+     background-color: #fff;
+}
+.input-box{
+     text-align: start;
+     line-height: 1.5rem;
+}
+.input-box form{
+     margin-bottom: 0.5rem;
+     width: 100%;
+}
+.input-box form input{
+     width: 100%;
+     height: 1.75rem;
+     margin: 0.5rem 0;
+     padding-left: 0.5rem;
+}
+.input-box form button{
+     margin: 1rem 0;
+     width: 100%;
+     height: 2rem;
+}
