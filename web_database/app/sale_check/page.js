@@ -5,11 +5,11 @@ export default function Sell() {
   return (
     <>
       <head>
-        <title>Product Out Of Stock</title>
+        <title>Sale Check</title>
       </head>
       <body>
         <div className="container">
-          <h1>sale_out</h1>
+          <h1>sale</h1>
         </div>
       </body>
     </>

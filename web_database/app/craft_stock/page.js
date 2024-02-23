@@ -5,7 +5,7 @@ export default function Sell() {
   return (
     <>
       <head>
-        <title>Forget Password</title>
+        <title>Craft Stock</title>
       </head>
       <body>
         <div className="container">
