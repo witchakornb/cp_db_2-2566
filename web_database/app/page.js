@@ -1,11 +1,10 @@
 import Image from "next/image";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import Link from "next/link";
 
 export default function Login() {
   return (
     <div className="container">
-      <h1 className="h1home">Home page (login page)</h1>
+      <h1 className="h1home">First page (login page)</h1>
       <div class="login-box">
         <div className="box-1">
           <Image className="img-logo"
@@ -19,13 +18,14 @@ export default function Login() {
           <h2>ระบบบริหารร้านค้า</h2>
           <h4>กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้ระบบ</h4>
           <div class="input-box">
-            <form>
+            <form action="#" method="get">
               <label for="username">ชื่อผู้ใช้งาน</label><br/>
               <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br/>
               <label for="username">รหัสผ่าน</label><br/>
               <input type="text" name="username" placeholder="กรอกรหัสผ่าน" /><br/>
-              <button type="submit">Submit</button>
+              <button type="submit">เข้าสู่ระบบ</button>
             </form>
+            <Link href="/">ลืมรหัสผ่าน</Link>
           </div>
         </div>
       </div>
