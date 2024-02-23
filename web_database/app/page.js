@@ -7,6 +7,7 @@ export default function Login() {
     <>
       <head>
         <title>Login</title>
+          <link rel="icon" type="image/x-icon" href="/logo3.png"/>
       </head>
       <body>
         <div className="container">
