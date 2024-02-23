@@ -37,9 +37,9 @@ a{
      margin: 1rem 0;
      width: 100%;
      font-size: 1rem;
-     padding: 0.5rem 1rem;
+     padding: 0.45rem 1rem;
      background-color: #00A84F;
-     border: 1px solid gray;
+     border: 0px;
      border-radius: 10px;
      color: #fff;
 }
