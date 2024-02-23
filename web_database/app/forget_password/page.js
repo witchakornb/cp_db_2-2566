@@ -6,6 +6,7 @@ export default function Sell() {
     <>
       <head>
         <title>Forget Password</title>
+        <link rel="icon" type="image/x-icon" href="/logo3.png"/>
       </head>
       <body>
         <div className="container">
