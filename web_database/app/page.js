@@ -19,9 +19,12 @@ export default function Login() {
           <h2>ระบบบริหารร้านค้า</h2>
           <h4>กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้ระบบ</h4>
           <div class="input-box">
-            <form action="">
-            <label for=""></label>
-
+            <form>
+              <label for="username">ชื่อผู้ใช้งาน</label><br/>
+              <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br/>
+              <label for="username">รหัสผ่าน</label><br/>
+              <input type="text" name="username" placeholder="กรอกรหัสผ่าน" /><br/>
+              <button type="submit">Submit</button>
             </form>
           </div>
         </div>
