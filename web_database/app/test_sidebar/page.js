@@ -41,13 +41,12 @@ const Tsidebar = () => {
     <body>
       
     
-    <div  style={{ width: '100%'}}>
+    <div className="" style={{ width: '100%'}}>
       
     <nav className="p-4 flex items-center justify-between" style={{ background: '#333333', width: '100%', left: 0 }}>
       <div className="flex place-items-center space-x-4">
         <img className="w-12" src="/logo3.png" alt="logo shop" />
         <i className="fa fa-bars text-2xl text-white" onClick={toggleAside}></i>
-        {/* <FontAwesomeIcon icon="fa-solid fa-bars" /> */}
         <h1 className="text-white text-xl font-semibold">ขายสินค้า</h1>
       </div>
       <div className="flex items-center space-x-4">
@@ -76,19 +75,19 @@ const Tsidebar = () => {
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['venta'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center"> 
+                     <a href="/sale" className="block p-2 hover:bg-gray-300 flex items-center"> 
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ขายสินค้า
                      </a>
                    </li>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center ">
+                     <a href="/sale/charge_money" className="block p-2 hover:bg-gray-300 flex items-center ">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ประวัติการขายสินค้า
                      </a>
                    </li>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/sale_history" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ประวัติการยกเลิกบิล
                      </a>
@@ -104,13 +103,13 @@ const Tsidebar = () => {
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['resumen'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/sale_overview" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ภาพรวมการขาย
                      </a>
                    </li>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center ">
+                     <a href="/sale_report" className="block p-2 hover:bg-gray-300 flex items-center ">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        รายงานการขาย
                      </a>
@@ -126,7 +125,7 @@ const Tsidebar = () => {
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['financiero'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/tax_invoice" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ออกใบกำกับภาษี
                      </a>
@@ -143,19 +142,19 @@ const Tsidebar = () => {
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['stock'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/product" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        สินค้าทั้งหมด
                      </a>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/craft_stock" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ปุ๋ยรอการผสม
                      </a>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/sale_check" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ตรวจสอบการขาย
                      </a>
-                     <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <a href="/product_import" className="block p-2 hover:bg-gray-300 flex items-center">
                        <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                        ใบนำเข้าสินค้า
                      </a>
@@ -171,13 +170,13 @@ const Tsidebar = () => {
                          </div>
                          <ul className={`desplegable ml-4 ${dropdownVisible['clientes'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                             <li>
-                                 <a href="#" className="block p-2 hover:bg-gray-300 flex items-center">
+                                 <a href="/customer" className="block p-2 hover:bg-gray-300 flex items-center">
                                      <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                                     ข้อมูลลูกค้า
                                  </a>
                              </li>
                              <li>
-                                 <a href="#" className="block p-2 hover:bg-gray-300 flex items-center ">
+                                 <a href="/employee" className="block p-2 hover:bg-gray-300 flex items-center ">
                                      <i className="fa fa-circle mr-2 mt-1" style={{ fontSize: '9px' }}></i>
                                      ข้อมูลพนักงาน
                                  </a>
