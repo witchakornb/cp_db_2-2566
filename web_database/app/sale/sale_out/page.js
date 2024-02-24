@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import styles from "./sale_out.css";
 export default function Sell() {
   return (
     <>
@@ -9,7 +9,17 @@ export default function Sell() {
       </head>
       <body>
         <div className="container">
-          <h1>sale_out</h1>
+          <div class="box-alert">
+            <div>
+              <img src="../alert1.png" alt="alert icon" />
+            </div>
+            <div>
+              <h3>สินค้าหมด กรุณาตรวจสอบบริหารสต็อก</h3>
+            </div>
+            <div>
+              <a className="btn" href="../sale">ตกลง</a>
+            </div>
+          </div>
         </div>
       </body>
     </>
