@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./change_password.css";
-export default function Sell() {
+
+export default function ChangePassword() {
   return (
     <>
       <head>
@@ -12,6 +13,7 @@ export default function Sell() {
           <div class="change-password-box">
             <div class="box-1">
               <h3>เปลี่ยนรหัสผ่าน</h3>
+              <a className="btn-close" href="./sale">&#10006;</a>
             </div>
             <div className="box-2">
               <div class="input-box">
