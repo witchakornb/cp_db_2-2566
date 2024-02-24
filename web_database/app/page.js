@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import RootLayout from "./layout";
 import styles from "./login.css";
 
 export default function Login() {
@@ -37,7 +38,6 @@ export default function Login() {
           </div>
         </div>
       </body>
-
-    </>
+</>
   );
 }
