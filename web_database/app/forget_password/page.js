@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./forget_password.css";
 
-export default function Forget_password() {
+export default function ForgetPassword() {
   return (
     <>
       <head>
@@ -13,6 +13,7 @@ export default function Forget_password() {
           <div class="forget-password-box">
             <div class="box-1">
               <h3>กู้คืนรหัสผ่าน</h3>
+              <a className="btn-close" href="/">&#10006;</a>
             </div>
             <div className="box-2">
               <div class="input-box">
