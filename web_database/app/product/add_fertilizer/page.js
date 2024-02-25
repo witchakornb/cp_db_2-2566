@@ -120,9 +120,16 @@ export default function Sell() {
           "/>
   </div>
   <div class="flex items-center mb-5">
+    <label for="name" class="inline-block w-40 mr-6 text-left 
+                            text-black">หน่วยนับ</label>
+    <input type="text" id="name" name="name" placeholder="กรอกหน่วยนับ" 
+          class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+  </div>
+  <div class="flex items-center mb-5">
     <label for="number" class="inline-block w-40 mr-6 text-left 
                             text-black">ปริมาณ / นำ้หนัก</label>
-    <input type="number" id="number" name="number" placeholder="กรอกราคาขาย" 
+    <input type="number" id="number" name="number" placeholder="กรอกปริมาณ / นำ้หนัก" 
           class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
           "/>
   </div>
