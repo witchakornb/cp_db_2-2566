@@ -100,7 +100,7 @@ export default function Sell() {
   </div>
   <div class="flex items-center mb-5">
     <label for="name" class="inline-block w-40 mr-6 text-left 
-                            text-black">สูตรปุ๋ย</label>
+                            text-black">ชื่อสูตรปุ๋ย</label>
     <input type="text" id="name" name="name" placeholder="กรอกสูตรปุ๋ย" 
           class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
