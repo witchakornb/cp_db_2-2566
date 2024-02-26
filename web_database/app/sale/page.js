@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../Navbar";
+// import Navbar from "../Navbar";
+import Sidebar from "../test_sidebar/page";
+
 export default function Sell() {
   return (
     <>
@@ -8,7 +10,8 @@ export default function Sell() {
         <title>Sale</title>
       </head>
       <body>
-        <Navbar/>
+        {/* <Navbar/> */}
+        <Sidebar/>
         <div className="container">
           <h1>sale</h1>
         </div>

@@ -21,19 +21,19 @@ a{
 .input-box{
      line-height: 1.5rem;
 }
-.input-box form{
+.input-box{
      text-align: start;
      margin-bottom: 0.5rem;
      width: 100%;
 }
-.input-box form input{
+.input-box input{
      width: 95%;
      height: 1.75rem;
      margin: 0.5rem 0;
      padding-left: 0.5rem;
      border-radius: 5px solid gray;
 }
-.input-box form button{
+.input-box button{
      margin: 1rem 0;
      width: 100%;
      font-size: 1rem;
