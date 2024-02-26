@@ -32,7 +32,7 @@ export default function Sell() {
       <body>
         <div class="p-10 pt-4 mx-auto">
           <h2 className="font-bold text-xl mb-5">ข้อมูลปุ๋ย</h2>
-          <form action="#">
+          <form action="#" method="post">
             <div class="flex items-start mb-5">
               <label
                 for="number"
