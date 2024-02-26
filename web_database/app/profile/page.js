@@ -1,12 +1,18 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./profile.css";
-//test by pond pond
+
 // import Document from "next/document";
 
 export default function Profile() {
-   // let employeeId = document.getElementById('employee-id');
-   // employeeId.innerHTML = 'E0000000001'
+   let employeeId = "ไอดีจ้า";
+   let firstName = "ชื่อจ้า";
+   let lastName = "นามสกุลจ้า";
+   let username = "ชื่อผู้ใช้จ้า";
+   let role = "สิทธิ์จ้า";
+   let email = "อีเมลจ้า";
+   let phone = "เบอร์โทรจ้า";
 
    return (
       <>
@@ -27,36 +33,36 @@ export default function Profile() {
                      <div class="profile-detail">
                         <div class="text-1">
                            <label for="employee-id">รหัสพนักงาน</label><br />
-                           <input id="employee-id" type="text" name="employee-id" disabled />
+                           <input id="employee-id" type="text" name="employee-id" value={employeeId} disabled />
                         </div>
                         <div class="text-2">
                            <div>
                               <label for="first-name">ชื่อ</label><br />
-                              <input id="first-name" type="text" name="first-name" disabled />
+                              <input id="first-name" type="text" name="first-name" value={firstName} disabled />
                            </div>
                            <div>
                               <label for="last-name">นามสกุล</label><br />
-                              <input id="last-name" type="text" name="last-name" disabled />
+                              <input id="last-name" type="text" name="last-name" value={lastName} disabled />
                            </div>
                         </div>
                         <div class="text-2">
                            <div>
                               <label for="username">ชื่อผู้ใช้</label><br />
-                              <input id="username" type="text" name="username" disabled />
+                              <input id="username" type="text" name="username" value={username} disabled />
                            </div>
                            <div>
                               <label for="role">สิทธิ์</label><br />
-                              <input id="role" type="text" name="role" disabled />
+                              <input id="role" type="text" name="role" value={role} disabled />
                            </div>
                         </div>
                         <div class="text-2">
                            <div>
                               <label for="email">อีเมล</label><br />
-                              <input id="email" type="text" name="email" disabled />
+                              <input id="email" type="text" name="email" value={email} disabled />
                            </div>
                            <div>
                               <label for="phone-number">เบอร์โทร</label><br />
-                              <input id="phone-number" type="text" name="phone-number" disabled />
+                              <input id="phone-number" type="text" name="phone-number" value={phone} disabled />
                            </div>
                         </div>
                         <div className="btn">
