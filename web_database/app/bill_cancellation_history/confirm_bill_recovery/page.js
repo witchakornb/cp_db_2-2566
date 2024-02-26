@@ -14,7 +14,7 @@ export default function Sell() {
         <div className="container">
           <div class="box-alert">
             <div>
-              <img src="../warning_yellow.png" alt="alert icon" />
+              <img src="/warning_yellow.png" alt="alert icon" />
             </div>
             <div>
               <h3>คุณต้องการกู้คืนบิลนี้ใช่หรือไม่ ?</h3>
@@ -30,7 +30,7 @@ export default function Sell() {
                 <input type="text" name="recovery_note" placeholder="หมายเหตุ" /><br />
                 <div className="btn-box">
                   <button type="submit">ยืนยัน</button>
-                  <a href="/sale_history">ยกเลิก</a>
+                  <a href="/bill_cancellation_history">ยกเลิก</a>
                 </div>
               </form>
             </div>

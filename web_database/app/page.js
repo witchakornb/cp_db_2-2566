@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import RootLayout from "./layout";
 import styles from "./login.css";
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function Login() {
   const ooo = async () => {
@@ -45,7 +45,7 @@ export default function Login() {
                 <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br />
                 <label for="password">รหัสผ่าน</label><br />
                 <input type="password" name="password" placeholder="กรอกรหัสผ่าน" /><br />
-                <button type="submit" href="./sale" onClick={ooo}>เข้าสู่ระบบ</button>
+                <button type="submit" href="/sale" onClick={ooo}>เข้าสู่ระบบ</button>
                 <br />
                 <div class="forget_btn">
                   <a href="/forget_password">ลืมรหัสผ่าน</a>
