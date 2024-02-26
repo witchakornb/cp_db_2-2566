@@ -15,10 +15,10 @@ export default function Login() {
     alert("ggggggggggggg")
     console.log(process.env.NEXT_PUBLIC_IP);
     const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/login`,
-    {
-      username: username,
-      password: password,
-    }, {
+      {
+        username: username,
+        password: password,
+      }, {
       withCredentials: true
     });
     console.log(response.data);
@@ -47,7 +47,9 @@ export default function Login() {
                 <input type="password" name="password" placeholder="กรอกรหัสผ่าน" /><br />
                 <button type="submit" href="./sale" onClick={ooo}>เข้าสู่ระบบ</button>
                 <br />
-                <a href="/forget_password">ลืมรหัสผ่าน</a>
+                <div class="forget_btn">
+                  <a href="/forget_password">ลืมรหัสผ่าน</a>
+                </div>
               </div>
             </div>
           </div>
