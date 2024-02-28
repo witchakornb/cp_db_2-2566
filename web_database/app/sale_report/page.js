@@ -14,10 +14,10 @@ export default function SaleReport() {
     day: "2024-02-29",
     number_item: 1,
     qty: 5,
-    sale: 90.5,
+    sale: 90.56,
     dis:0,
-    net_sale:90.5,
-    profit:26.0
+    net_sale:90.56,
+    profit:26
   }
   return (
     <>
