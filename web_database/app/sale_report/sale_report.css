@@ -51,6 +51,7 @@ option{
 
 .box-btn{
      margin-top: 1.4rem;
+     display: flex;
 }
 .box-btn button{
      /* border: 1px solid; */
@@ -62,12 +63,10 @@ option{
 button.search-btn{
      background-color:#00A84F ;
      color: white;
+     display: flex;
 }
 button.reset-btn{
      background-color:#D9D9D9 ;
-}
-.icon{
-     width: 1rem;
 }
 
 /* table css */

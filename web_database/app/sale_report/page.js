@@ -17,7 +17,7 @@ export default function SaleReport() {
     sale: 90.5,
     dis:0,
     net_sale:90.5,
-    profit:26
+    profit:26.0
   }
   return (
     <>
@@ -42,12 +42,17 @@ export default function SaleReport() {
                   <input type="date" name="to-date" id="to-date" />
                 </div>
                 <div className="box-btn">
-                  <button className="search-btn" type="submit">
-                    {/* <span>
+                  {/* <button className="search-btn" type="submit">
+                    <span>
                       <img className="icon-search" src="/search.png" alt="icon search"/>
-                    </span> */}
+                    </span>
                     <span>ค้นหา</span>
-                  </button>
+                  </button> */}
+                  <button class="search-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                  <span>ค้นหา</span>
+                </button>
                   <button className="reset-btn" type="button">รีเซ็ต</button>
                 </div>
               </form>
