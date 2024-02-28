@@ -4,7 +4,7 @@ import styles from "./success_charge.css";
 
 export default function SuccessMoney() {
   let pay_back = 1.50;
-  
+
   return (
     <>
       <head>
@@ -12,7 +12,7 @@ export default function SuccessMoney() {
       </head>
       <body>
         <div className="container">
-          <div class="box-alert">
+          <div className="box-alert">
             <div>
               <img src="/accept.png" alt="alert icon" />
             </div>

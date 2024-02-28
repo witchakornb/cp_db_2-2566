@@ -3,7 +3,7 @@ import Link from "next/link";
 // import Navbar from "../Navbar";
 import Sidebar from "../test_sidebar/page";
 
-export default function Sell() {
+export default function Sale() {
   return (
     <>
       <head>

@@ -21,21 +21,21 @@ export default function Profile() {
          </head>
          <body>
             <div className="container">
-               <div class="profile-box">
+               <div className="profile-box">
                   <div class="box-1">
                      <h3>ข้อมูลผู้ใช้</h3>
                      <a className="btn-close" href="./sale">&#10006;</a>
                   </div>
                   <div className="box-2">
-                     <div class="img-box">
+                     <div className="img-box">
                         <img src="./logo.jpg" alt="profile image" />
                      </div>
-                     <div class="profile-detail">
-                        <div class="text-1">
+                     <div className="profile-detail">
+                        <div className="text-1">
                            <label for="employee-id">รหัสพนักงาน</label><br />
                            <input id="employee-id" type="text" name="employee-id" value={employeeId} disabled />
                         </div>
-                        <div class="text-2">
+                        <div className="text-2">
                            <div>
                               <label for="first-name">ชื่อ</label><br />
                               <input id="first-name" type="text" name="first-name" value={firstName} disabled />
@@ -45,7 +45,7 @@ export default function Profile() {
                               <input id="last-name" type="text" name="last-name" value={lastName} disabled />
                            </div>
                         </div>
-                        <div class="text-2">
+                        <div className="text-2">
                            <div>
                               <label for="username">ชื่อผู้ใช้</label><br />
                               <input id="username" type="text" name="username" value={username} disabled />
@@ -55,7 +55,7 @@ export default function Profile() {
                               <input id="role" type="text" name="role" value={role} disabled />
                            </div>
                         </div>
-                        <div class="text-2">
+                        <div className="text-2">
                            <div>
                               <label for="email">อีเมล</label><br />
                               <input id="email" type="text" name="email" value={email} disabled />
