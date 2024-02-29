@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import RootLayout from "./layout";
 import styles from "./login.css";
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function Login() {
   const ooo = async () => {

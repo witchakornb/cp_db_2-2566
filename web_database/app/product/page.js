@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Sidebar from "..//test_sidebar/page"
 
 export default function Sell() {
   return (
@@ -8,8 +9,10 @@ export default function Sell() {
         <title>Product</title>
       </head>
       <body>
+        <Sidebar/>
         <div className="container">
-          <h1>tax_invoice</h1>
+          
+          <h1>product</h1>
         </div>
       </body>
     </>
