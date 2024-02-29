@@ -65,6 +65,10 @@ const Navbar = ({ toggleAside, currentPageName }) => {
           return 'ใบนำเข้าสินค้า';
         case '/product_import/create_product_import':
           return 'ใบนำเข้าสินค้า';
+        case '/product_import_po':
+          return 'ใบสั่งซื้อสินค้า';
+        case '/product_import/create_product_import_po':
+          return 'ใบสั่งซื้อสินค้า';
         case '/customer':
           return 'ข้อมูลลูกค้า';
         case '/customer/add_customer':
@@ -101,35 +105,35 @@ const Navbar = ({ toggleAside, currentPageName }) => {
                 </button>
               </a>
               <i className="fas fa-user-circle text-white text-3xl"></i>
-              <div class="">
+              <div className="">
                 <button
                   onClick={toggleDropdown2}
-                  class="block p-2 rounded-md">
+                  className="block p-2 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3" /><circle cx="12" cy="10" r="3" /><circle cx="12" cy="12" r="10" /></svg>
-                </button>
+                 </button>
 
                 {isDropdown2Open && (
-                  <div class="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
-                    <a href="/profile" class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
-                      <div class="inline-flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <div className="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
+                    <a href="/profile" className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
+                      <div className="inline-flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
                         <span className="ps-2">ข้อมูลผู้ใช้</span>
                       </div>
                     </a>
-                    <a href="/change_password" class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
-                      <div class="inline-flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <a href="/change_password" className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
+                      <div className="inline-flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
                         </svg>
                         <span className="ps-2">เปลี่ยนรหัสผ่าน</span>
                       </div>
                     </a>
-                    <a href="/" class="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
-                      <div class="inline-flex items-center">
+                    <a href="/" className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
+                      <div className="inline-flex items-center">
                         <div className="rotate-180">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                           </svg>
                         </div>
