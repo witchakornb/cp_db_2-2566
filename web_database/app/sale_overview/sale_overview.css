@@ -1,0 +1,26 @@
+.box-1,.box-2{
+     border: 0.5px solid;
+     /* background-color: red; */
+     margin: 2rem;
+     border-radius: 5px;
+}
+.head-box{
+     height: 3rem;
+     padding-top: 0.5rem;
+     border-bottom: 0.5px solid;
+     background-color: #777777;
+     border-radius: 5px 5px 0 0;
+}
+.head-box h3{
+     font-size: 1.2rem;
+     font-weight: bold;
+     color: white;
+     padding-left: 1rem;
+}
+.detail{
+     padding: 1rem;
+     line-height: 2rem;
+}
+span.value{
+     color: #00A84F;
+}

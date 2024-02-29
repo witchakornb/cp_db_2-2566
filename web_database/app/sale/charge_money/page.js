@@ -2,7 +2,7 @@ import Tsidebar from "@/app/test_sidebar/page";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Sell() {
+export default function ChargeMoney() {
   return (
     <>
       <head>

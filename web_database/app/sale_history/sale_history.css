@@ -1,0 +1,11 @@
+.direc{
+     display: inline;
+     /* align-items: center; */
+}
+.more-btn{
+     border: 0.5px solid #777;
+     height: fit-content;
+     width: fit-content;
+     padding: 0.15rem;
+     border-radius: 0.4rem;
+}

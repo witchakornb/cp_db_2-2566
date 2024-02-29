@@ -12,9 +12,9 @@ export default function Sell() {
       </head>
       <body>
         <div className="container">
-          <div class="box-alert">
+          <div className="box-alert">
             <div>
-              <img src="../warning_yellow.png" alt="alert icon" />
+              <img src="/warning_yellow.png" alt="alert icon" />
             </div>
             <div>
               <h3>คุณต้องการยกเลิกบิลนี้ใช่หรือไม่ ?</h3>

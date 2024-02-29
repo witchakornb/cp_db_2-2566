@@ -9,7 +9,7 @@ export default function Sell() {
       </head>
       <body>
         <div className="container">
-          <div class="box-alert">
+          <div className="box-alert">
             <div>
               <img src="../alert1.png" alt="alert icon" />
             </div>
