@@ -5,12 +5,16 @@ import Link from "next/link";
 import styles from "./product.css";
 
 import { useState } from "react";
-import Sidebar from "..//test_sidebar/page"
 
-export default function Sell() {
+export default function Product() {
 
+  const [isDropdownAdd, setIsDropdownAdd] = useState(false);
   const [isDropdown1Open, setIsDropdown1Open] = useState(false);
   const [isDropdown2Open, setIsDropdown2Open] = useState(false);
+
+  const toggleDropdownAdd = () => {
+    setIsDropdownAdd((prev) => !prev);
+  };
 
   const toggleDropdown1 = () => {
     setIsDropdown1Open((prev) => !prev);
@@ -74,15 +78,77 @@ export default function Sell() {
           </div>
 
           <div class="font-bold mx-4 mt-8">ใบกำกับภาษีเต็มรูปแบบ</div>
-          <div class="mx-4 mt-8">ใบกำกับภาษีเต็มรูปแบบ</div>
+          <div class="mx-4 mt-2">Stock : <span className="text-[#00A84F]">0</span> ชิ้น</div>
 
-          <div class="flex justify-between mx-4 mt-8">
-            <div class="font-bold">ใบสั้งซื้อสินค้า</div>
+          <div class="flex justify-between mx-4 mt-4">
+            <div class="inline-block relative w-fit">
+              <select class="block appearance-none w-full rounded-md border border-[#e0e0e0] bg-white py-2 pl-6 pr-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                <option disabled selected>เลือกหมวดหมู่</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+              </div>
+            </div>
             <div class="">
-              <div class="ps-4">
-                <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                  <span>สร้างใบสั่งซื้อใหม่</span>
-                </button>
+              <div class="flex flex-row-reverse">
+                <div class="ps-4">
+                  <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded">
+                    <span>แก้ไขสินค้า</span>
+                  </button>
+                </div>
+                <div class="ps-4">
+                  <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded">
+                    <span>ลบสินค้า</span>
+                  </button>
+                </div>
+                <div class="ps-4">
+                  <div class="inline-block relative w-fit">
+                    <button onClick={toggleDropdownAdd} class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                      <span className="pr-2">เพิ่มสินค้าใหม่</span>
+                      <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                    </button>
+                    {isDropdownAdd && (
+                      <div class="absolute mt-2 right-0 w-40 bg-black bg-gray-100 rounded-md shadow-xl z-10 ">
+                        <a href="#" class="block px-2 py-2 text-sm text-white hover:bg-gray-400 hover:text-white">
+                          <div class="flex items-start p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span>เพิ่มปุ๋ย</span>
+                          </div>
+                        </a>
+                        <a href="#" class="block px-2 py-2 text-sm text-white hover:bg-gray-400 hover:text-white">
+                          <div class="flex items-start p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span>เพิ่มปุ๋ยผสม</span>
+                          </div>
+                        </a>
+                        <a href="#" class="block px-2 py-2 text-sm text-white hover:bg-gray-400 hover:text-white">
+                          <div class="flex items-start p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span>เพิ่มเคมีภัณฑ์</span>
+                          </div>
+                        </a>
+                        <a href="#" class="block px-2 py-2 text-sm text-white hover:bg-gray-400 hover:text-white">
+                          <div class="flex items-start p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span>เพิ่มสินค้าอื่น ๆ</span>
+                          </div>
+                        </a>
+                        {/* Add more dropdown items as needed */}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -96,26 +162,24 @@ export default function Sell() {
                       class="border-b bg-[#777777] font-medium text-white">
                       <tr>
                         <th scope="col" class=" px-6 py-4">#</th>
-                        <th scope="col" class=" px-6 py-4">รหัสใบสั่งซื้อ</th>
-                        <th scope="col" class=" px-6 py-4">วันที่สั่งซื้อ</th>
-                        <th scope="col" class=" px-6 py-4">ประเภทการชำระเงิน</th>
+                        <th scope="col" class=" px-6 py-4">รหัสสินค้า</th>
+                        <th scope="col" class=" px-6 py-4">ชื่อสินค้า</th>
+                        <th scope="col" class=" px-6 py-4">ประเภท</th>
+                        <th scope="col" class=" px-6 py-4">ราคาที่ขาย</th>
                         <th scope="col" class=" px-6 py-4">จำนวน</th>
-                        <th scope="col" class=" px-6 py-4">รวมราคา</th>
-                        <th scope="col" class=" px-6 py-4">วันที่สร้างรายการ</th>
-                        <th scope="col" class=" px-6 py-4">สถานะ</th>
+                        <th scope="col" class=" px-6 py-4">หน่วย</th>
                         <th scope="col" class=" px-6 py-4">คำสั่ง</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr class="border-b dark:border-neutral-500">
                         <td class="whitespace-nowrap  px-6 py-4">1</td>
-                        <td class="whitespace-nowrap  px-6 py-4">C000000001</td>
-                        <td class="whitespace-nowrap  px-6 py-4">date</td>
-                        <td class="whitespace-nowrap  px-6 py-4">money</td>
+                        <td class="whitespace-nowrap  px-6 py-4">F670000001</td>
+                        <td class="whitespace-nowrap  px-6 py-4">name</td>
+                        <td class="whitespace-nowrap  px-6 py-4">type</td>
+                        <td class="whitespace-nowrap  px-6 py-4">500.00</td>
                         <td class="whitespace-nowrap  px-6 py-4">1000</td>
-                        <td class="whitespace-nowrap  px-6 py-4">10000</td>
-                        <td class="whitespace-nowrap  px-6 py-4">date</td>
-                        <td class="whitespace-nowrap  px-6 py-4">get</td>
+                        <td class="whitespace-nowrap  px-6 py-4">unit</td>
                         <td class="whitespace-nowrap  px-6 py-4 ">
                           <div class="">
                             <button
@@ -152,13 +216,12 @@ export default function Sell() {
 
                       <tr class="border-b dark:border-neutral-500">
                         <td class="whitespace-nowrap  px-6 py-4">1</td>
-                        <td class="whitespace-nowrap  px-6 py-4">C000000001</td>
-                        <td class="whitespace-nowrap  px-6 py-4">date</td>
-                        <td class="whitespace-nowrap  px-6 py-4">money</td>
+                        <td class="whitespace-nowrap  px-6 py-4">F670000001</td>
+                        <td class="whitespace-nowrap  px-6 py-4">name</td>
+                        <td class="whitespace-nowrap  px-6 py-4">type</td>
+                        <td class="whitespace-nowrap  px-6 py-4">500.00</td>
                         <td class="whitespace-nowrap  px-6 py-4">1000</td>
-                        <td class="whitespace-nowrap  px-6 py-4">10000</td>
-                        <td class="whitespace-nowrap  px-6 py-4">date</td>
-                        <td class="whitespace-nowrap  px-6 py-4">get</td>
+                        <td class="whitespace-nowrap  px-6 py-4">unit</td>
                         <td class="whitespace-nowrap  px-6 py-4 ">
                           <div class="">
                             <button
@@ -198,6 +261,9 @@ export default function Sell() {
               </div>
             </div>
           </div>
+
+        </div>
+
       </body>
     </>
   );
