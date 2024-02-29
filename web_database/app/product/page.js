@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./product.css";
 
 import { useState } from "react";
+import Sidebar from "..//test_sidebar/page"
 
 export default function Sell() {
 
@@ -197,7 +198,6 @@ export default function Sell() {
               </div>
             </div>
           </div>
-        </div>
       </body>
     </>
   );
