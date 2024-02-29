@@ -32,8 +32,9 @@ export default function CreateProductImport() {
           </div>
           <div className="box-2">
             <div className="box-search">
-              <label for=""><span className="fb">รายการสินค้านำเข้า</span></label>
-              <input type="chechbox" name="" id=""/>
+              <label for="search-ip"><span className="fb">รายการสินค้านำเข้า</span></label>
+              <input type="chechbox" name="search-ip" id="search-ip" list="product"/>
+              
             </div>
             <div className="box-table">
 
