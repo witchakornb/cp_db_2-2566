@@ -1,19 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-// import Navbar from "../Navbar";
-import Sidebar from "../test_sidebar/page";
 
-export default function Sale() {
+export default function Sell() {
   return (
     <>
       <head>
-        <title>Sale</title>
+        <title>Craft Stock</title>
       </head>
       <body>
-        {/* <Navbar/> */}
-        <Sidebar/>
         <div className="container">
-          <h1>sale</h1>
+          <h1>craft_stock</h1>
         </div>
       </body>
     </>

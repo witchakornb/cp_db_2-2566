@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./product_import.css";
+import styles from "./product_import_po.css";
 
 import { useState } from "react";
 
-export default function Product_import() {
+export default function Product_import_po() {
 
   const [isDropdown1Open, setIsDropdown1Open] = useState(false);
   const [isDropdown2Open, setIsDropdown2Open] = useState(false);
@@ -37,7 +37,7 @@ export default function Product_import() {
                   <div class="h-12">
                     <div class="mb-4">
                       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                        รหัสใบนำเข้า
+                        ใบสั้งซื้อ
                       </label>
                       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="รหัสใบนำเข้า" />
                     </div>
@@ -74,11 +74,11 @@ export default function Product_import() {
         </div>
 
         <div class="flex justify-between mx-4 mt-8">
-          <div class="font-bold">ใบนำเข้าสินค้า</div>
+          <div class="font-bold">ใบสั้งซื้อสินค้า</div>
           <div class="">
             <div class="ps-4">
               <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                <span>สร้างใบนำเข้าใหม่</span>
+                <span>สร้างใบสั่งซื้อใหม่</span>
               </button>
             </div>
           </div>
@@ -93,8 +93,8 @@ export default function Product_import() {
                     class="border-b bg-[#777777] font-medium text-white">
                     <tr>
                       <th scope="col" class=" px-6 py-4">#</th>
-                      <th scope="col" class=" px-6 py-4">รหัสใบนำเข้า</th>
-                      <th scope="col" class=" px-6 py-4">วันที่นำเข้า</th>
+                      <th scope="col" class=" px-6 py-4">รหัสใบสั่งซื้อ</th>
+                      <th scope="col" class=" px-6 py-4">วันที่สั่งซื้อ</th>
                       <th scope="col" class=" px-6 py-4">ประเภทการชำระเงิน</th>
                       <th scope="col" class=" px-6 py-4">จำนวน</th>
                       <th scope="col" class=" px-6 py-4">รวมราคา</th>
