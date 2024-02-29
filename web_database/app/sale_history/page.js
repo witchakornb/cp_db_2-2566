@@ -11,18 +11,30 @@ import axios from 'axios';
 
 export default function SaleHistory() {
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [salesData, setSalesData] = useState([]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
+  // const toggleDropdown = () => {
+  //   setIsDropdownOpen((prev) => !prev);
+  // };
+
+  const toggleDropdown = (index) => {
+    setSalesData((prevSalesData) => {
+      const updatedSalesData = [...prevSalesData];
+      updatedSalesData[index] = {
+        ...updatedSalesData[index],
+        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen, // ตรวจสอบสถานะเดิมก่อน
+      };
+      return updatedSalesData;
+    });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://10.199.120.125:8080/admin/show_all_item');
-        setSalesData(response.data.Fertilizer || []); // Update this line
+        const salesWithData = response.data.Fertilizer.map(sale => ({ ...sale, isDropdownOpen: false }));
+        setSalesData(salesWithData || []);
       } catch (error) {
         console.error('Error fetching sales data:', error);
       }
@@ -30,6 +42,7 @@ export default function SaleHistory() {
 
     fetchData();
   }, []);
+
 
   return (
     <>
@@ -131,12 +144,12 @@ export default function SaleHistory() {
                           <td class="whitespace-nowrap  px-6 py-4 ">
                             <div class="direc">
                               <button
-                                onClick={toggleDropdown}
+                                onClick={() => toggleDropdown(index)}
                                 class="block p-2 bg-white bg-gray-100 rounded-md">
                                 <svg class="h-6 w-6 text-gray-500 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <circle cx="12" cy="12" r="1" />  <circle cx="12" cy="5" r="1" />  <circle cx="12" cy="19" r="1" /></svg>
                               </button>
 
-                              {isDropdownOpen && (
+                              {sale.isDropdownOpen && (
                                 <div class="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
                                   <a href="#" class="block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
                                     <div class="flex items-start p-1">
