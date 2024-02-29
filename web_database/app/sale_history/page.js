@@ -23,6 +23,9 @@ export default function SaleHistory() {
 
   return (
     <>
+    <head>
+      <title>Sale History</title>
+    </head>
       <body>
         <Sidebar />
         <div className="" style={{ width: '100%' }}>

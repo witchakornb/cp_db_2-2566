@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./bill_detail.css";
 
-export default function Sell() {
+export default function BillDetail() {
   return (
     <>
       <head>
-        <title>Bill Details</title>
+        <title>Bill Detail</title>
       </head>
       <body>
-        <div className="container">
+        <div className="">
           <h1>bill_detail</h1>
         </div>
       </body>
