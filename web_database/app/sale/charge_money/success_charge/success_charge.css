@@ -33,14 +33,14 @@ body{
      padding: 0.5rem 1rem;
      color:black;
      background-color: white;
-     border: 0.5px solid green;
+     border: 1px solid green;
 }
 .btn-box a.print-btn{
      font-size: 1rem;
      padding: 0.5rem 1rem;
      color:black;
      background-color: white;
-     border: 0.5px solid orange;
+     border: 1px solid orange;
 }
 .btn-box a span img.icon{
      margin-bottom: -0.25rem;

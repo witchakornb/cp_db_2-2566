@@ -13,7 +13,7 @@ export default function ChangePassword() {
           <div class="change-password-box">
             <div class="box-1">
               <h3>เปลี่ยนรหัสผ่าน</h3>
-              <a className="btn-close" href="./sale">&#10006;</a>
+              <a className="btn-close" href="/sale">&#10006;</a>
             </div>
             <div className="box-2">
               <div class="input-box">

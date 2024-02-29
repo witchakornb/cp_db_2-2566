@@ -89,7 +89,7 @@ export default function SaleReport() {
                       <tr>
                         <th scope="col" class=" px-6 py-4">วันที่ขาย</th>
                         <th scope="col" class=" px-6 py-4">จำนวนรายการ</th>
-                        <th scope="col" class=" px-6 py-4">จำนวน qty</th>
+                        <th scope="col" class=" px-6 py-4">จำนวน QTY</th>
                         <th scope="col" class=" px-6 py-4">ยอดขาย</th>
                         <th scope="col" class=" px-6 py-4">ส่วนลด</th>
                         <th scope="col" class=" px-6 py-4">ยอดขายสุทธิ</th>

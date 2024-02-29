@@ -24,7 +24,7 @@ export default function Profile() {
                <div className="profile-box">
                   <div class="box-1">
                      <h3>ข้อมูลผู้ใช้</h3>
-                     <a className="btn-close" href="./sale">&#10006;</a>
+                     <a className="btn-close" href="/sale">&#10006;</a>
                   </div>
                   <div className="box-2">
                      <div className="img-box">

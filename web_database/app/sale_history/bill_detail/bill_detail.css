@@ -1,0 +1,193 @@
+body{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 90vh;
+     /* background-color: #888888; */
+}
+a{
+     text-decoration: none;
+     color: black;
+}
+.bill-detail-box {
+     width: 50rem;
+     position: relative;
+     box-shadow: 1px 1px 1px #888888;
+     text-align: center;
+     padding: 5rem 2rem 2rem 2rem;
+     border: 1px solid;
+     border-radius: 10px;
+     background-color: #fff;
+}
+.bill-detail-box .box-1{
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     text-align: start;
+     padding-left: 1rem;
+     color:#fff;
+     background-color: #333;
+     border-radius: 10px 10px 0 0;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding-right: 1rem;
+}
+.bill-detail-box .box-1 a.btn-close{
+     color: #fff;
+     font-size: 1.2rem;
+}
+
+/* detail boxxxxxxxxxxxxxxxxxxxxxx */
+img.icon{
+     margin-bottom: -0.25rem;
+     width: 1rem;
+}
+.detail-box{
+     display: flex;
+     /* border: 2px solid;
+     border-radius: 10px; */
+}
+/* left box */
+.left-box{
+     width: 30%;
+     text-align: left;
+     border: 1px solid black;
+     border-radius: 10px 10px 5px 5px;
+}
+.l-head{
+     width: 100%;
+     border: 1px solid black;
+     border-radius: 10px;
+     background-color: #3687CE;
+}
+.lh-detail-wrap{
+     margin-top: -1rem;
+     display: flex;
+     width: 100%;
+}
+.lh-detail{
+     width: 50%;
+     color: #fff;
+     text-align: start;
+     margin-left: 1rem;
+}
+.lh-detail2{
+     width: 50%;
+     margin-right: 1rem;
+     margin-top: 0.2rem;
+     text-align: end;
+}
+.l-body{
+     text-align: justify;
+     /* padding-left: 2rem;
+     padding-right: 2rem; */
+}
+.l-body h4{
+     border-radius: 20px;
+     background-color: #333;
+     color: white;
+     padding: 0.5rem 1rem;
+     margin-left: 1rem;
+     width: fit-content;
+}
+
+.lb1,.lb2{
+     display: flex;
+     text-align: start;
+     width: 100%;
+     margin-top: -1rem;
+     /* align-items: center; */
+}
+.lb1-1,.lb2-1{
+     width: 50%;
+     text-wrap: nowrap;
+     margin-left: 1rem;
+}
+.lb1-2,.lb2-2{
+     margin-top: 0.2rem;
+     width: 50%;
+     text-align: end;
+     margin-right: 1rem;
+}
+
+.customer-box{
+     display: flex;
+     justify-content: center;
+}
+.customer-box h4{
+     border: 1px solid black;
+     width: fit-content;
+     padding: 0.5rem 1rem;
+     border-radius: 10px;
+     background-color: #056E9E;
+     color: white;
+}
+.customer-box .icon{
+     margin-bottom: -0.45rem;
+     width: 1.5rem;
+     background-color: #fff;
+     border-radius: 30rem;
+     padding: 0.1rem;
+     margin-right: 0.5rem;
+}
+
+
+
+/* right box */
+.right-box{
+     width: 70%;
+     text-align: left;
+     /* border: 1px solid red; */
+     padding-left: 2rem;
+     margin-top: -1rem;
+
+}
+.btn-box a.print-btn{
+     border-radius: 10px;
+     font-size: 1rem;
+     padding: 0.5rem 1rem;
+     color:black;
+     background-color: white;
+     border: 1px solid green;
+}
+.btn-box a span img.icon{
+     margin-bottom: -0.25rem;
+     width: 1rem;
+}
+.table-box{
+     margin-top: 1.5rem;
+     height: 22rem;
+     overflow: auto;
+}
+.table-box table{
+     width: 100%;
+     border: 1px solid green;
+     border-collapse: collapse;
+}
+.table-box table thead tr th{
+     text-align: center;
+     padding: 0.5rem;
+     border: 1px solid;
+     color: #fff;
+     background-color: #333;
+}
+.table-box table tr td{
+     padding: 0.5rem;
+     text-align: center;
+     border: 1px solid #888;
+}
+.note-box{
+     margin-top: 1rem;
+}
+.note-box textarea{
+     /* text-wrap: wrap; */
+     height: 5rem;
+     width: 33rem;
+     margin-top: 0.5rem;
+     line-height: 1.5rem;
+     padding-left: 0.5rem;
+     border: 0.5px solid #888;
+     border-radius: 5px;
+}

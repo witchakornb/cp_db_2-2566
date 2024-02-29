@@ -10,12 +10,13 @@ export default function Forget_password() {
                </head>
                <body>
                     <div className="container">
-                         <div class="forget-password-box">
-                              <div class="box-1">
+                         <div className="forget-password-box">
+                              <div className="box-1">
                                    <h3>กู้คืนรหัสผ่าน</h3>
+                                   <a className="btn-close" href="/">&#10006;</a>
                               </div>
                               <div className="box-2">
-                                   <div class="input-box">
+                                   <div className="input-box">
                                         <form action="#" method="post">
                                              <label for="username">Email ที่ท่านได้ทำการลงทะเบียนไว้</label><br />
                                              <input type="text" name="username" placeholder="กรอกที่อยู่อีเมลของท่าน" /><br />
