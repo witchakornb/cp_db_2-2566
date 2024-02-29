@@ -21,6 +21,9 @@ export default function SaleReport() {
   }
   return (
     <>
+    <head>
+      <title>Sale Report</title>
+    </head>
       <body>
         <Sidebar />
         <div className="" style={{ width: '100%' }}>

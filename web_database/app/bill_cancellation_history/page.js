@@ -23,6 +23,9 @@ export default function BillCancellationHistory() {
 
   return (
     <>
+      <head>
+        <title>Bill Cancellation History</title>
+      </head>
       <body>
         <Sidebar />
         <div className="" style={{ width: '100%' }}>
