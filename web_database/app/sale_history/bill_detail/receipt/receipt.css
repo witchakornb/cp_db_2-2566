@@ -1,0 +1,39 @@
+body{
+     height: 90vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     /* background-color: red; */
+}
+.receipt-body{
+     border: 1px solid;
+     width: 20rem;
+     /* height: 40rem; */
+     padding: 1rem 2rem 3rem 2rem;
+}
+.head{
+     text-align: center;
+     border-bottom: 1px solid;
+}
+.product,.sum,.other{
+     border-bottom: 1px solid;
+     padding-top: 1rem;
+     padding-bottom: 1rem;
+
+}
+.last{
+     text-align: center;
+}
+table{
+     width: 100%;
+     /* border: 1px solid blue; */
+}
+table tr td{
+     width: auto;
+}
+table tr td.r{
+     text-align: end;
+}
+table tr td.l{
+     text-align: start;
+}
