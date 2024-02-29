@@ -11,7 +11,7 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                    <div className="flex items-center">
                      <span>ขายหน้าร้าน</span>
                    </div>
-                   <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
 
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['venta'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
@@ -40,7 +40,7 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                    <div className="flex items-center">
                      <span>ภาพรวมร้าน</span>
                    </div>
-                   <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                    
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['resumen'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
@@ -63,7 +63,7 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                    <div className="flex items-center">
                      <span>การเงิน/บัญชี</span>
                    </div>
-                   <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['financiero'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
@@ -72,7 +72,6 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                        ออกใบกำกับภาษี
                      </a>
                    </li>
-                   {/* Add more items */}
                  </ul>
                </li>
                <li className="opcion-con-desplegable" onClick={() => handleDropdownToggle('stock')}>
@@ -80,7 +79,7 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                    <div className="flex items-center">
                      <span>บริหารสต็อก</span>
                    </div>
-                   <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                   <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                  </div>
                  <ul className={`desplegable ml-4 ${dropdownVisible['stock'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                    <li>
@@ -100,6 +99,10 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                      <svg className="mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
                        ใบนำเข้าสินค้า
                      </a>
+                     <a href="/product_import_po" className="block p-2 hover:bg-gray-300 flex items-center">
+                     <svg className="mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                       ใบสั่งซื้อสินค้า
+                     </a>
                    </li>
                  </ul>
                </li>
@@ -108,7 +111,7 @@ const Sidebar = ({ asideVisible, handleDropdownToggle, handleDropdownClick, drop
                    <div className="flex items-center">
                                  <span>ข้อมูลลูกค้า/พนักงาน</span>
                              </div>
-                             <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                             <svg className="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                          </div>
                          <ul className={`desplegable ml-4 ${dropdownVisible['clientes'] ? '' : 'hidden'}`} onClick={handleDropdownClick}>
                             <li>
