@@ -79,7 +79,7 @@ export default function CreateProductImport() {
                                   name="amount"
                                 />
                                 <div className="inline-block relative">
-                                  <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                                  <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-6 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
                                     <option>กิโลกรัม</option>
                                     <option>กรัม</option>
                                     <option>ขีด</option>
