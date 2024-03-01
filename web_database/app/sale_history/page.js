@@ -23,7 +23,6 @@ export default function SaleHistory() {
   // กำหนดตัวแปรเก็บข้อมูลที่จะถูกแสดง
   const displayData = searchButtonClicked ? filteredSalesData : salesData;
 
-
   // const toggleDropdown = () => {
   //   setIsDropdownOpen((prev) => !prev);
   // };
