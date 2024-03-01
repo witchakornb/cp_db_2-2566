@@ -10,7 +10,7 @@ export default function CreateProductImport() {
       </head>
       <body>
         <div className="">
-          <h3 className="mb-10 mx-10 mt-10 px-5 font-bold text-lg">รายละเอียดใบนำเข้าสินค้า</h3>
+          <h3 className="mb-10 mx-10 mt-10 px-5 font-bold text-xl">รายละเอียดใบนำเข้าสินค้า</h3>
           <div className="box-1 w-auto mx-10 px-5">
             <form action="" method="post">
               <div className="ip-1 mb-5 text-right pe-10">
@@ -32,7 +32,7 @@ export default function CreateProductImport() {
           <div className="box-2 border p-1">
             <div className="box-search">
               <div className="relative mb-2 mt-2 px-10 flex flex-wrap items-stretch">
-                <label for="name" className="flex items-center w-40 mr-0 text-left text-black">รายการสินค้านำเข้า</label>
+                <label for="name" className="flex items-center w-40 mr-0 text-left text-black font-bold text-lg">รายการสินค้านำเข้า</label>
                 <input type="text"
                   className="w-20 relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
                   placeholder="พิมพ์ชื่อสินค้าที่ต้องการค้นหา"
