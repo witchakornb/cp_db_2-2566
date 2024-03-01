@@ -51,7 +51,7 @@ export default function Profile() {
                               <input id="username" type="text" name="username" value={username} disabled />
                            </div>
                            <div>
-                              <label for="role">สิทธิ์</label><br />
+                              <label for="role">ตำแหน่ง</label><br />
                               <input id="role" type="text" name="role" value={role} disabled />
                            </div>
                         </div>
