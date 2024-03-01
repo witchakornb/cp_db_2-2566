@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./confirm_bill_cancellation.css";
 
-export default function Confirm_bill_cancellation() {
+export default function Sell() {
   let bill_number = "B000001";
 
   return (
