@@ -30,23 +30,28 @@ export default function SaleHistory() {
   //   setIsDropdownOpen((prev) => !prev);
   // };
 
-  const toggleDropdown = (index) => {
+  const toggleDropdown = (index, action) => {
     setSalesData((prevSalesData) => {
       const updatedSalesData = [...prevSalesData];
       updatedSalesData[index] = {
         ...updatedSalesData[index],
         isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
       };
-
+  
       // Get the Item_ItemId of the selected row
       const canceledItemId = updatedSalesData[index]?.Item_ItemId;
-
+  
       // Open the modal only when the "ยกเลิกรายการ" button is clicked
-      setIsModalOpen(canceledItemId);
-
+      if (action === 'cancel') {
+        setIsModalOpen(canceledItemId);
+      } else {
+        setIsModalOpen(false);
+      }
+  
       return updatedSalesData;
     });
   };
+  
 
 
   useEffect(() => {
@@ -227,7 +232,7 @@ export default function SaleHistory() {
                           <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
                           <td class="whitespace-nowrap  px-6 py-4 ">
                             <div class="direc">
-                              <button
+                              <button id="dots"
                                 onClick={() => toggleDropdown(index)}
                                 class="block p-2 bg-white bg-gray-100 rounded-md">
                                 <svg class="h-6 w-6 text-gray-500 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <circle cx="12" cy="12" r="1" />  <circle cx="12" cy="5" r="1" />  <circle cx="12" cy="19" r="1" /></svg>
@@ -243,8 +248,8 @@ export default function SaleHistory() {
                                       <span>รายละเอียดบิล</span>
                                     </div>
                                   </button>
-                                  <button 
-                                    onClick={() => toggleDropdown(index)}
+                                  <button id="cancle"
+                                    onClick={() => toggleDropdown(index, 'cancel')}
                                     class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
                                     <div class="flex items-start p-1">
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
