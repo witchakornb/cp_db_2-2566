@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./create_product_import.css";
+import styles from "./create_product_import_po.css";
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
 
-export default function CreateProductImport() {
+export default function CreateProductImportPo() {
   const [asideVisible, setAsideVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState({
     venta: false,
@@ -54,29 +54,29 @@ export default function CreateProductImport() {
         <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
         <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
 
-          <h3 className="ml-5 mb-10 mt-5 px-5 font-bold text-xl">รายละเอียดใบนำเข้าสินค้า</h3>
+          <h3 className="ml-5 mb-10 mt-5 px-5 font-bold text-xl">รายละเอียดใบสั่งซื้อสินค้า</h3>
           <div className="box-1 w-auto mx-10 px-5">
             <form action="" method="post">
               <div className="ip-1 mb-5 text-left pe-0">
                 <div className="flex items-center mb-6">
-                  <label for="slip-code" className="w-40">รหัสใบนำเข้าสินค้า</label>
-                  <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="id" placeholder="รหัสใบนำเข้าสินค้า" />
+                  <label for="slip-code" className="w-40">รหัสใบสั่งซื้อสินค้า</label>
+                  <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="id" placeholder="รหัสใบสั่งซื้อสินค้า" />
                 </div>
                 <div className="flex items-center mb-6">
-                <label for="po" className="w-40">  ใบ Po อ้างอิง</label>
-                <input className="ml-1 w-full border py-2 px-3 ounded" type="text" name="po" placeholder="เลือกใบ Po อ้างอิง" />
+                <label for="po" className="w-40">วันที่รับเข้า</label>
+                <input className="ml-1 w-full border py-2 px-3 ounded" type="date" name="po" placeholder="เลือกวัน/เดือน/ปี" />
                 </div>
                 <div className="flex items-center mb-6">
-                <label for="date" className="w-40">วันที่รับเข้า</label>
-                <input className="ml-1 w-full border py-2 px-3 rounded" type="date" name="date" placeholder="เลือกวัน/เดือน/ปี" />
+                <label for="date" className="w-40">ซื้อมาจาก</label>
+                <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="date" placeholder="ซื้อมาจาก" />
                 </div>
                 <div className="flex items-center mb-6">
-                <label for="from" className="w-40">ซื้อมาจาก</label>
-                <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="from" placeholder="ซื้อมาจาก" />
+                <label for="from" className="w-40">การชำระเงิน</label>
+                <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="from" placeholder="เลือกวิธีการชำระเงิน" />
                 </div>
                 <div className="flex items-center mb-6">
-                <label for="pay" className="w-40">การชำระเงิน</label>
-                <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="pay" placeholder="เลือกวิธีการชำระเงิน" />
+                <label for="pay" className="w-40">ล่าช้าได้</label>
+                <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="pay" placeholder="ใส่จำนวนวัน" />
                 </div>
                 <div className="flex items-center mb-6">
                 <label for="note" className="w-40">หมายเหตุ</label>

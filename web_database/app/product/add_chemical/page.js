@@ -1,10 +1,10 @@
 'use client';
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from '../../Navbar';
 import Sidebar from '../../Sidebar';
 import '../../tailwind.css';
-import { useState, useEffect } from "react";
 
 export default function Sell() {
   const [selectedImage, setSelectedImage] = useState(null);  // State to hold selected image
