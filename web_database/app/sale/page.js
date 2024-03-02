@@ -51,7 +51,7 @@ export default function Sell() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://10.62.56.118:8080/user/show_all_item');
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}`);
         const { Fertilizer, Chemicals, Other, Craft } = response.data;
         const fertilizers = Fertilizer || [];
         const chemicals = Chemicals || [];
