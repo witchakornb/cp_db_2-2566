@@ -12,64 +12,36 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 
 export default function SaleHistory() {
-  const [billNumber, setBillNumber] = useState('');
-  const [transactionDate, setTransactionDate] = useState('');
-  const [customer, setCustomer] = useState('');
-  const [searchButtonClicked, setSearchButtonClicked] = useState(false);
 
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  //get Data Api
   const [salesData, setSalesData] = useState([]);
-
-  const [filteredSalesData, setFilteredSalesData] = useState([]);
-
-  // กำหนดตัวแปรเก็บข้อมูลที่จะถูกแสดง
-  const displayData = searchButtonClicked ? filteredSalesData : salesData;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const toggleDropdown = () => {
-  //   setIsDropdownOpen((prev) => !prev);
-  // };
-
-  const toggleDropdown = (index, action) => {
-    setSalesData((prevSalesData) => {
-      const updatedSalesData = [...prevSalesData];
-      updatedSalesData[index] = {
-        ...updatedSalesData[index],
-        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
-      };
-  
-      // Get the Item_ItemId of the selected row
-      const canceledItemId = updatedSalesData[index]?.Item_ItemId;
-  
-      // Open the modal only when the "ยกเลิกรายการ" button is clicked
-      if (action === 'cancel') {
-        setIsModalOpen(canceledItemId);
-      } else {
-        setIsModalOpen(false);
-      }
-  
-      return updatedSalesData;
-    });
-  };
-  
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}`);
-        console.log(response.data);
-        const salesWithData = response.data.Fertilizer.map(sale => ({ ...sale, isDropdownOpen: false }));
-        setSalesData(salesWithData || []);
+        const { Fertilizer, Chemicals, Other, Craft } = response.data;
+        const fertilizers = Fertilizer || [];
+        const chemicals = Chemicals || [];
+        const others = Other || [];
+        const crafts = Craft || [];
+        const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
+        console.log(allData);
+        setSalesData(allData);
       } catch (error) {
         console.error('Error fetching sales data:', error);
       }
     };
 
+
     fetchData();
   }, []);
 
+  //filter search
+  const [searchButtonClicked, setSearchButtonClicked] = useState(false);
+  const [billNumber, setBillNumber] = useState('');
+  const [transactionDate, setTransactionDate] = useState('');
+  const [customer, setCustomer] = useState('');
+  const [filteredSalesData, setFilteredSalesData] = useState([]);
   const filterSalesData = () => {
     // Only filter if the user has clicked the Search button
     if (searchButtonClicked) {
@@ -116,6 +88,33 @@ export default function SaleHistory() {
 
     // Set searchButtonClicked to false to display all data
     setSearchButtonClicked(false);
+  };
+
+  //วางไว้หลัง fetsh ค่า และ filter
+  const displayData = searchButtonClicked ? filteredSalesData : salesData;
+
+  //kbub
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleDropdown = (index, action) => {
+    setSalesData((prevSalesData) => {
+      const updatedSalesData = [...prevSalesData];
+      updatedSalesData[index] = {
+        ...updatedSalesData[index],
+        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
+      };
+
+      // Get the Item_ItemId of the selected row
+      const canceledItemId = updatedSalesData[index]?.Item_ItemId;
+
+      // Open the modal only when the "ยกเลิกรายการ" button is clicked
+      if (action === 'cancel') {
+        setIsModalOpen(canceledItemId);
+      } else {
+        setIsModalOpen(false);
+      }
+
+      return updatedSalesData;
+    });
   };
 
   return (

@@ -9,23 +9,94 @@ import axios from 'axios';
 
 export default function Product() {
 
-  // const [isDropdownAdd, setIsDropdownAdd] = useState(false);
-  // const [isDropdown1Open, setIsDropdown1Open] = useState(false);
-  // const [isDropdown2Open, setIsDropdown2Open] = useState(false);
+  //เพิ่มสินค้าใหม่
+  const [isDropdownAdd, setIsDropdownAdd] = useState(false);
+  const toggleDropdownAdd = () => {
+    setIsDropdownAdd((prev) => !prev);
+  };
 
-  // const toggleDropdownAdd = () => {
-  //   setIsDropdownAdd((prev) => !prev);
-  // };
+  //get Data Api
+  const [salesData, setSalesData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}`);
+        const { Fertilizer, Chemicals, Other, Craft } = response.data;
+        const fertilizers = Fertilizer || [];
+        const chemicals = Chemicals || [];
+        const others = Other || [];
+        const crafts = Craft || [];
+        const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
+        console.log(allData);
+        setSalesData(allData);
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
+      }
+    };
 
-  // const toggleDropdown1 = () => {
-  //   setIsDropdown1Open((prev) => !prev);
-  // };
 
-  // const toggleDropdown2 = () => {
-  //   setIsDropdown2Open((prev) => !prev);
-  // };
-  
-  
+    fetchData();
+  }, []);
+
+  //filter search
+  const [searchButtonClicked, setSearchButtonClicked] = useState(false);
+  const [item_id, setItem_id] = useState('');
+  const [item_name, setItem_name] = useState('');
+  const [filteredSalesData, setFilteredSalesData] = useState([]);
+  const filterSalesData = () => {
+    // Only filter if the user has clicked the Search button
+    if (searchButtonClicked) {
+      const filteredData = salesData.filter(sale => {
+        const item_idMatch = !item_id || sale.Item_ItemId.includes(item_id);
+        const item_nameMatch = !item_name || sale.transactionDate.includes(item_name);
+
+        if (item_id && item_name) {
+          return item_idMatch && item_nameMatch;
+        } else if (item_id) {
+          return item_idMatch;
+        } else if (item_name) {
+          return item_nameMatch;
+        }
+
+        return true; // No search criteria, so include all data
+      });
+
+      setFilteredSalesData(filteredData);
+    }
+  };
+
+  useEffect(() => {
+    filterSalesData();
+  }, [searchButtonClicked]);
+
+  const handleReset = () => {
+    // Reset input values
+    setItem_id('');
+    setItem_name('');
+
+    // Clear the filtered data
+    setFilteredSalesData([]);
+
+    // Set searchButtonClicked to false to display all data
+    setSearchButtonClicked(false);
+  };
+
+  //วางไว้หลัง fetsh ค่า และ filter
+  const displayData = searchButtonClicked ? filteredSalesData : salesData;
+
+  //kbub
+  const toggleDropdown = (index, action) => {
+    setSalesData((prevSalesData) => {
+      const updatedSalesData = [...prevSalesData];
+      updatedSalesData[index] = {
+        ...updatedSalesData[index],
+        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
+      };
+
+      return updatedSalesData;
+    });
+  };
+
 
   return (
     <>
@@ -47,7 +118,10 @@ export default function Product() {
                       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         รหัสสินค้า
                       </label>
-                      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="รหัสสินค้า" />
+                      <input
+                        value={item_id}
+                        onChange={(e) => setCustomer(e.target.value)}
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="รหัสสินค้า" />
                     </div>
                   </div>
                 </div>
@@ -57,7 +131,10 @@ export default function Product() {
                       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                         ชื่อสินค้า
                       </label>
-                      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="ชื่อสินค้า" />
+                      <input
+                        value={item_name}
+                        onChange={(e) => setCustomer(e.target.value)}
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="ชื่อสินค้า" />
                     </div>
                   </div>
                 </div>
@@ -66,12 +143,19 @@ export default function Product() {
 
             <div class="p-4 flex flex-row-reverse">
               <div class="ps-4">
-                <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                <button
+                  onClick={handleReset}
+                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                   รีเซต
                 </button>
               </div>
               <div class="ps-4">
-                <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                <button
+                  onClick={() => {
+                    setSearchButtonClicked(true);
+                    filterSalesData();
+                  }}
+                  class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
                   <span>ค้นหา</span>
