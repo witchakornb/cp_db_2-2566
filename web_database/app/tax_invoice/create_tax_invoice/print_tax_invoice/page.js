@@ -32,12 +32,12 @@ export default function PrintTaxInvoice() {
               <tr>
                 <td>เลขประจำตัวผู้เสียภาษีอากร</td>
                 <td>1234567890123</td>
-                <td>วันที่ 12/03/2567</td>
+                <td className="shift-right">วันที่ 12/03/2567</td>
               </tr>
               <tr>
                 <td>ชื่อลูกค้า/ชื่อผู้ซื้อ</td>
                 <td>หมิว หมิว</td>
-                <td>เลขที่ลูกค้า C000000001</td>
+                <td className="shift-right">เลขที่ลูกค้า C000000001</td>
               </tr>
               <tr>
                 <td>ที่อยู่</td>
