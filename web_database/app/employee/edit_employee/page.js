@@ -123,8 +123,8 @@ export default function Edit_Employee() {
             </div>
             <div className="w-1/3 px-4 pb-4">
               <label for="name" className="inline-block w-40 mr-6 text-left 
-                            text-black">สิทธิ</label>
-              <input type="text" id="name" name="name" placeholder="สิทธิ"
+                            text-black">ตำแหน่ง</label>
+              <input type="text" id="name" name="name" placeholder="ตำแหน่ง"
                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
             </div>

@@ -106,7 +106,7 @@ export default function Employee() {
                         <th scope="col" class=" px-6 py-4">ชื่อ</th>
                         <th scope="col" class=" px-6 py-4">นามสกุล</th>
                         <th scope="col" class=" px-6 py-4">เบอร์โทร</th>
-                        <th scope="col" class=" px-6 py-4">สิทธิ</th>
+                        <th scope="col" class=" px-6 py-4">ตำแหน่ง</th>
                         <th scope="col" class=" px-6 py-4">คำสั่ง</th>
                       </tr>
                     </thead>
