@@ -13,9 +13,15 @@ const TestS2 = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://10.199.120.125:8080/admin/show_all_item');
-                const salesWithData = response.data.Fertilizer.map(sale => ({ ...sale, isDropdownOpen: false }));
-                setSalesData(salesWithData || []);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}`);
+                const { Fertilizer, Chemicals, Other, Craft } = response.data;
+                const fertilizers = Fertilizer || [];
+                const chemicals = Chemicals || [];
+                const others = Other || [];
+                const crafts = Craft || [];
+                const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
+                console.log(allData);
+                setSalesData(allData);
             } catch (error) {
                 console.error('Error fetching sales data:', error);
             }
@@ -41,7 +47,7 @@ const TestS2 = () => {
                     .map((item) => (
                         <div onClick={() => onSearch(item.full_name)}
                             className='dropdown-row'
-                            key={}>
+                            key={ }>
                             {item.full_name}
                         </div>
                     ))}

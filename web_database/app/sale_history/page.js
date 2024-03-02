@@ -47,8 +47,11 @@ export default function SaleHistory() {
     if (searchButtonClicked) {
       const filteredData = salesData.filter(sale => {
         const billNumberMatch = !billNumber || sale.Item_ItemId.includes(billNumber);
-        const dateMatch = !transactionDate || sale.transactionDate.includes(transactionDate);
-        const customerMatch = !customer || sale.Item_ItemId.includes(customer);
+        const dateMatch = !transactionDate || sale.Item_ItemId.includes(transactionDate);
+        console.log('Customer input:', customer);
+        const customerMatch = !customer || (
+          (sale.fertilizerName && sale.fertilizerName.includes(customer))
+        );
 
         if (billNumber && transactionDate && customer) {
           return billNumberMatch && dateMatch && customerMatch;

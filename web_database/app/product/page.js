@@ -97,7 +97,6 @@ export default function Product() {
     });
   };
 
-
   return (
     <>
       <head>
@@ -120,7 +119,7 @@ export default function Product() {
                       </label>
                       <input
                         value={item_id}
-                        onChange={(e) => setCustomer(e.target.value)}
+                        onChange={(e) => setItem_id(e.target.value)}
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="รหัสสินค้า" />
                     </div>
                   </div>
@@ -133,7 +132,7 @@ export default function Product() {
                       </label>
                       <input
                         value={item_name}
-                        onChange={(e) => setCustomer(e.target.value)}
+                        onChange={(e) => setItem_name(e.target.value)}
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="ชื่อสินค้า" />
                     </div>
                   </div>
@@ -189,7 +188,7 @@ export default function Product() {
                     </button>
                     {isDropdownAdd && (
                       <div class="absolute mt-2 right-0 w-40 bg-black bg-gray-100 rounded-md shadow-xl z-10 ">
-                        <a href="#" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
+                        <a href="/product/add_fertilizer" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
                           <div class="flex items-start p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -197,7 +196,7 @@ export default function Product() {
                             <span>เพิ่มปุ๋ย</span>
                           </div>
                         </a>
-                        <a href="#" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
+                        <a href="/product/add_craft_fertilizer" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
                           <div class="flex items-start p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -205,7 +204,7 @@ export default function Product() {
                             <span>เพิ่มปุ๋ยผสม</span>
                           </div>
                         </a>
-                        <a href="#" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
+                        <a href="/product/add_chemical" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
                           <div class="flex items-start p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -213,7 +212,7 @@ export default function Product() {
                             <span>เพิ่มเคมีภัณฑ์</span>
                           </div>
                         </a>
-                        <a href="#" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
+                        <a href="/product/add_other" class="block px-2 py-2 text-sm text-black hover:bg-gray-400 hover:text-white">
                           <div class="flex items-start p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 p-1">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -252,10 +251,10 @@ export default function Product() {
                       {displayData.map((sale, index) => (
                         <tr class="border-b dark:border-neutral-500" key={index}>
                           <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{sale.Item_ItemId}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
+                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
+                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
                           <td class="whitespace-nowrap  px-6 py-4 ">
