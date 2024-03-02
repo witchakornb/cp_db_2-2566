@@ -31,10 +31,10 @@ table{
      width: 100%;
 }
 /* box - 22222222222222 */
-/* .box-2 table tr td{
-     background-color: blue;
+.box-2 table tr td{
+     /* background-color: blue; */
      width: 15rem;
-} */
+}
 .box-2 table tr td.shift-right{
      text-align: end;
 }
