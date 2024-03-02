@@ -6,6 +6,7 @@ import Modal from "./test-billcancel";
 // import Navbar from "../Navbar";
 import Sidebar from "../test_sidebar/page";
 // import Confirm_bill_cancellation from "./confirm_bill_cancellation/page"
+// import TestS2 from "./tests2";
 
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -57,7 +58,7 @@ export default function SaleHistory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://10.199.120.125:8080/admin/show_all_item');
+        const response = await axios.get('http://10.62.56.118:8080/admin/show_all_item');
         const salesWithData = response.data.Fertilizer.map(sale => ({ ...sale, isDropdownOpen: false }));
         setSalesData(salesWithData || []);
       } catch (error) {
@@ -115,7 +116,6 @@ export default function SaleHistory() {
     // Set searchButtonClicked to false to display all data
     setSearchButtonClicked(false);
   };
-
 
   return (
     <>
@@ -279,6 +279,7 @@ export default function SaleHistory() {
         </div>
 
         {isModalOpen && <Modal itemId={isModalOpen} />}
+        {/* <TestS2/> */}
       </body>
     </>
   );
