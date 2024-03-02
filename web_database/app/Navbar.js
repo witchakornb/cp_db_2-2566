@@ -9,7 +9,6 @@ const Navbar = ({ toggleAside, currentPageName }) => {
   };
   const getPageName = () => {
     const isClient = typeof window !== 'undefined';
-
     if (isClient) {
       const path = window.location.pathname;
       switch (path) {
@@ -113,7 +112,7 @@ const Navbar = ({ toggleAside, currentPageName }) => {
                  </button>
 
                 {isDropdown2Open && (
-                  <div className="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
+                  <div className="absolute mt-2 right-8 w-40 bg-white rounded-md shadow-xl z-10 ">
                     <a href="/profile" className="block px-2 py-2 text-sm text-gray-700 hover:bg-gray-300 rounded">
                       <div className="inline-flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
