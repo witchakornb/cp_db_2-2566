@@ -33,6 +33,7 @@ a{
      align-items: center;
      justify-content: space-between;
      padding-right: 1rem;
+     height: 3rem;
 }
 .bill-detail-box .box-1 a.btn-close{
      color: #fff;

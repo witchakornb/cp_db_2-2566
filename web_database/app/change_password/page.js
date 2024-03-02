@@ -9,26 +9,28 @@ export default function ChangePassword() {
         <title>Change password</title>
       </head>
       <body>
-      <div className="container">
-          <div class="change-password-box">
-            <div class="box-1">
-              <h3>เปลี่ยนรหัสผ่าน</h3>
-              <a className="btn-close" href="/sale">&#10006;</a>
-            </div>
-            <div className="box-2">
-              <div class="input-box">
-                <form action="#" method="post">
-                  <label for="old_password">รหัสผ่านเดิม</label><br />
-                  <input type="text" name="old_password" placeholder="กรอกรหัสผ่านเดิมของท่าน" /><br />
-                  <label for="new_password">รหัสผ่านใหม่</label><br />
-                  <input type="text" name="new_password" placeholder="กรอกรหัสผ่านใหม่" /><br />
-                  <label for="confirm_password">ยืนยันรหัสผ่านใหม่</label><br />
-                  <input type="text" name="confirm_password" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง" /><br />
-                  <div className="btn-box">
-                    <button type="submit">ยืนยัน</button>
-                    <a href="/sale">ยกเลิก</a>
-                  </div>
-                </form>
+        <div>
+          <div className="container">
+            <div class="change-password-box">
+              <div class="box-1">
+                <h3>เปลี่ยนรหัสผ่าน</h3>
+                <a className="btn-close" href="/sale">&#10006;</a>
+              </div>
+              <div className="box-2">
+                <div class="input-box">
+                  <form action="#" method="post">
+                    <label for="old_password">รหัสผ่านเดิม</label><br />
+                    <input type="text" name="old_password" placeholder="กรอกรหัสผ่านเดิมของท่าน" /><br />
+                    <label for="new_password">รหัสผ่านใหม่</label><br />
+                    <input type="text" name="new_password" placeholder="กรอกรหัสผ่านใหม่" /><br />
+                    <label for="confirm_password">ยืนยันรหัสผ่านใหม่</label><br />
+                    <input type="text" name="confirm_password" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง" /><br />
+                    <div className="btn-box">
+                      <button type="submit">ยืนยัน</button>
+                      <a href="/sale">ยกเลิก</a>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
