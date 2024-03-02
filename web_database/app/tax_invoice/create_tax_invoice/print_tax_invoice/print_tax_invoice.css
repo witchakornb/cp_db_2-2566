@@ -1,0 +1,13 @@
+body{
+     height: 90vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     /* background-color: red; */
+}
+.receipt-body{
+     border: 1px solid;
+     width: 20rem;
+     /* height: 40rem; */
+     padding: 1rem 2rem 3rem 2rem;
+}

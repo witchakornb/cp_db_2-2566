@@ -22,7 +22,7 @@ export default function ProductDetail() {
         <title>Product Detail</title>
       </head>
       <body className="bg-red-500 text-center">
-        <div className="product-detail-box h-full w-1/4 relative shadow-lg text-center pt-16 pb-6 px-4 border border-gray-300 rounded-lg bg-white">
+        <div className="product-detail-box h-full w-96 relative shadow-lg text-center pt-16 pb-6 px-4 border border-gray-300 rounded-lg bg-white">
           <div className="box-1 h-12 absolute top-0 left-0 right-0 text-start px-4 py-1 text-white bg-gray-600 rounded-t-lg flex justify-between items-center">
             <h3>รายละเอียดสินค้า</h3>
             <a className="btn-close text-white" href="/sale"><span className="text-white">&#10006;</span></a>
