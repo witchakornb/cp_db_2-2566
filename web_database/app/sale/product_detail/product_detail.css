@@ -1,9 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;  
+/* 
 body{
      display: flex;
      justify-content: center;
      align-items: center;
      min-height: 90vh;
-     /* background-color: #888888; */
 }
 a{
      text-decoration: none;
@@ -12,7 +15,7 @@ a{
 .product-detail-box {
      width: 25rem;
      position: relative;
-     box-shadow: 1px 1px 1px #888888;
+     box-shadow: 1px 1px 1px #888;
      text-align: center;
      padding: 4rem 2rem 1rem 2rem;
      border: 1px solid;
@@ -42,12 +45,10 @@ a{
 
 .box-2{
      text-align: center;
-     /* background-color: aquamarine; */
 }
 .box-2 img{
      width: 40%;
 }
 .box-2 .detail{
      text-align: start;
-     /* background-color: red; */
-}
+} */
