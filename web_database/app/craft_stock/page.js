@@ -23,7 +23,7 @@ export default function CraftStock() {
       </head>
       <body>
         <div className="">
-          <div className="box-1 mt-10 mx-4">
+          <div className="box-1 mt-10 mx-0">
             <div className="border mx-5 h-80">
               <div className="box-search pe-4">
                 <div className="relative mb-2 mt-4 px-10 flex flex-wrap items-stretch">
@@ -45,7 +45,7 @@ export default function CraftStock() {
               <div className="box-table overflow-auto h-60 w-full">
                 <div className="flex flex-col">
                   <div className="overflow-x-auto">
-                    <div className="inline-block min-w-full py-2 sm:px-2">
+                    <div className="inline-block min-w-full py-2 sm:px-4">
                       <div className="overflow-hidden">
                         <table className="w-full text-center text-sm font-light">
                           <thead className="border-b bg-[#777777] font-medium text-white">
@@ -216,12 +216,12 @@ export default function CraftStock() {
             </div>
           </div>
 
-          <div className="text-start ml-10 mb-2">
+          <div className="text-start ml-6 mb-2">
             <p className="font-bold text-lg">จำนวนปุ๋ยรอการผสมทั้งหมด</p>
             <p>Stock : <span className="text-green-400">839</span> ชิ้น </p>
           </div>
 
-          <div className="box-2 h-80 overflow-auto mx-8">
+          <div className="box-2 h-80 overflow-auto mx-4">
             <div class="flex flex-col mt-5 mx-8">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-2">
