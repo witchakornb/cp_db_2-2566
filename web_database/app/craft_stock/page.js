@@ -45,7 +45,7 @@ export default function CraftStock() {
               <div className="box-table overflow-auto h-60 w-full">
                 <div className="flex flex-col">
                   <div className="overflow-x-auto">
-                    <div className="inline-block min-w-full py-2 sm:px-4">
+                    <div className="inline-block min-w-full py-2">
                       <div className="overflow-hidden">
                         <table className="w-full text-center text-sm font-light">
                           <thead className="border-b bg-[#777777] font-medium text-white">
@@ -210,7 +210,7 @@ export default function CraftStock() {
               </div>
               <div className="ps-4">
                 <button className="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded">
-                  บันทึก
+                  ยืนยัน
                 </button>
               </div>
             </div>
@@ -222,8 +222,8 @@ export default function CraftStock() {
           </div>
 
           <div className="box-2 h-80 overflow-auto mx-4">
-            <div class="flex flex-col mt-5 mx-8">
-              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="flex flex-col mt-5 mx-0">
+              <div class="overflow-x-auto">
                 <div class="inline-block min-w-full py-2 sm:px-6 lg:px-2">
                   <div class="overflow-hidden">
                     <table class="min-w-full text-center text-sm font-light border">
