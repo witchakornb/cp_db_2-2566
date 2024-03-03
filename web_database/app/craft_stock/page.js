@@ -23,7 +23,7 @@ export default function CraftStock() {
       </head>
       <body>
         <div className="">
-          <div className="box-1 mt-10">
+          <div className="box-1 mt-10 mx-4">
             <div className="border mx-5 h-80">
               <div className="box-search pe-4">
                 <div className="relative mb-2 mt-4 px-10 flex flex-wrap items-stretch">
@@ -42,7 +42,7 @@ export default function CraftStock() {
                   </div>
                 </div>
               </div>
-              <div className="box-table overflow-auto h-64 w-full">
+              <div className="box-table overflow-auto h-60 w-full">
                 <div className="flex flex-col">
                   <div className="overflow-x-auto">
                     <div className="inline-block min-w-full py-2 sm:px-4">
