@@ -1,6 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-
-body{
+/* .wrap{
      display: flex;
      justify-content: center;
      align-items: center;
@@ -182,4 +184,135 @@ img.icon{
      padding-left: 0.5rem;
      border: 0.5px solid #888;
      border-radius: 5px;
+} */
+
+
+.wrap {
+     @apply flex justify-center items-center h-full;
+}
+p{
+     @apply my-4 text-lg;
+}
+a {
+     @apply no-underline text-[black];
+}
+
+.bill-detail-box {
+     @apply h-auto w-[50rem] relative shadow-[1px_1px_1px_#888888] text-center border bg-white pt-20 pb-4 px-4 pt-14 rounded-[10px] border-solid;
+}
+
+.bill-detail-box .box-1 {
+     @apply absolute text-start text-white bg-[#333] flex items-center justify-between h-12 px-4 rounded-[10px_10px_0_0] top-0 inset-x-0;
+}
+
+.bill-detail-box .box-1 a.btn-close {
+     @apply text-white text-[1.2rem];
+}
+
+img.icon {
+     @apply mb-[-0.25rem] w-4;
+}
+
+.detail-box {
+     @apply flex;
+}
+
+.left-box {
+     @apply w-[30%] text-left border rounded-[10px_10px_5px_5px] border-solid border-[black];
+}
+
+.l-head {
+     @apply w-full h-40 border bg-[#3687CE] rounded-[10px] border-solid border-[black] font-bold;
+}
+
+.lh-detail-wrap {
+     @apply mt-[2rem] flex w-full;
+}
+
+.lh-detail {
+     @apply w-6/12 text-white font-bold text-start ml-4;
+}
+
+.lh-detail2 {
+     @apply w-6/12 text-end mr-4 mt-[0.2rem] text-white font-bold;
+}
+
+.l-body {
+     @apply text-justify mt-4;
+}
+
+.l-body h4 {
+     @apply bg-[#333] text-[white] w-fit ml-4 px-4 py-2 rounded-[20px];
+}
+
+.lb1,
+.lb2 {
+     @apply flex text-start w-full mt-[0rem] mb-2;
+}
+
+.lb1-1,
+.lb2-1 {
+     @apply w-6/12 ml-4;
+     text-wrap: nowrap;
+}
+
+.lb1-2,
+.lb2-2 {
+     @apply w-6/12 text-end mr-4 mt-[0.2rem];
+}
+
+.customer-box {
+     @apply flex justify-center mt-3;
+}
+
+.customer-box h4 {
+     @apply border flex w-fit bg-[#056E9E] text-[white] px-3 py-2 rounded-[10px] border-solid border-[black];
+}
+
+.customer-box .icon {
+     @apply mb-[-0.45rem] w-6 bg-white mr-2 p-[0.1rem] rounded-[30rem];
+}
+
+.right-box {
+     @apply w-[70%] text-left mt-[-1rem] pl-4;
+}
+
+.right-box h3 {
+     @apply font-bold text-xl pt-4 mb-2;
+}
+
+.btn-box {
+     @apply w-full mt-4;
+}
+
+.btn-box a.print-btn{
+     @apply w-fit text-base text-[black] bg-[white] border px-4 py-2 rounded-[10px] border-solid border-[green] flex;
+}
+
+.btn-box a span img.icon {
+     @apply w-5 mr-1;
+}
+
+.table-box {
+     @apply h-[22rem] overflow-auto;
+}
+
+.table-box table {
+     @apply w-full border border-solid border-[green] border-collapse;
+}
+
+.table-box table thead tr th {
+     @apply text-center border text-white bg-[#333] p-2 border-solid;
+}
+
+.table-box table tr td {
+     @apply text-center border p-2 border-solid border-[#888];
+}
+
+.note-box {
+     @apply mt-2;
+}
+
+.note-box textarea {
+     @apply h-20 w-full leading-6 mt-2 pl-2 rounded-[5px] border-[0.5px] border-solid border-[#888];
 }

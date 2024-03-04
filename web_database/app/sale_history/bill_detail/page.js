@@ -23,7 +23,7 @@ export default function BillDetail() {
         <title>Bill Detail</title>
       </head>
       <body>
-        <div className="">
+        <div className="wrap">
           <div className="bill-detail-box">
             <div className="box-1">
               <h3>รายละเอียดบิล</h3>
@@ -70,13 +70,11 @@ export default function BillDetail() {
                         <p>ชื่อผู้ใช้</p>
                         <p>รหัสพนักงาน</p>
                         <br />
-                        <br />
                         <p>2024/02/12</p>
                       </div>
                       <div className="lb2-2">
                         <p>kapom</p>
                         <p>E001</p>
-                        <br />
                         <br />
                         <p>15:30:45</p>
                       </div>
@@ -88,7 +86,8 @@ export default function BillDetail() {
                   <h3>รายการสินค้า / BI000012</h3>
                   <div className="btn-box">
                     <a className="print-btn" href="/sale_history/bill_detail/receipt">
-                      <span><img className="icon" src="/printer.png" alt="icon" /> </span>พิมพ์ใบเสร็จ
+                      <span><img className="icon" src="/printer.png" alt="icon" /></span>
+                      พิมพ์ใบเสร็จ
                     </a><br />
                   </div>
                   <div className="table-box">
@@ -103,6 +102,62 @@ export default function BillDetail() {
                         </tr>
                       </thead>
                       <tbody>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
+                        <tr>
+                          <td>{pl1.no}</td>
+                          <td>{pl1.product}</td>
+                          <td>{pl1.price}</td>
+                          <td>{pl1.qty}</td>
+                          <td>{pl1.sum_price}</td>
+                        </tr>
                         <tr>
                           <td>{pl1.no}</td>
                           <td>{pl1.product}</td>
