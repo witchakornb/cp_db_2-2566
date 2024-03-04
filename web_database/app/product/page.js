@@ -20,7 +20,7 @@ export default function Product() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_ALL_ITEM_BIG}`);
         const { Fertilizer, Chemicals, Other, Craft } = response.data;
         const fertilizers = Fertilizer || [];
         const chemicals = Chemicals || [];
@@ -48,7 +48,12 @@ export default function Product() {
     if (searchButtonClicked) {
       const filteredData = salesData.filter(sale => {
         const item_idMatch = !item_id || sale.Item_ItemId.includes(item_id);
-        const item_nameMatch = !item_name || sale.transactionDate.includes(item_name);
+        const item_nameMatch = !item_name || (
+          (sale.fertilizerName && sale.fertilizerName.includes(item_name)) ||
+          (sale.ChemicalName && sale.ChemicalName.includes(item_name)) ||
+          (sale.OtherName && sale.OtherName.includes(item_name)) ||
+          (sale.Craft_fertilizerName && sale.Craft_fertilizerName.includes(item_name))
+        );
 
         if (item_id && item_name) {
           return item_idMatch && item_nameMatch;
@@ -84,7 +89,7 @@ export default function Product() {
   //วางไว้หลัง fetsh ค่า และ filter
   const displayData = searchButtonClicked ? filteredSalesData : salesData;
 
-  //kbub
+  //ปุ่ม kbub
   const toggleDropdown = (index, action) => {
     setSalesData((prevSalesData) => {
       const updatedSalesData = [...prevSalesData];
@@ -96,6 +101,20 @@ export default function Product() {
       return updatedSalesData;
     });
   };
+
+  //delete item
+  const handleCancelItem = (itemId) => {
+    // ทำสิ่งที่คุณต้องการก่อนส่ง HTTP request เช่น แสดง confirm modal หรือตรวจสอบการกรอกข้อมูล
+    console.log(itemId);
+    // const response = await axios.post(`${ process.env.NEXT_PUBLIC_IP } / delete_item`,
+    //   {
+    //     itemId,
+    //   },
+    //   {
+    //     withCredentials: true,
+    //   });
+  };
+
 
   return (
     <>
@@ -163,7 +182,7 @@ export default function Product() {
             </div>
           </div>
 
-          <div class="font-bold mx-4 mt-8">ใบกำกับภาษีเต็มรูปแบบ</div>
+          <div class="font-bold mx-4 mt-8">สินค้าทั้งหมด</div>
           <div class="mx-4 mt-2">Stock : <span className="text-[#00A84F]">0</span> ชิ้น</div>
 
           <div class="flex justify-between mx-4 mt-4">
@@ -252,11 +271,42 @@ export default function Product() {
                         <tr class="border-b dark:border-neutral-500" key={index}>
                           <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
                           <td class="whitespace-nowrap  px-6 py-4">{sale.Item_ItemId}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
+                          {sale.ItemType === "Fertilizer" && (
+                            <>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.fertilizerName}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.fertilizerPrice}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
+                            </>
+                          )}
+                          {sale.ItemType === "Chemicals" && (
+                            <>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ChemicalName}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ChemicalPrice}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
+                            </>
+                          )}
+                          {sale.ItemType === "Craft" && (
+                            <>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.Craft_fertilizerName}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.Craft_fertilizerPrice}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
+                            </>
+                          )}
+                          {sale.ItemType === "Other" && (
+                            <>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.OtherName}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.OtherPrice}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
+                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
+                            </>
+                          )}
                           <td class="whitespace-nowrap  px-6 py-4 ">
                             <div class="direc">
                               <button id="dots"
@@ -270,12 +320,14 @@ export default function Product() {
                                   <button
                                     class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
                                     <div class="flex items-start p-1">
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 mr-1">
-                                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
-                                      <span>รายละเอียดบิล</span>
+                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                      </svg>
+                                      <span>แก้ไขข้อมูล</span>
                                     </div>
                                   </button>
                                   <button id="cancle"
+                                    onClick={() => handleCancelItem(sale.Item_ItemId)}
                                     class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
                                     <div class="flex items-start p-1">
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
