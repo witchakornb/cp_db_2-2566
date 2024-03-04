@@ -1,9 +1,10 @@
+
+
 body{
      display: flex;
      justify-content: center;
      align-items: center;
      min-height: 90vh;
-     /* background-color: #888888; */
 }
 a{
      text-decoration: none;
@@ -40,17 +41,13 @@ a{
      font-size: 1.2rem;
 }
 
-/* detail boxxxxxxxxxxxxxxxxxxxxxx */
 img.icon{
      margin-bottom: -0.25rem;
      width: 1rem;
 }
 .detail-box{
      display: flex;
-     /* border: 2px solid;
-     border-radius: 10px; */
 }
-/* left box */
 .left-box{
      width: 30%;
      text-align: left;
@@ -82,8 +79,6 @@ img.icon{
 }
 .l-body{
      text-align: justify;
-     /* padding-left: 2rem;
-     padding-right: 2rem; */
 }
 .l-body h4{
      border-radius: 20px;
@@ -99,7 +94,6 @@ img.icon{
      text-align: start;
      width: 100%;
      margin-top: -1rem;
-     /* align-items: center; */
 }
 .lb1-1,.lb2-1{
      width: 50%;
@@ -136,11 +130,9 @@ img.icon{
 
 
 
-/* right box */
 .right-box{
      width: 70%;
      text-align: left;
-     /* border: 1px solid red; */
      padding-left: 2rem;
      margin-top: -1rem;
 
@@ -183,7 +175,6 @@ img.icon{
      margin-top: 1rem;
 }
 .note-box textarea{
-     /* text-wrap: wrap; */
      height: 5rem;
      width: 33rem;
      margin-top: 0.5rem;
