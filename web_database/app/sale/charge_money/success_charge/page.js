@@ -10,23 +10,29 @@ export default function SuccessMoney() {
       <head>
         <title>Success Charge</title>
       </head>
-      <body>
-        <div className="container">
-          <div className="box-alert">
+      <body className="">
+        <div className="flex items-center justify-center h-screen">
+          <div className="border border-gray-300 w-96 h-76 text-center p-8 rounded-lg shadow-md">
             <div>
-              <img src="/accept.png" alt="alert icon" />
+              <img src="/accept.png" alt="alert icon" className="w-36 mx-auto" />
             </div>
-            <div>
+            <div className="mt-4 font-bold">
               <h3>ทำรายการสำเร็จ</h3>
               <h4>เงินทอน {pay_back} บาท</h4>
             </div>
-            <div className="btn-box">
-              <a className="end-btn" href="/sale"><span><img className="icon" src="/accept.png" alt="icon"/> </span>จบการขาย</a>
-              <a className="print-btn" href="/sale_history/bill_detail/receipt"><span><img className="icon" src="/printer.png" alt="icon"/> </span>พิมพ์ใบเสร็จ</a>
+            <div className="flex justify-between px-6 mt-6">
+              <a href="/sale" className="end-btn flex px-2 py-1 border border-solid rounded">
+                <span><img src="/accept.png" alt="icon" className="w-4 h-4 mr-1 mt-1" /> </span>จบการขาย
+              </a>
+              <a href="/sale_history/bill_detail/receipt" className="print-btn flex px-2 py-1 border border-solid rounded">
+                <span><img src="/printer.png" alt="icon" className="w-4 h-4 mr-1 mt-1" /> </span>พิมพ์ใบเสร็จ
+              </a>
             </div>
           </div>
         </div>
       </body>
     </>
+
+
   );
 }
