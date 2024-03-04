@@ -186,7 +186,7 @@ img.icon{
      border-radius: 5px;
 } */
 
-
+/* -----------------------bill-detail----------------------- */
 .wrap {
      @apply flex justify-center items-center h-full;
 }
