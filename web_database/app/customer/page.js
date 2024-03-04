@@ -69,7 +69,7 @@ export default function Customer() {
   return (
     <>
       <head>
-        <title>Edit Customer</title>
+        <title>Customer</title>
       </head>
       <body>
         <div className="" style={{ width: '100%' }}>
