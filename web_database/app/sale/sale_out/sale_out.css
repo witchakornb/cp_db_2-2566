@@ -1,5 +1,7 @@
-
-a{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;  
+/* a{
      text-decoration: none;
 }
 body{
@@ -31,4 +33,4 @@ body{
      border: 0;
      border-radius: 5px;
      color: #fff;
-}
+} */
