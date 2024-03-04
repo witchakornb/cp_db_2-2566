@@ -24,13 +24,17 @@ export default function SaleHistory() {
         const chemicals = Chemicals || [];
         const others = Other || [];
         const crafts = Craft || [];
-        const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
+        const allData = [...fertilizers, ...chemicals, ...others, ...crafts].map(item => ({
+          ...item,
+          isDropdownOpen: false, // Ensure isDropdownOpen is initialized
+        }));
         console.log(allData);
         setSalesData(allData);
       } catch (error) {
         console.error('Error fetching sales data:', error);
       }
     };
+
 
 
     fetchData();
@@ -45,7 +49,7 @@ export default function SaleHistory() {
   const filterSalesData = () => {
     // Only filter if the user has clicked the Search button
     if (searchButtonClicked) {
-      const filteredData = salesData.filter(sale => {
+      const filteredData = salesData.filter((sale) => {
         const billNumberMatch = !billNumber || sale.Item_ItemId.includes(billNumber);
         const dateMatch = !transactionDate || sale.Item_ItemId.includes(transactionDate);
         console.log('Customer input:', customer);
@@ -72,13 +76,26 @@ export default function SaleHistory() {
         return true; // No search criteria, so include all data
       });
 
-      setFilteredSalesData(filteredData);
+      // Set isDropdownOpen to false for all items in salesData
+      setSalesData((prevSalesData) =>
+        prevSalesData.map((item) => ({ ...item, isDropdownOpen: false }))
+      );
+
+      // Set isDropdownOpen to false for all items in filteredData
+      const filteredDataWithDropdown = filteredData.map((item) => ({
+        ...item,
+        isDropdownOpen: false,
+      }));
+
+      setFilteredSalesData(filteredDataWithDropdown);
     }
   };
 
   useEffect(() => {
-    filterSalesData();
-  }, [searchButtonClicked]);
+    if (searchButtonClicked) {
+      filterSalesData();
+    }
+  }, [searchButtonClicked]);  
 
   const handleReset = () => {
     // Reset input values
@@ -88,6 +105,11 @@ export default function SaleHistory() {
 
     // Clear the filtered data
     setFilteredSalesData([]);
+
+    // Set isDropdownOpen to false for all items in salesData
+    setSalesData((prevSalesData) =>
+      prevSalesData.map((item) => ({ ...item, isDropdownOpen: false }))
+    );
 
     // Set searchButtonClicked to false to display all data
     setSearchButtonClicked(false);
@@ -105,21 +127,45 @@ export default function SaleHistory() {
         ...updatedSalesData[index],
         isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
       };
-
+  
       // Get the Item_ItemId of the selected row
       const canceledItemId = updatedSalesData[index]?.Item_ItemId;
-
+  
       // Open the modal only when the "ยกเลิกรายการ" button is clicked
       if (action === 'cancel') {
         setIsModalOpen(canceledItemId);
       } else {
         setIsModalOpen(false);
       }
-
+  
       return updatedSalesData;
     });
+  
+    // Update isDropdownOpen state for the corresponding item in filteredSalesData
+    setFilteredSalesData((prevFilteredSalesData) => {
+      const updatedFilteredSalesData = [...prevFilteredSalesData];
+      updatedFilteredSalesData[index] = {
+        ...updatedFilteredSalesData[index],
+        isDropdownOpen: !updatedFilteredSalesData[index]?.isDropdownOpen,
+      };
+  
+      // Open the modal only when the "ยกเลิกรายการ" button is clicked
+      if (action === 'cancel') {
+        setIsModalOpen(
+          updatedFilteredSalesData.length
+            ? updatedFilteredSalesData[index]?.Item_ItemId
+            : canceledItemId
+        );
+      } else {
+        setIsModalOpen(false);
+      }
+  
+      return updatedFilteredSalesData;
+    });
   };
+  
 
+  
   return (
     <>
       <body>
@@ -185,10 +231,7 @@ export default function SaleHistory() {
               </div>
               <div class="ps-4">
                 <button
-                  onClick={() => {
-                    setSearchButtonClicked(true);
-                    filterSalesData();
-                  }}
+                  onClick={() => setSearchButtonClicked(true)}
                   class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">

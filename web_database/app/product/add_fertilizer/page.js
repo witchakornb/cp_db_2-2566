@@ -11,10 +11,14 @@ export default function Sell() {
 
   // get Data Api
   const [itemId, setItemId] = useState('');
+  // Options for unit items and products
+  const [unitItemOptions, setUnitItemOptions] = useState([]);
+  const [unitProductOptions, setUnitProductOptions] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://10.62.58.160:8080/user/get_item_name_for_fertilizer');
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_item_name_for_fertilizer`);
         const { ItemId } = response.data;
 
         // เซตค่า ItemId ใน state
@@ -25,6 +29,31 @@ export default function Sell() {
           ...prevData,
           Item_ItemId: ItemId,
         }));
+
+        // Fetch unit data for item
+        const unitItemResponse = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`);
+        const unitItemData = unitItemResponse.data;
+
+        // Fetch unit data for product
+        const unitProductResponse = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`);
+        const unitProductData = unitProductResponse.data;
+
+        // Set options for unit items
+        setUnitItemOptions(unitItemData.map(unit => (
+          <option key={unit.UnitId} value={unit.UnitName}>
+            {unit.UnitName}
+          </option>
+        )));
+
+        // Set options for unit products
+        setUnitProductOptions(unitProductData.map(unit => (
+          <option key={unit.UnitId} value={unit.UnitName}>
+            {unit.UnitName}
+          </option>
+        )));
+
+        console.log('Unit Item Options:', unitItemOptions);
+        console.log('Unit Product Options:', unitProductOptions);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -161,6 +190,18 @@ export default function Sell() {
 
   };
 
+  const [selectedUnitName, setSelectedUnitName] = useState('');
+  const handleUnitNameChange = (selectedValue) => {
+    setSelectedUnitName(selectedValue);
+
+    // Update fertilizerData.UnitName
+    setFertilizerData((prevData) => ({
+      ...prevData,
+      UnitName: selectedValue,
+    }));
+    console.log('UnitName :', selectedValue);
+  };
+
   const handleSave = async (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
 
@@ -287,7 +328,7 @@ export default function Sell() {
 
               {/* Rest of your form code */}
               <div className="flex items-center mb-5">
-                <label for="name" className="inline-block w-40 mr-6 text-left text-black">
+                <label for="Item_ItemId" className="inline-block w-40 mr-6 text-left text-black">
                   รหัสสินค้า
                 </label>
                 <input
@@ -300,7 +341,7 @@ export default function Sell() {
                 />
               </div>
               <div className="flex items-center mb-5">
-                <label for="name" className="inline-block w-40 mr-6 text-left 
+                <label for="FertilizerName" className="inline-block w-40 mr-6 text-left 
                             text-black">ชื่อปุ๋ย</label>
                 <input type="text" id="FertilizerName" name="FertilizerName" placeholder="กรอกชื่อปุ๋ย"
                   onChange={(e) => handleInputChange('FertilizerName', e.target.value)}
@@ -308,7 +349,7 @@ export default function Sell() {
                   "/>
               </div>
               <div className="flex items-center mb-5">
-                <label for="name" className="inline-block w-40 mr-6 text-left 
+                <label for="FertilizerFormulaName" className="inline-block w-40 mr-6 text-left 
                             text-black">ชื่อสูตรปุ๋ย</label>
                 <input type="text" id="FertilizerFormulaName" name="FertilizerFormulaName" placeholder="กรอกสูตรปุ๋ย"
                   onChange={(e) => handleInputChange('FertilizerFormulaName', e.target.value)}
@@ -316,7 +357,7 @@ export default function Sell() {
                   "/>
               </div>
               <div className="flex items-center mb-5">
-                <label for="name" className="inline-block w-40 mr-6 text-left 
+                <label for="FertilizerType" className="inline-block w-40 mr-6 text-left 
                             text-black">ประเภทของปุ๋ย</label>
                 <input type="text" id="FertilizerType" name="FertilizerType" placeholder="กรอกประเภทของปุ๋ย"
                   onChange={(e) => handleInputChange('FertilizerType', e.target.value)}
@@ -324,7 +365,7 @@ export default function Sell() {
                   "/>
               </div>
               <div className="flex items-center mb-5">
-                <label for="number" className="inline-block w-40 mr-6 text-left 
+                <label for="FertilizerPrice" className="inline-block w-40 mr-6 text-left 
                             text-black">ราคาขาย</label>
                 <input type="number" id="FertilizerPrice" name="FertilizerPrice" placeholder="กรอกราคาขาย"
                   onChange={(e) => handleInputChange('FertilizerPrice', e.target.value)}
@@ -332,31 +373,49 @@ export default function Sell() {
           "/>
               </div>
               <div className="flex items-center mb-5">
-                <label for="name" className="inline-block w-40 mr-6 text-left 
+                <label for="UnitName" className="inline-block w-40 mr-6 text-left 
                             text-black">หน่วยนับ</label>
-                <input type="text" id="UnitName" name="UnitName" placeholder="กรอกหน่วยนับ"
+                {/* <input type="text" id="UnitName" name="UnitName" placeholder="กรอกหน่วยนับ"
                   onChange={(e) => handleInputChange('UnitName', e.target.value)}
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
-                  "/>
+                  "/> */}
+                <div className="w-full">
+                  <select
+                    id="UnitName"
+                    value={selectedUnitName}
+                    onChange={(e) => handleUnitNameChange(e.target.value)}
+                    className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  >
+                    {/* Default empty option */}
+                    <option value="" disabled>เลือกหน่วยนับ</option>
+
+                    {/* Options from unitItemData */}
+                    {unitItemOptions}
+
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                  </div>
+                </div>
               </div>
               <div className="relative mb-4 flex flex-wrap items-stretch">
-                <label for="name" className="flex items-center w-40 mr-0 text-left 
+                <label for="FertilizerWeigth" className="flex items-center w-40 mr-0 text-left 
                             text-black">ปริมาณ</label>
-                <input type="number" type="number" id="FertilizerWeigth" name="FertilizerWeigth"
+                <input type="number" id="FertilizerWeigth" name="FertilizerWeigth"
                   onChange={(e) => handleInputChange('FertilizerWeigth', e.target.value)}
                   className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
                   placeholder="กรอกปริมาณ / น้ำหนัก"
                 />
                 <div className="inline-block relative">
                   <select
-                    className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                    <option>กิโลกรัม</option>
-                    <option>กรัม</option>
-                    <option>ขีด</option>
-                    <option>ปอนด์</option>
-                    <option>ออนซ์</option>
-                    <option>ลิตร</option>
-                    <option>มิลลิลิตร</option>
+                    className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  >
+                    {/* Default empty option */}
+                    <option value="" disabled>เลือกหน่วยปริมาณ</option>
+
+                    {/* Options from unitProductData */}
+                    {unitProductOptions}
+
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>

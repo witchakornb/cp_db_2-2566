@@ -20,7 +20,7 @@ export default function Product() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_ALL_ITEM_BIG}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big`);
         const { Fertilizer, Chemicals, Other, Craft } = response.data;
         const fertilizers = Fertilizer || [];
         const chemicals = Chemicals || [];
