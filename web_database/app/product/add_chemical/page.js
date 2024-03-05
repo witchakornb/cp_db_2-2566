@@ -8,126 +8,25 @@ import '../../tailwind.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function Add_chemical() {
+export default function Sell() {
+  const [selectedImage, setSelectedImage] = useState(null);  // State to hold selected image
 
-  const [ChemicalUnitId, setChemicalUnitId] = useState([]);
-  const [ItemUnitId, setItemUnitId] = useState([]);
-  const [ItemId, setItemId] = useState("");
+  function thisFileUpload(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [base64String, setBase64String] = useState('');
-  const [image, setImage] = useState("");
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
 
-  async function onSubmit(event) {
-    if (!base64String) {
-      alert('Please select an image first.')
-      return
-    }
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
 
-    event.preventDefault();
-    const form = event.target;
-
-    const output = {
-      Item_ItemId: form.Item_ItemId.value,
-      ChemicalName: form.ChemicalName.value,
-      ChemicalCommonName: form.ChemicalCommonName.value,
-      ChemicalIRAC: form.ChemicalIRAC.value,
-      ChemicalType: form.ChemicalType.value,
-      ChemicalPrice: parseFloat(form.ChemicalPrice.value),
-      ChemicalUnitId: parseInt(form.ChemicalUnitId.value),
-      ItemUnitId: parseInt(form.ItemUnitId.value),
-      Chemicalweight: parseFloat(form.Chemicalweight.value),
-      ChemicalPhoto: base64String,
-    };
-    console.error('output:', output);
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_chemicals`,
-        output,
-        {
-          withCredentials: true,
-        }
-      );
-      window.location.href = "/product";
-    } catch (error) {
-      console.error('Error:', error);
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please select a valid image file.");
     }
   }
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ItemId = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/gen_itemId_for_all_item`,
-          {
-            withCredentials: true,
-          }
-        );
-        setItemId(ItemId.data.ItemId);
-        ChemicalUnitId
-      } catch (error) {
-        console.error('Error:', error);
-      }
-      // -------------------
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
-          {
-            withCredentials: true,
-          }
-        );
-        setItemUnitId(response.data);
-        ItemUnitId
-      } catch (error) {
-        console.error('Error:', error);
-      }
-      // -------------------
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
-          {
-            withCredentials: true,
-          }
-        );
-        setChemicalUnitId(response.data);
-        ChemicalUnitId
-      } catch (error) {
-        console.error('Error:', error);
-      }
-
-    }
-    fetchData();
-  }, []);
-
-  const handleFileChange = (event) => {
-    const imageInput = event.target;
-    const image = imageInput.files[0];
-    setImage(image);
-    if (!image) {
-      console.error('No image file selected.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result;
-      // Validate data URL format and extract base64 string
-      if (result.startsWith('data:image/png;base64,')) {
-        setBase64String(result.replace('data:image/png;base64,', ''));
-      } else if (result.startsWith('data:image/jpeg;base64,')) {
-        setBase64String(result.replace('data:image/jpeg;base64,', ''));
-      } else {
-        console.error('Unsupported image format. Please select a PNG or JPEG.');
-        return;
-      }
-
-      setSelectedFile(image);
-    };
-    reader.onerror = (error) => {
-      console.error('Error reading file:', error);
-    };
-    reader.readAsDataURL(image);
-  };
-
-  const handleCancle = async () => {
-    event.preventDefault(); // ป้องกันการส่งฟอร์ม
-    window.location.href = "/product";
-  };
-  // ---------- Nav Bar ----------
   const [asideVisible, setAsideVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState({
     venta: false,
@@ -171,138 +70,134 @@ export default function Add_chemical() {
         <div className="flex flex-1">
           <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
           <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
+            <h2 className="font-bold text-xl mb-5">ข้อมูลเคมีภัณฑ์</h2>
+            <form action="#">
+              <div className="flex items-start mb-5">
+                <label
+                  for="number"
+                  className="inline-block w-40 mr-6 text-left text-black"
+                >
+                  ภาพสินค้า
+                </label>
+                <div className="mb-5 block mx-auto">
+                  {selectedImage ? (
+                    <img
+                      src={selectedImage}
+                      alt="photo product"
+                      className="w-40 h-40"
+                    />
+                  ) : (
+                    <img
+                      src="/logo.jpg"
+                      alt="default photo"
+                      className="w-40 h-40"
+                    />
+                  )}
+                  <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept="image/*"
+                    onChange={thisFileUpload}
+                    className="py-2 focus:border-green-400
+                            text-gray-600 placeholder-gray-400
+                            outline-none"
+                    style={{ display: "none" }}
+                  />
+                  <button
+                    id="button"
+                    name="button"
+                    value="Upload"
+                    onClick={() => document.getElementById("file").click()}
+                    className="py-2 px-6 mt-2 w-40 text-white rounded-md"
+                    style={{ background: "#00A84F" }}
+                  >
+                    เลือกรูปภาพ
+                  </button>
+                </div>
+              </div>
 
-            <div className="w-full">
-              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลเคมีภัณฑ์</h2>
-              <div className='mb-16'>
-                <form onSubmit={onSubmit} method="post">
-                  <div className="flex items-start mb-5">
-                    <label
-                      htmlFor="file"
-                      className="inline-block w-40 mr-6 text-left text-black" >
-                      ภาพสินค้า
-                    </label>
-                    <div className="mb-5 block m-auto">
-                      {image ? (
-                        <img className="w-40 h-40" src={URL.createObjectURL(image)} alt="Uploaded Image" />
-                      ) : (
-                        <img className="w-40 h-40" src="/logo.jpg" alt="logo" />
-
-                      )}
-                      <div className="flex">
-                        <label htmlFor="sdfsf" className="w-40 mt-5">เลือกรูปภาพ : </label>
-                        <input
-                          className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                          type="file" name="ChemicalPhoto" accept="image/*" onChange={handleFileChange} />
-                      </div>
-                    </div>
+              {/* Rest of your form code */}
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left text-black">
+                  รหัสสินค้า
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="กรอกรหัสสินค้า"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left 
+                            text-black">ชื่อเคมีภัณฑ์</label>
+                <input type="text" id="name" name="name" placeholder="กรอกชื่อเคมีภัณฑ์"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left 
+                            text-black">ชื่อสามัญของเคมีภัณฑ์</label>
+                <input type="text" id="name" name="name" placeholder="กรอกชื่อสามัญของเคมีภัณฑ์"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left 
+                            text-black">ประเภทของเคมีภัณฑ์</label>
+                <input type="text" id="name" name="name" placeholder="กรอกประเภทของเคมีภัณฑ์"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left 
+                            text-black">กลุ่มสารตาม IRAC</label>
+                <input type="text" id="name" name="name" placeholder="กรอกกลุ่มสารตาม IRAC"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="number" className="inline-block w-48 mr-6 text-left 
+                            text-black">ราคาขาย</label>
+                <input type="number" id="number" name="number" placeholder="กรอกราคาขาย"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+          "/>
+              </div>
+              <div className="flex items-center mb-5">
+                <label for="name" className="inline-block w-48 mr-6 text-left 
+                            text-black">หน่วยนับ</label>
+                <input type="text" id="name" name="name" placeholder="กรอกหน่วยนับ"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
+                  "/>
+              </div>
+              <div className="relative mb-4 flex flex-wrap items-stretch">
+                <label for="name" className="flex items-center w-40 mr-6 text-left 
+                            text-black">ปริมาณ</label>
+                <input type="number"
+                  className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
+                  placeholder="กรอกปริมาณ / น้ำหนัก"
+                />
+                <div className="inline-block relative">
+                  <select
+                    className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                    <option>กิโลกรัม</option>
+                    <option>กรัม</option>
+                    <option>ขีด</option>
+                    <option>ปอนด์</option>
+                    <option>ออนซ์</option>
+                    <option>ลิตร</option>
+                    <option>มิลลิลิตร</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                   </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">รหัสสินค้า: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="Item_ItemId" value={ItemId} readOnly />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อเคมีภัณฑ์: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="ChemicalName" />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อสามัญของเคมีภัณฑ์: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="ChemicalCommonName" />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ประเภทของเคมีภัณฑ์: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="ChemicalType" />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">กลุ่มสารตาม IRAC: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="ChemicalIRAC" />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ราคาขาย: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="number" name="ChemicalPrice" min={0} />
-                  </div>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      htmlFor="sdfsf"
-                      className="inline-block w-40 mr-6 text-left text-black">
-                      หน่วยนับ: </label>
-                    <div className="w-full">
-                      <select name="ItemUnitId" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        <option value="" disabled>เลือกหน่วยนับ</option>
-                        {ItemUnitId.map(unit => (
-                          <option key={unit.UnitId} value={unit.UnitId}>
-                            {unit.UnitName}
-                          </option>
-                        ))}
-                      </select>
-
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="relative mb-4 flex flex-wrap items-stretch">
-                    <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
-                      ปริมาณ: </label>
-                    <input type="number" name="Chemicalweight" min={0}
-                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
-
-                    <div className="inline-block relative">
-                      <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        name="ChemicalUnitId">
-                        {/* <option value="" disabled>เลือกหน่วยปริมาณ</option> */}
-                        {ChemicalUnitId.map(unit => (
-                          <option key={unit.UnitId} value={unit.UnitId}>
-                            {unit.UnitName}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="text-right mt-10">
-                    <button type="submit"
-                      className="py-2 px-6 text-white rounded-md" style={{ background: "#00A84F" }}>บันทึก</button>
-                    <button onClick={handleCancle}
-                      className="py-2 px-6 ms-4 text-black rounded-md" style={{ background: "#D9D9D9" }}>ยกเลิก</button>
-                  </div>
-                </form>
-
+                </div>
+              </div>
+              <div className="text-right mt-10">
+                <button className="py-2 px-6 text-white rounded-md" style={{ background: "#00A84F" }}>บันทึก</button>
+                <button className="py-2 px-6 ms-4 text-black rounded-md" style={{ background: "#D9D9D9" }}>ยกเลิก</button>
               </div>
             </div>
           </div>

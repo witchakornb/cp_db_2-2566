@@ -265,7 +265,7 @@ export default function Add_fertilizer() {
 
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
-                      ปริมาณ: </label>
+                    ปริมาณ / น้ำหนัก: </label>
                     <input type="number" name="FertilizerWeigth" min={0}
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
 
