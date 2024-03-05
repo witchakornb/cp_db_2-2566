@@ -8,11 +8,10 @@ import '../../tailwind.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function Add_fertilizer() {
+export default function AddChemical() {
 
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
-  const [craftName, setCraftName] = useState([]);
   const [ItemId, setItemId] = useState("");
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -61,7 +60,6 @@ export default function Add_fertilizer() {
         );
         setItemId(ItemId.data.ItemId);
         fertilizerUnitId
-        console.log("ItemId ", ItemId);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -79,13 +77,13 @@ export default function Add_fertilizer() {
       }
       // -------------------
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_all_craftName`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
           {
             withCredentials: true,
           }
         );
-        setCraftName(response.data);
-        craftName
+        setfertilizerUnitId(response.data);
+        fertilizerUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -164,7 +162,7 @@ export default function Add_fertilizer() {
   return (
     <>
       <head>
-        <title>Add Fertilizer</title>
+        <title>Add Chemical</title>
       </head>
       <body style={{ width: '100%' }}>
         <Navbar toggleAside={toggleAside} />
@@ -173,7 +171,7 @@ export default function Add_fertilizer() {
           <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
 
             <div className="w-full">
-              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลปุ๋ย</h2>
+              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลเคมีภัณฑ์</h2>
               <div className='mb-16'>
                 <form onSubmit={onSubmit} method="post">
                   <div className="flex items-start mb-5">
@@ -204,34 +202,43 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">รหัสสินค้า: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="Item_ItemId" value={ItemId} readOnly />
+                      placeholder="กรอกรหัสสินค้า" type="text" name="Item_ItemId" value={ItemId} readOnly />
                   </div>
 
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerName" />
+                      placeholder="กรอกชื่อเคมีภัณฑ์" type="text" name="FertilizerName" />
                   </div>
 
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อสามัญของเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerFormulaName" />
+                      placeholder="กรอกชื่อสามัญของเคมีภัณฑ์" type="text" name="FertilizerFormulaName" />
                   </div>
 
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
+                      htmlFor="sdfsf">ประเภทของเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerType" />
+                      placeholder="กรอกประเภทของเคมีภัณฑ์" type="text" name="FertilizerType" />
+                  </div>
+
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">กลุ่มสารตาม IRAC: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      placeholder="กรอกกลุ่มสารของเคมีภัณฑ์" type="text" name="FertilizerType" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -240,25 +247,31 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ราคาขาย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="number" name="FertilizerPrice" min={0} />
+                      placeholder="กรอกราคาขาย" type="number" name="FertilizerPrice" min={0} />
                   </div>
 
-                  <h2 className="font-bold text-xl mb-5 w-full">สูตรการผสมปุ๋ย</h2>
-
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-5">
                     <label
                       htmlFor="sdfsf"
                       className="inline-block w-40 mr-6 text-left text-black">
-                      แม่ปุ๋ยตัวที่ 1: </label>
+                      หน่วยนับ: </label>
+                      
                     <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
-                          <option key={craft.ItemId} value={craft.FertilizerName}>
-                            {craft.FertilizerName}
-                          </option>
-                        ))}
+                      <select
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md">
+                        
+                        <option value="" disabled selected hidden>เลือกหน่วยนับ</option>
+                        <option>กิโลกรัม</option>
+                        <option>กรัม</option>
+                        <option>ขีด</option>
+                        <option>ปอนด์</option>
+                        <option>ออนซ์</option>
+                        <option>ลิตร</option>
+                        <option>มิลลิลิตร</option>
                       </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                      </div>
 
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -266,86 +279,28 @@ export default function Add_fertilizer() {
                     </div>
                   </div>
 
-                  <div className="relative mb-4 flex flex-wrap items-stretch">
-                    <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
-                      ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
-                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
-
-                    <div className="inline-block relative">
-                      <div className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        กิโลกรัม
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-5">
                     <label
-                      htmlFor="sdfsf"
-                      className="inline-block w-40 mr-6 text-left text-black">
-                      แม่ปุ๋ยตัวที่ 1: </label>
-                    <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
-                          <option key={craft.ItemId} value={craft.FertilizerName}>
-                            {craft.FertilizerName}
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">ปริมาณ / น้ำหนัก: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      placeholder="กรอกปริมาณ / น้ำหนัก" type="number" name="FertilizerPrice" min={0} />
+                  </div>
+                    {/* <div className="inline-block relative">
+                      <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        name="FertilizerUnitId">
+                        <option value="" disabled>เลือกหน่วยปริมาณ</option>
+                        {fertilizerUnitId.map(unit => (
+                          <option key={unit.UnitId} value={unit.UnitId}>
+                            {unit.UnitName}
                           </option>
                         ))}
                       </select>
-
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="relative mb-4 flex flex-wrap items-stretch">
-                    <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
-                      ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
-                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
-
-                    <div className="inline-block relative">
-                      <div className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        กิโลกรัม
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center mb-4">
-                    <label
-                      htmlFor="sdfsf"
-                      className="inline-block w-40 mr-6 text-left text-black">
-                      แม่ปุ๋ยตัวที่ 1: </label>
-                    <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
-                          <option key={craft.ItemId} value={craft.FertilizerName}>
-                            {craft.FertilizerName}
-                          </option>
-                        ))}
-                      </select>
-
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="relative mb-4 flex flex-wrap items-stretch">
-                    <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
-                      ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
-                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
-
-                    <div className="inline-block relative">
-                      <div className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        กิโลกรัม
-                      </div>
-                    </div>
-                  </div>
+                    </div> */}
 
                   <div className="text-right mt-10">
                     <button type="submit"
