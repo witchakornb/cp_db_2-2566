@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export default function BillDetail({ input }) {
 // export default function BillDetail() {
-  const { OrderId } = input
+  const { OrderIdtt } = input
   const [order, setOrder] = useState({
     SendSelectDetailOrderOne: {
       Customer_CustomerId: "",
@@ -32,7 +32,7 @@ export default function BillDetail({ input }) {
         `${process.env.NEXT_PUBLIC_IP}/user/select_detailOrder`,
         // `http://localhost:8080/user/select_detailOrder`,
         {
-          OrderId: OrderId,
+          OrderId: OrderIdtt,
         },
         {
           withCredentials: true,
