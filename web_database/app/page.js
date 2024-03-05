@@ -20,7 +20,7 @@ export default function Login() {
       password: password_form
     });
     try {
-      const response = await axios.post('http://10.48.104.125:8080/login', payload, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/login`, payload, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }

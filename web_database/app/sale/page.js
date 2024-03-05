@@ -8,8 +8,20 @@ import '../tailwind.css';
 import ProductCard from './card-product';
 import axios from 'axios';
 import ProductDetail from "./product_detail/page";
+const Swal = require('sweetalert2')
+
 
 export default function Sell() {
+  console.log('Sell page');
+  useEffect(() => {
+    const reloadCount = parseInt(localStorage.getItem('reloadCount') || '0', 10);
+
+    if (reloadCount < 5) {
+      localStorage.setItem('reloadCount', (reloadCount + 1).toString());
+      window.location.reload();
+    }
+  }, []);
+
   const [orderId, setorderId] = useState([]);
   const [asideVisible, setAsideVisible] = useState(false);
   useEffect(() => {
@@ -97,7 +109,6 @@ export default function Sell() {
   const filterSalesData = () => {
     if (searchButtonClicked) {
       console.log('ProductName input:', productName);
-
       const filteredData = salesData.filter(sale => {
         const productNameMatch = !productName || (
           (sale.fertilizerName && sale.fertilizerName.includes(productName)) ||
@@ -223,38 +234,57 @@ export default function Sell() {
   const [discountError, setDiscountError] = useState('');
   const [totalDiscount, setTotalDiscount] = useState(0);
   const handleDiscountChange = (itemId, discount) => {
+    console.log('Discount:', discount);
     // Check if the entered value is not a number or less than 0
     if (isNaN(parseFloat(discount)) || parseFloat(discount) < 0) {
-      alert("Please enter a valid non-negative number for the discount");
+      Swal.fire({
+        title: "Error",
+        text: "Please enter a valid non-negative number for the discount",
+        icon: "error"
+      });
       return;
     }
-    const totalAmountForItem =
-      clickCount[itemId].productPrice * (clickCount[itemId].quantity || 0);
-    if (parseFloat(discount) > totalAmountForItem) {
-      alert("Discount cannot exceed the total amount for the item");
-      discount = 0;
-    }
-    setClickCount((prev) => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        discount: parseFloat(discount),
-      },
-    }));
-    const updatedTotalDiscount = Object.values(clickCount).reduce(
-      (total, item) => total + (item.discount || 0),
-      0
-    );
-    setTotalDiscount(updatedTotalDiscount);
 
+    setClickCount((prev) => {
+      const totalAmountForItem =
+        prev[itemId].productPrice * (prev[itemId].quantity || -1);
+
+      let parsedDiscount = parseFloat(discount);
+      if (parsedDiscount > totalAmountForItem) {
+        Swal.fire({
+          title: "Error",
+          text: "Discount cannot exceed the total amount for the item",
+          icon: "error"
+        });
+        parsedDiscount = 0; // Set discount to 0 if it exceeds the total amount
+      }
+
+      const updatedClickCount = {
+        ...prev,
+        [itemId]: {
+          ...prev[itemId],
+          discount: parsedDiscount,
+        },
+      };
+
+      const updatedTotalDiscount = Object.values(updatedClickCount).reduce(
+        (total, item) => total + (item.discount || 0),
+        0
+      );
+      setTotalDiscount(updatedTotalDiscount);
+
+      return updatedClickCount;
+    });
   };
+
+
 
   return (
     <>
       <head>
         <title>Sale</title>
       </head>
-      <body>
+      <body >
         <Navbar toggleAside={toggleAside} />
         <div className="flex flex-col h-screen">
           <div className="flex flex-1">
