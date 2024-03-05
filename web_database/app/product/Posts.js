@@ -1,8 +1,10 @@
 'use client';
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 import styles from "./product.css";
 import axios from 'axios';
+import EditFertilizer from "../product/edit_fertilizer/page";
 import { useState, useEffect } from "react";
 const Swal = require('sweetalert2')
 
@@ -52,29 +54,21 @@ const Posts = ({ posts }) => {
         window.location.reload();
     };
 
-    const handleEdit= async (post) => {
-        try {
-            setPosts(posts.filter((p) => p.Item_ItemId != post.Item_ItemId))
-            console.log("ItemId : ", post.Item_ItemId);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big/remove`,
-                {
-                    ItemId: post.Item_ItemId,
-                },
-                {
-                    withCredentials: true,
-                }
-            );
-            console.log("hihihihihihihi");
-        } catch (error) {
-            console.log(error);
-        }
+    const [editMode, setEditMode] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
 
-        // รีเฟรชหน้า
-        window.location.reload();
+    useEffect(() => {
+        console.log("selectedItemId : ", selectedItemId);
+    }, [selectedItemId]);
+
+    const handleEdit = async (post) => {
+        setEditMode((prevEditMode) => !prevEditMode);
+        setSelectedItemId(post.Item_ItemId);
     };
 
     return (
         <div className="">
+            {editMode && <EditFertilizer Item_ItemId={selectedItemId} />}
             <table class="min-w-full text-center text-sm font-light">
                 <thead
                     class="border-b bg-[#777777] font-medium text-white">
