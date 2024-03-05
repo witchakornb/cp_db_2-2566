@@ -274,7 +274,7 @@ export default async function EditFertilizer({ itemId }) {
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label
                       className="flex items-center w-40 mr-1 text-left text-black"
-                      htmlFor="sdfsf">ปริมาณ: </label>
+                      htmlFor="sdfsf">ปริมาณ / น้ำหนัก: </label>
                     <input
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
                       type="number" name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0} />
