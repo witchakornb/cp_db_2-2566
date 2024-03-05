@@ -44,6 +44,7 @@ export default function Add_fertilizer() {
           withCredentials: true,
         }
       );
+      window.location.href = "/product";
     } catch (error) {
       console.error('Error:', error);
     }
@@ -52,7 +53,7 @@ export default function Add_fertilizer() {
     const fetchData = async () => {
       try {
         const ItemId = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/gen_itemId_for_all_item`,
-        {
+          {
             withCredentials: true,
           }
         );
@@ -64,7 +65,7 @@ export default function Add_fertilizer() {
       // -------------------
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
-        {
+          {
             withCredentials: true,
           }
         );
@@ -76,7 +77,7 @@ export default function Add_fertilizer() {
       // -------------------
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
-        {
+          {
             withCredentials: true,
           }
         );
@@ -117,6 +118,11 @@ export default function Add_fertilizer() {
       console.error('Error reading file:', error);
     };
     reader.readAsDataURL(image);
+  };
+
+  const handleCancle = async () => {
+    event.preventDefault(); // ป้องกันการส่งฟอร์ม
+    window.location.href = "/product";
   };
 
   return (
@@ -239,9 +245,11 @@ export default function Add_fertilizer() {
                 <div className="text-right mt-10">
                   <button type="submit"
                     className="py-2 px-6 text-white rounded-md" style={{ background: "#00A84F" }}>บันทึก</button>
-                  <button className="py-2 px-6 ms-4 text-black rounded-md" style={{ background: "#D9D9D9" }}>ยกเลิก</button>
+                  <button onClick={handleCancle}
+                    className="py-2 px-6 ms-4 text-black rounded-md" style={{ background: "#D9D9D9" }}>ยกเลิก</button>
                 </div>
               </form>
+
             </div>
           </div>
         </div>
