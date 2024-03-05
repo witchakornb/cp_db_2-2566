@@ -80,12 +80,8 @@ const Posts = ({ posts }) => {
                             <td class="whitespace-nowrap  px-6 py-4">{post.OrderNote}</td>
                             <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
-                                    <Link
-                                        href={{
-                                            pathname: '/sale_history/bill_detail',
-                                            query: {
-                                                ItemId: post.OrderId
-                                            }
+                                    <Link href={{
+                                            pathname: `/sale_history/${post.OrderId}`,
                                         }}
                                     >
                                         <button

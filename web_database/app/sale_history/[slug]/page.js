@@ -1,14 +1,11 @@
 'use client'
-
 // import Image from "next/image";
-// import Link from "next/link";
+import Link from "next/link";
 import styles from "./bill_detail.css";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-
-export default function BillDetail({ input }) {
-// export default function BillDetail() {
-  const { OrderIdtt } = input
+export default function BillDetail({ params }) {
+  console.log("OrderId:", params.slug);
   const [order, setOrder] = useState({
     SendSelectDetailOrderOne: {
       Customer_CustomerId: "",
@@ -30,18 +27,15 @@ export default function BillDetail({ input }) {
       console.log("Dddddd");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_IP}/user/select_detailOrder`,
-        // `http://localhost:8080/user/select_detailOrder`,
         {
-          OrderId: OrderIdtt,
+          OrderId: params.slug,
         },
         {
           withCredentials: true,
         }
       )
-      // console.log("fffffff");
       setOrder(response.data);
     } catch (error) {
-      // console.log("ooooooooooooooooo");
       console.error('Error:', error);
     }
   }
@@ -50,9 +44,6 @@ export default function BillDetail({ input }) {
   useEffect(() => {
     useapi()
   }, []);
-
-
-  // console.log(order);
 
   return (
     <>
@@ -119,14 +110,27 @@ export default function BillDetail({ input }) {
               )}
               {/* ------------------------------------ */}
               <div className="right-box">
-              {order && order.SendSelectDetailOrderOne && (
-                <h3>รายการสินค้า / {order.SendSelectDetailOrderOne.OrderId}</h3>
-              )}
+                {order && order.SendSelectDetailOrderOne && (
+                  <h3>รายการสินค้า / {order.SendSelectDetailOrderOne.OrderId}</h3>
+                )}
                 <div className="btn-box">
-                  <a className="print-btn" href="/sale_history/bill_detail/receipt">
-                    <span><img className="icon" src="/printer.png" alt="icon" /></span>
-                    พิมพ์ใบเสร็จ
-                  </a><br />
+                  <Link href={{
+                    pathname: `/sale_history/${params.slug}/receipt/${params.slug}`,
+                  }}
+                  >
+                    <button
+                      class="bg-[#777777] hover:bg-[#008B41] text-white font-bold p-1 rounded inline-flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                      </svg>
+                    </button>
+                    <a className="print-btn" href={`sale_history/receipt/${params.slug}`}>
+                      <span><img className="icon" src="/printer.png" alt="icon" /></span>
+                      พิมพ์ใบเสร็จ
+                    </a><br />
+                  </Link>
+
+
                 </div>
                 <div className="table-box">
                   <table>
@@ -159,9 +163,9 @@ export default function BillDetail({ input }) {
                 <div className="note-box">
                   <label htmlFor="note">หมายเหตุ</label><br />
                   {order && order.SendSelectDetailOrderOne && (
-                    
+
                     <textarea disabled type="text" name="note" value={order.SendSelectDetailOrderOne.OrderNote} />
-                    )}
+                  )}
                 </div>
               </div>
             </div>
