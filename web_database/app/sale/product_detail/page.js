@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-export default function ProductDetail({ itemId }) {
+export default function ProductDetail({ itemId, onClose }) {
   const [fertilizer, setfertilizer] = useState(null);
   const [craft_fertilizer, setcraft_fertilizer] = useState(null);
   const [chemical, setchemical] = useState(null);
@@ -61,10 +61,10 @@ export default function ProductDetail({ itemId }) {
   
   return (
     <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center h-full ">
-      <div className="chemical-detail-box h-fit w-96 relative shadow-lg text-center pt-16 pb-6 px-4 border border-gray-300 rounded-lg bg-white">
+      <div className="chemical-detail-box h-fit w-96 relative shadow-lg text-center pt-16 pb-6 px-4 border border-gray-900 rounded-lg bg-white">
         <div className="box-1 h-12 absolute top-0 left-0 right-0 text-start px-4 py-1 text-white bg-gray-600 rounded-t-lg flex justify-between items-center">
           <h3>รายละเอียดสินค้า</h3>
-          <a className="text-white" href="/sale">
+          <a className="text-white" href="#" onClick={onClose}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>

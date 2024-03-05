@@ -8,10 +8,34 @@ import '../tailwind.css';
 import ProductCard from './card-product';
 import axios from 'axios';
 import ProductDetail from "./product_detail/page";
+const Swal = require('sweetalert2')
 
 
 export default function Sell() {
+  console.log('Sell page');
+  useEffect(() => {
+    const reloadCount = parseInt(localStorage.getItem('reloadCount') || '0', 10);
+
+    if (reloadCount < 5) {
+      localStorage.setItem('reloadCount', (reloadCount + 1).toString());
+      window.location.reload();
+    }
+  }, []);
+
+  const [orderId, setorderId] = useState([]);
   const [asideVisible, setAsideVisible] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/gen_orderId`);
+        console.log('orderid: ', response.data);
+        setorderId(response.data);
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
+      }
+    };
+    fetchData();
+  }, []);
   const [dropdownVisible, setDropdownVisible] = useState({
     venta: false,
     resumen: false,
@@ -19,11 +43,6 @@ export default function Sell() {
     stock: false,
     clientes: false,
   });
-  const [isDropdown2Open, setIsDropdown2Open] = useState(false);
-
-  const toggleDropdown2 = () => {
-    setIsDropdown2Open((prev) => !prev);
-  };
 
   const handleDropdownToggle = (key) => {
     setDropdownVisible((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -90,7 +109,6 @@ export default function Sell() {
   const filterSalesData = () => {
     if (searchButtonClicked) {
       console.log('ProductName input:', productName);
-
       const filteredData = salesData.filter(sale => {
         const productNameMatch = !productName || (
           (sale.fertilizerName && sale.fertilizerName.includes(productName)) ||
@@ -100,7 +118,7 @@ export default function Sell() {
         );
 
         if (productNameMatch) {
-          console.log('ProductName match for Item_ItemId:', sale.Item_ItemId);
+          http://localhost:3000/sale  console.log('ProductName match for Item_ItemId:', sale.Item_ItemId);
           console.log('ProductName match for Name:', productNameMatch);
         }
 
@@ -114,10 +132,7 @@ export default function Sell() {
   useEffect(() => {
     filterSalesData();
   }, [searchButtonClicked]);
-
-
   const [selectproduct, setSelectProduct] = useState('');
-
   const handleViewDetails = (productId) => {
     console.log('use client in sell product id:', productId);
     setSelectProduct(productId); // เปลี่ยนค่า selectproduct โดยใช้ setSelectProduct
@@ -132,19 +147,150 @@ export default function Sell() {
   const handleCloseProductDetail = () => {
     setSelectProduct('');
   };
+  const [clickCount, setClickCount] = useState({});
+  const [saleproduct, setsaleProduct] = useState('');
+  const handleImageClick = (itemId, productName, productPrice, productAmount) => {
+    // Check if the quantity exceeds the available product amount
+    if (productAmount === 0) {
+      alert("สินค้าหมด.");
+      return;
+    }
+
+    // Rest of the function remains unchanged
+    setClickCount((prev) => {
+      const updatedCount = { ...prev };
+
+      if (updatedCount[itemId]) {
+        updatedCount[itemId] = {
+          ...updatedCount[itemId],
+          quantity: updatedCount[itemId].quantity + 1,
+        };
+      } else {
+        updatedCount[itemId] = {
+          productName,
+          productPrice,
+          quantity: 1,
+        };
+      }
+
+      const updatedTotalAmount = Object.values(updatedCount).reduce((total, item) => {
+        return total + item.productPrice * item.quantity;
+      }, 0);
+
+      setTotalAmount(updatedTotalAmount);
+
+      return updatedCount;
+    });
+  };
+
+  // Function to handle decrementing quantity
+  const handleDecrement = (itemId, productAmount) => {
+    setClickCount((prev) => {
+      const updatedCount = { ...prev };
+      const currentCount = updatedCount[itemId]?.quantity || 0;
+
+      // If the current quantity is greater than 0, decrement it
+      if (currentCount > 0) {
+        updatedCount[itemId] = { ...updatedCount[itemId], quantity: currentCount - 1 };
+      }
+
+      // If the updated quantity is 0, remove the item
+      if (updatedCount[itemId]?.quantity === 0) {
+        delete updatedCount[itemId];
+      }
+
+      // Check if the productAmount is 0, make the product available again
+      if (productAmount === 0) {
+        alert("สินค้าหมด.");
+        return prev;
+      }
+
+      return updatedCount;
+    });
+  };
+  const [totalAmount, setTotalAmount] = useState(0);
+  const handleDeleteItem = (itemId) => {
+    setClickCount((prev) => {
+      const updatedCount = { ...prev };
+      const deletedItem = updatedCount[itemId];
+      delete updatedCount[itemId];
+      const updatedTotalDiscount = totalDiscount - (deletedItem?.discount || 0);
+      setTotalDiscount(updatedTotalDiscount);
+
+      // Calculate and update the total amount
+      const updatedTotalAmount = Object.values(updatedCount).reduce((total, item) => {
+        return total + item.productPrice * item.quantity;
+      }, 0);
+      setTotalAmount(updatedTotalAmount);
+
+      return updatedCount;
+    });
+  };
+  const handleDeleteAllItems = () => {
+    setClickCount({});
+    setTotalAmount(0);
+    setTotalDiscount(0);
+  };
+  const [discountError, setDiscountError] = useState('');
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  const handleDiscountChange = (itemId, discount) => {
+    console.log('Discount:', discount);
+    // Check if the entered value is not a number or less than 0
+    if (isNaN(parseFloat(discount)) || parseFloat(discount) < 0) {
+      Swal.fire({
+        title: "Error",
+        text: "Please enter a valid non-negative number for the discount",
+        icon: "error"
+      });
+      return;
+    }
+
+    setClickCount((prev) => {
+      const totalAmountForItem =
+        prev[itemId].productPrice * (prev[itemId].quantity || -1);
+
+      let parsedDiscount = parseFloat(discount);
+      if (parsedDiscount > totalAmountForItem) {
+        Swal.fire({
+          title: "Error",
+          text: "Discount cannot exceed the total amount for the item",
+          icon: "error"
+        });
+        parsedDiscount = 0; // Set discount to 0 if it exceeds the total amount
+      }
+
+      const updatedClickCount = {
+        ...prev,
+        [itemId]: {
+          ...prev[itemId],
+          discount: parsedDiscount,
+        },
+      };
+
+      const updatedTotalDiscount = Object.values(updatedClickCount).reduce(
+        (total, item) => total + (item.discount || 0),
+        0
+      );
+      setTotalDiscount(updatedTotalDiscount);
+
+      return updatedClickCount;
+    });
+  };
+
+
 
   return (
     <>
       <head>
         <title>Sale</title>
       </head>
-      <body>
+      <body >
         <Navbar toggleAside={toggleAside} />
         <div className="flex flex-col h-screen">
           <div className="flex flex-1">
             <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
-            <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
-              <div className="relative mb-4 flex flex-wrap items-stretch">
+            <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-9/12'}`}>
+              <div className=" mb-4 flex flex-wrap items-stretch">
                 <input
                   type="text"
                   value={productName}
@@ -198,35 +344,142 @@ export default function Sell() {
                 </ul>
                 <div style={{ display: toggle === 1 ? 'flex' : 'none' }} className="flex-wrap">
                   {displayData.map((product) => (
-                    <ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} />
+                    <ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} imgclick={handleImageClick} />
                   ))}
-                  
+
                 </div>
                 <div style={{ display: toggle === 2 ? 'flex' : 'none' }} className="flex-wrap">
                   {displayData
                     .filter(product => toggle === 2 && (product.category === 'fertilizer' || product.category === 'craft'))
                     .map((product) => (
-<ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} />
+                      <ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} imgclick={handleImageClick} />
                     ))}
                 </div>
                 <div style={{ display: toggle === 3 ? 'flex' : 'none' }} className="flex-wrap">
                   {displayData
                     .filter(product => toggle === 3 && (product.category === 'chemicals'))
                     .map((product) => (
-<ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} />
+                      <ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} imgclick={handleImageClick} />
                     ))}
                 </div>
                 <div style={{ display: toggle === 4 ? 'flex' : 'none' }} className="flex-wrap">
                   {displayData
                     .filter(product => toggle === 4 && (product.category === 'other'))
                     .map((product) => (
-<ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} />
+                      <ProductCard key={product.Item_Itemid} product={product} onViewDetails={handleViewDetails} imgclick={handleImageClick} />
                     ))}
                 </div>
               </div>
               {selectproduct && (
-        <ProductDetail itemId={selectproduct} onClose={handleCloseProductDetail} />
-      )}
+                <ProductDetail itemId={selectproduct} onClose={handleCloseProductDetail} />
+              )}
+            </div>
+            <div className=" flex justify-center w-3/12 bg-slate-100 ">
+              <div className="w-full h-fit px-3">
+                <div className="flex flex-row items-center justify-between px-0 mt-5 my-4">
+                  <div className="font-bold text-xl">รายการที่ : {orderId.OrderId}</div>
+                  <button onClick={handleDeleteAllItems}>
+                    <span className="px-2 py-2 rounded-md bg-red-100 text-red-500">ลบทั้งหมด</span>
+                  </button>
+                </div>
+                <div className="px-0 py-0 mt-0 overflow-y-auto h-96 bg-slate-100">
+                  {Object.keys(clickCount).map((itemid) => (
+                    <div key={itemid} className="pb-3 block border-b-2">
+                      <div className="flex flex-row justify-between mb-2">
+                        <span className="text-md">{clickCount[itemid].productName}</span>
+                        <span className="text-md text-center">
+                          {clickCount[itemid].productPrice * (clickCount[itemid].quantity || 0)} บาท
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center">
+                          <button
+                            onClick={() => handleDecrement(itemid)}
+                            className="w-8 h-8 rounded-full bg-[#00A84F] text-white flex items-center justify-center font-bold"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            value={clickCount[itemid]?.quantity || 0}
+                            onChange={(e) => {
+                              const newQuantity = parseInt(e.target.value, 10);
+                              if (!isNaN(newQuantity) && newQuantity >= 0) {
+                                setClickCount((prev) => ({
+                                  ...prev,
+                                  [itemid]: { ...prev[itemid], quantity: newQuantity },
+                                }));
+                              }
+                            }}
+                            className="w-16 ps-2 text-center bg-slate-100"
+                          />
+                          <button
+                            className="w-8 h-8 rounded-full bg-[#00A84F] text-white flex items-center justify-center font-bold"
+                            onClick={() => handleImageClick(itemid, clickCount[itemid].productName, clickCount[itemid].productPrice)}
+                          >
+                            +
+                          </button>
+                        </div>
+                        <div className="flex">
+                          <label htmlFor="ส่วนลด">ส่วนลด</label>
+                          <input
+                            type="number"
+                            value={clickCount[itemid]?.discount || ''}
+                            onChange={(e) => handleDiscountChange(itemid, e.target.value)}
+                            className="w-16 ps-2 text-center bg-slate-100 border-b border-gray-500"
+                          />
+
+                          {discountError && <p className="text-red-500">{discountError}</p>}
+
+                          <label htmlFor="บาท" className="">
+                            ฿
+                          </label>
+                        </div>
+
+                        <div className="flex items-center">
+                          <button className="">
+                            <span
+                              className="px-2 py-2 rounded-md bg-red-500 text-white"
+                              onClick={() => handleDeleteItem(itemid)} // Call the new function
+                            >
+                              ลบ
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5">
+                  <div className="py-2 ">
+                    <form action="#" method="post">
+                      <div className="px-0 flex justify-between items-center mb-2">
+                        <label for="ส่วนลดท้ายบิล" className="text-md">หมายเหตุ</label>
+                        <input type="text" className="border-gray-200 px-2 py-1 rounded-md" placeholder="กรอกหมายเหตุ" />
+                      </div>
+                    </form>
+                    <div className=" px-0 flex justify-between mb-2">
+                      <span className=" text-xl">ยอดรวม</span>
+                      <span className="text-xl">{totalAmount} บาท</span>
+                    </div>
+
+                    <div className=" px-0 flex justify-between mb-2">
+                      <span className=" text-xl">ส่วนลดรวม</span>
+                      <span className="text-xl">- {totalDiscount} บาท</span>
+                    </div>
+
+                    <div className="border-t-2 mt-3 py-2 px-0 flex items-center justify-between">
+                      <span className="text-2xl font-semibold">ยอดสุทธิ</span>
+                      <span className="text-2xl font-semibold">{totalAmount - totalDiscount} บาท</span>
+                    </div>
+                  </div>
+                  <div className=" bg-blue-200 ">
+                    <div className="px-4 py-2 rounded-full shadow-lg  text-2xl text-center bg-[#00A84F] text-white font-semibold">
+                      ชำระเงิน
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
