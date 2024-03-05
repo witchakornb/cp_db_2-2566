@@ -60,6 +60,7 @@ export default function Add_fertilizer() {
         );
         setItemId(ItemId.data.ItemId);
         fertilizerUnitId
+        console.log("ItemId ", ItemId);
       } catch (error) {
         console.error('Error:', error);
       }
