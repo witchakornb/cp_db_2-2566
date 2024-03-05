@@ -1,32 +1,49 @@
 'use client';
 import axios from "axios";
 import { useRouter } from 'next/navigation'
-import Head from 'next/head'
+import './login.css'
+import Swal from 'sweetalert2'
 
 
 export default function Login() {
+  const Swal = require('sweetalert2')
   const router = useRouter()
 
   async function handleSubmit(event) {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const username = formData.get('username')
-    const password = formData.get('password')
-    const response = await axios.post('http://10.62.58.160:8080/login', { username, password });
-    if (response.ok) {
-      router.push('/sale')
-    } else {
-      alert('Login failed!')
+    const username_form = formData.get('username')
+    const password_form = formData.get('password')
+    const payload = new URLSearchParams({
+      username: username_form,
+      password: password_form
+    });
+    try {
+      const response = await axios.post('http://10.48.104.125:8080/login', payload, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "เข้าสู่ระบบสำเร็จ",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        router.push('/sale')
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "เข้าสู่ระบบไม่สำเร็จ",
+        text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ถูกต้อง"
+      });
     }
   }
   return (
     <>
-
-      <Head>
-        <title>Login</title>
-        <link rel="icon" type="image/x-icon" href="/logo3.png" />
-      </Head>
       <body>
         <div className="container">
           <form onSubmit={handleSubmit}>
