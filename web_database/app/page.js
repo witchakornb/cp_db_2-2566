@@ -1,12 +1,8 @@
 'use client';
 import axios from "axios";
-// import axios from 'axios';
-import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from "next/image";
-import Link from "next/link";
-import RootLayout from "./layout";
-import styles from "./login.css";
+import Head from 'next/head'
+
 
 export default function Login() {
   const router = useRouter()
@@ -17,13 +13,7 @@ export default function Login() {
     const formData = new FormData(event.currentTarget)
     const username = formData.get('username')
     const password = formData.get('password')
-    console.log(username + " " + password);
-    const response = await fetch('http://10.62.58.160:8080/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
-    console.log(response);
+    const response = await axios.post('http://10.62.58.160:8080/login', { username, password });
     if (response.ok) {
       router.push('/sale')
     } else {
@@ -32,10 +22,11 @@ export default function Login() {
   }
   return (
     <>
-      <head>
+
+      <Head>
         <title>Login</title>
         <link rel="icon" type="image/x-icon" href="/logo3.png" />
-      </head>
+      </Head>
       <body>
         <div className="container">
           <form onSubmit={handleSubmit}>
