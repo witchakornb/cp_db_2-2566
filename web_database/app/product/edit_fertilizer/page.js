@@ -6,7 +6,9 @@ import Navbar from "../../Navbar";
 import axios from 'axios';
 
 // export default function Page() {
-export default function EditFertilizer({ itemId }) {
+export default async function EditFertilizer({ itemId }) {
+  console.log("itemId ",itemId);
+  
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
   const [dataPreset, setDataPreset] = useState({
@@ -59,9 +61,7 @@ export default function EditFertilizer({ itemId }) {
     }
     console.log(output);
     try {
-      const response = await axios.post(
-        'http://10.48.104.125:8080/user/show_all_item_big/updatefertilizer',
-        // 'http://localhost:8080/user/show_all_item_big/updatefertilizer',
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big/updatefertilizer`,
         output,
         {
           withCredentials: true,
@@ -76,8 +76,7 @@ export default function EditFertilizer({ itemId }) {
     const fetchData = async () => {
       console.log("oooooooooooo")
       try {
-        const response = await axios.post(
-          'http://10.48.104.125:8080/user/select_fertilizerById',
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`,
           {
             Item_ItemId: itemId,
           },
@@ -91,8 +90,7 @@ export default function EditFertilizer({ itemId }) {
       }
       // -------------------
       try {
-        const response = await axios.get(
-          'http://10.48.104.125:8080/user/get_unit_for_item',
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
           {
             withCredentials: true,
           }
@@ -103,8 +101,7 @@ export default function EditFertilizer({ itemId }) {
       }
       // -------------------
       try {
-        const response = await axios.get(
-          'http://10.48.104.125:8080/user/get_unit_for_product',
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
           {
             withCredentials: true,
           }

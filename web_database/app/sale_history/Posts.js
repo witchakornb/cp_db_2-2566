@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import styles from "./product.css";
+import styles from "./sale_history.css";
 import axios from 'axios';
 import EditFertilizer from "../product/edit_fertilizer/page";
 import { useState, useEffect } from "react";
@@ -15,15 +15,11 @@ const Posts = ({ posts }) => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big`);
-                const { Fertilizer, Chemicals, Other, Craft } = response.data;
-                const fertilizers = Fertilizer || [];
-                const chemicals = Chemicals || [];
-                const others = Other || [];
-                const crafts = Craft || [];
-                const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
-                console.log(allData);
-                setPosts(allData);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_orderGood`);
+                console.log("res cus : ", response);
+                const posts = response.data;
+                setPosts(posts);
+                console.log("after set : ", posts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
@@ -35,11 +31,11 @@ const Posts = ({ posts }) => {
 
     const handleDelete = async (post) => {
         try {
-            setPosts(posts.filter((p) => p.Item_ItemId != post.Item_ItemId))
-            console.log("ItemId : ", post.Item_ItemId);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big/remove`,
+            setPosts(posts.filter((p) => p.OrderId != post.OrderId))
+            console.log("OrderId : ", post.OrderId);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/cancel_order`,
                 {
-                    ItemId: post.Item_ItemId,
+                    OrderId: post.OrderId,
                 },
                 {
                     withCredentials: true,
@@ -61,41 +57,41 @@ const Posts = ({ posts }) => {
                     class="border-b bg-[#777777] font-medium text-white">
                     <tr>
                         <th scope="col" class=" px-6 py-4">#</th>
-                        <th scope="col" class=" px-6 py-4">รหัสสินค้า</th>
-                        <th scope="col" class=" px-6 py-4">ชื่อสินค้า</th>
-                        <th scope="col" class=" px-6 py-4">ประเภท</th>
-                        <th scope="col" class=" px-6 py-4">ราคาที่ขาย</th>
-                        <th scope="col" class=" px-6 py-4">จำนวน</th>
-                        <th scope="col" class=" px-6 py-4">หน่วย</th>
-                        <th scope="col" class=" px-6 py-4">แก้ไข</th>
-                        <th scope="col" class=" px-6 py-4">ลบ</th>
+                        <th scope="col" class=" px-6 py-4">เลขที่บิล</th>
+                        <th scope="col" class=" px-6 py-4">วันที่ทำรายการ</th>
+                        <th scope="col" class=" px-6 py-4">ยอดขาย(บาท)</th>
+                        <th scope="col" class=" px-6 py-4">พนักงาน</th>
+                        <th scope="col" class=" px-6 py-4">ลูกค้า</th>
+                        <th scope="col" class=" px-6 py-4">หมายเหตุ</th>
+                        <th scope="col" class=" px-6 py-4">ดูรายละเอียด</th>
+                        <th scope="col" class=" px-6 py-4">ยกเลิกรายการ</th>
                     </tr>
                 </thead>
                 <tbody>
                     {posts.map((post, index) => (
-                        <tr key={post.Item_ItemId}
+                        <tr key={post.OrderId}
                             class="border-b dark:border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.Item_ItemId}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.fertilizerName || post.ChemicalName || post.OtherName || post.Craft_fertilizerName}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.ItemType}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.fertilizerPrice || post.ChemicalPrice || post.OtherPrice || post.Craft_fertilizerPrice}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.ItemAmount}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.UnitName}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.OrderId}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.OrderDate}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.OrderTotalPirce}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.EmployeeName}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.CustomerName}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.OrderNote}</td>
                             <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
                                     <Link
                                         href={{
-                                            pathname: '/product/edit_fertilizer',
+                                            pathname: '/sale_history/bill_detail',
                                             query: {
-                                                ItemId: post.Item_ItemId
+                                                ItemId: post.OrderId
                                             }
                                         }}
                                     >
-                                        <button 
+                                        <button
                                             class="bg-[#777777] hover:bg-[#008B41] text-white font-bold p-1 rounded inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                             </svg>
                                         </button>
                                     </Link>
@@ -105,7 +101,7 @@ const Posts = ({ posts }) => {
                                 <div class="">
                                     <button onClick={() => Swal.fire({
                                         title: "Are you sure?",
-                                        text: "You won't be able to revert this!" + post.Item_ItemId,
+                                        text: "You won't be able to revert this!" + post.OrderId,
                                         icon: "warning",
                                         showCancelButton: true,
                                         confirmButtonColor: "#3085d6",

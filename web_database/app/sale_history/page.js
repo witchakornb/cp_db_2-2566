@@ -1,329 +1,262 @@
 'use client';
+import Sidebar from "../Sidebar";
+import Navbar from "../Navbar";
+
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./sale_history.css";
-import Modal from "./test-billcancel";
-// import Navbar from "../Navbar";
-import Sidebar from "../test_sidebar/page";
-// import Confirm_bill_cancellation from "./confirm_bill_cancellation/page"
-// import TestS2 from "./tests2";
-
-import { useState, useEffect } from "react";
+import Posts from "./Posts";
 import axios from 'axios';
+import { useState, useEffect } from "react";
 
-export default function SaleHistory() {
+export default function Customer() {
 
-  //get Data Api
-  const [salesData, setSalesData] = useState([]);
+  // get Data Api
+  const [customerIdOptions, setcustomerIdOptions] = useState([]);
+  const [customerNameOptions, setcustomerNameOptions] = useState([]);
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item`);
-        const { Fertilizer, Chemicals, Other, Craft } = response.data;
-        const fertilizers = Fertilizer || [];
-        const chemicals = Chemicals || [];
-        const others = Other || [];
-        const crafts = Craft || [];
-        const allData = [...fertilizers, ...chemicals, ...others, ...crafts].map(item => ({
-          ...item,
-          isDropdownOpen: false, // Ensure isDropdownOpen is initialized
-        }));
-        console.log(allData);
-        setSalesData(allData);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_orderGood`);
+        console.log("res cus : ", response);
+        const posts = response.data;
+        setPosts(posts);
+        console.log("after set : ", posts);
+
+        // Set options for search
+        const optionsCustomerId = posts.map((item) => (
+          <option key={item.OrderId} value={item.OrderId}></option>
+        ));
+        setcustomerIdOptions(optionsCustomerId);
+        console.log('options customerId :', optionsCustomerId);
+
+        const optionsCustomerName = posts.map((item) => (
+          <option key={item.OrderId} value={item.CustomerName}></option>
+        ));
+        setcustomerNameOptions(optionsCustomerName);
+        console.log('options customerName :', optionsCustomerName);
+
       } catch (error) {
-        console.error('Error fetching sales data:', error);
+        console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
   }, []);
 
-  //filter search
+  //search
+  // Assume this is your formatDate function
+  const formatDate = (dateString) => {
+    // Your date formatting logic here
+    return formattedDate;
+  };
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
-  const [billNumber, setBillNumber] = useState('');
-  const [transactionDate, setTransactionDate] = useState('');
-  const [customer, setCustomer] = useState('');
   const [filteredSalesData, setFilteredSalesData] = useState([]);
+  const [InputcustomerID, setInputcustomerID] = useState('');
+  const [InputDate, setInputDate] = useState('');
+  const [InputcustomerName, setInputcustomerName] = useState('');
   const filterSalesData = () => {
-    // Only filter if the user has clicked the Search button
     if (searchButtonClicked) {
-      const filteredData = salesData.filter((sale) => {
-        const billNumberMatch = !billNumber || sale.Item_ItemId.includes(billNumber);
-        const dateMatch = !transactionDate || sale.Item_ItemId.includes(transactionDate);
-        console.log('Customer input:', customer);
-        const customerMatch = !customer || (
-          (sale.fertilizerName && sale.fertilizerName.includes(customer))
-        );
+      console.log('customerID input:', InputcustomerID);
+      console.log('customerName input:', InputcustomerName);
+      console.log('InputDate input:', InputDate);
 
-        if (billNumber && transactionDate && customer) {
-          return billNumberMatch && dateMatch && customerMatch;
-        } else if (billNumber && customer) {
-          return billNumberMatch && customerMatch;
-        } else if (transactionDate && customer) {
-          return dateMatch && customerMatch;
-        } else if (billNumber && transactionDate) {
-          return billNumberMatch && dateMatch;
-        } else if (billNumber) {
-          return billNumberMatch;
-        } else if (transactionDate) {
-          return dateMatch;
-        } else if (customer) {
-          return customerMatch;
-        }
+      const filteredData = posts.filter((sale) => {
+        const inputCustomerIDMatch = !InputcustomerID || sale.OrderId.includes(InputcustomerID);
+        // Extracting the date part from the API response
+        const apiDate = sale.OrderDate.split(' ')[0];
+        // Comparing with the extracted date part
+        const inputDateMatch = !InputDate || apiDate.includes(InputDate);
+        const inputCustomerNameMatch = !InputcustomerName || sale.CustomerName.includes(InputcustomerID);
 
-        return true; // No search criteria, so include all data
+        return InputcustomerID && InputcustomerName && InputDate
+          ? inputCustomerIDMatch && inputCustomerNameMatch && inputDateMatch
+          : InputcustomerID && InputcustomerName
+            ? inputCustomerIDMatch && inputCustomerNameMatch
+            : InputcustomerID && InputDate
+              ? inputCustomerIDMatch && inputDateMatch
+              : InputcustomerName && InputDate
+                ? inputCustomerNameMatch && inputDateMatch
+                : InputcustomerID
+                  ? inputCustomerIDMatch
+                  : InputcustomerName
+                    ? inputCustomerNameMatch
+                    : InputDate
+                      ? inputDateMatch
+                      : true;
       });
 
-      // Set isDropdownOpen to false for all items in salesData
-      setSalesData((prevSalesData) =>
-        prevSalesData.map((item) => ({ ...item, isDropdownOpen: false }))
-      );
-
-      // Set isDropdownOpen to false for all items in filteredData
-      const filteredDataWithDropdown = filteredData.map((item) => ({
-        ...item,
-        isDropdownOpen: false,
-      }));
-
-      setFilteredSalesData(filteredDataWithDropdown);
+      setFilteredSalesData(filteredData);
     }
   };
-
+  const displayData = searchButtonClicked ? filteredSalesData : posts;
   useEffect(() => {
-    if (searchButtonClicked) {
-      filterSalesData();
-    }
+    filterSalesData();
   }, [searchButtonClicked]);
 
+  //เพิ่มสินค้าใหม่
+  const [isDropdownAdd, setIsDropdownAdd] = useState(false);
+  const toggleDropdownAdd = () => {
+    setIsDropdownAdd((prev) => !prev);
+  };
+
+  //resat button
   const handleReset = () => {
     // Reset input values
-    setBillNumber('');
-    setTransactionDate('');
-    setCustomer('');
+    setInputcustomerID('');
+    setInputcustomerName('');
 
     // Clear the filtered data
     setFilteredSalesData([]);
-
-    // Set isDropdownOpen to false for all items in salesData
-    setSalesData((prevSalesData) =>
-      prevSalesData.map((item) => ({ ...item, isDropdownOpen: false }))
-    );
 
     // Set searchButtonClicked to false to display all data
     setSearchButtonClicked(false);
   };
 
-  //วางไว้หลัง fetsh ค่า และ filter
-  const displayData = searchButtonClicked ? filteredSalesData : salesData;
+  // ---------- Nav Bar ----------
+  const [asideVisible, setAsideVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState({
+    venta: false,
+    resumen: false,
+    financiero: false,
+    stock: false,
+    clientes: false,
+  });
 
-  //kbub
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleDropdown = (index, action) => {
-    setSalesData((prevSalesData) => {
-      const updatedSalesData = [...prevSalesData];
-      updatedSalesData[index] = {
-        ...updatedSalesData[index],
-        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
-      };
-
-      // Get the Item_ItemId of the selected row
-      const canceledItemId = updatedSalesData[index]?.Item_ItemId;
-
-      // Open the modal only when the "ยกเลิกรายการ" button is clicked
-      if (action === 'cancel') {
-        setIsModalOpen(canceledItemId);
-      } else {
-        setIsModalOpen(false);
-      }
-
-      return updatedSalesData;
-    });
-
-    // Update isDropdownOpen state for the corresponding item in filteredSalesData
-    setFilteredSalesData((prevFilteredSalesData) => {
-      const updatedFilteredSalesData = [...prevFilteredSalesData];
-      updatedFilteredSalesData[index] = {
-        ...updatedFilteredSalesData[index],
-        isDropdownOpen: !updatedFilteredSalesData[index]?.isDropdownOpen,
-      };
-
-      // Open the modal only when the "ยกเลิกรายการ" button is clicked
-      if (action === 'cancel') {
-        setIsModalOpen(
-          updatedFilteredSalesData.length
-            ? updatedFilteredSalesData[index]?.Item_ItemId
-            : canceledItemId
-        );
-      } else {
-        setIsModalOpen(false);
-      }
-
-      return updatedFilteredSalesData;
-    });
+  const handleDropdownToggle = (key) => {
+    setDropdownVisible((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
+  };
 
+  useEffect(() => {
+    const isClient = typeof window !== 'undefined';
+    if (isClient) {
+      document.addEventListener('click', handleDropdownClick);
+
+      return () => {
+        document.removeEventListener('click', handleDropdownClick);
+      };
+    }
+  }, []);
+
+  const toggleAside = () => {
+    setAsideVisible((prev) => !prev);
+  };
+
+  // ---------- Nav Bar ----------
 
   return (
     <>
-      <body>
-        <Sidebar />
-        <div className="" style={{ width: '100%' }}>
+      <head>
+        <title>Product</title>
+      </head>
+      <body style={{ width: '100%' }}>
+        <Navbar toggleAside={toggleAside} />
+        <div className="flex flex-1">
+          <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
+          <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
 
-          <div class="m-4 border-solid border-2 rounded">
-            <div class="p-4 bg-[#777777] font-bold text-white">
-              ค้นหาข้อมูล
-            </div>
+            <div class="m-4 border-solid border-2 rounded">
+              <div class="p-4 bg-[#777777] font-bold text-white">
+                ค้นหาข้อมูล
+              </div>
 
-            <div class="p-4">
-              <div class="flex -mx-2">
-                <div class="w-1/3 px-2">
-                  <form action="" method="get">
-                    <label for="customer">เลขที่บิล</label>
-                    <input type="text" list="customer"
-                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกเลขที่บิล" />
-                    <datalist id="customer">
-                      {/* {this.fertilizers.map(item =>
-                        <option key={item} value={item.Item_ItemId} />
-                      )} */}
-                    </datalist>
-                  </form>
-                </div>
-                <div class="w-1/3 px-2">
-                  <div class="h-12">
-                    <div class="mb-4">
-                      <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
-                        วันที่
-                      </label>
-                      <input
-                        value={transactionDate}
-                        onChange={(e) => setTransactionDate(e.target.value)}
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" type="date" placeholder="date" />
+              <div class="p-4">
+                <div class="flex -mx-2">
+                  <div class="w-1/3 px-2">
+                    <div class="h-12">
+                      <div class="mb-4">
+                        <form action="" method="get">
+                          <label for="customerID">รหัสสินค้า</label>
+                          <input
+                            value={InputcustomerID}
+                            onChange={(e) => setInputcustomerID(e.target.value)}
+                            type="text" list="customerID"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกรหัสสินค้า" />
+                          <datalist id="customerID">
+                            {customerIdOptions}
+                          </datalist>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-1/3 px-2">
+                    <div class="h-12">
+                      <div class="mb-4">
+                        <form action="" method="get">
+                          <label for="InputDate">วันที่</label>
+                          <input
+                            value={InputDate}
+                            onChange={(e) => setInputDate(e.target.value)}
+                            type="date"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-1/3 px-2">
+                    <div class="h-12">
+                      <div class="mb-4">
+                        <form action="" method="get">
+                          <label for="customerName">ชื่อสินค้า</label>
+                          <input
+                            value={InputcustomerName}
+                            onChange={(e) => setInputcustomerName(e.target.value)}
+                            type="text" list="customerName"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกชื่อสินค้า" />
+                          <datalist id="customerName">
+                            {customerNameOptions}
+                          </datalist>
+                        </form>
+
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="w-1/3 px-2">
-                  <div class="h-12">
-                    <div class="mb-4">
-                      <label class="block text-gray-700 text-sm font-bold mb-2" for="customer">
-                        ลูกค้า
-                      </label>
-                      <input
-                        value={customer}
-                        onChange={(e) => setCustomer(e.target.value)}
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="customer" type="text" placeholder="กรอกชื่อลูกค้า" />
-                    </div>
-                  </div>
+              </div>
+
+              <div class="p-4 flex flex-row-reverse">
+                <div class="ps-4">
+                  <button onClick={handleReset}
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    รีเซต
+                  </button>
+                </div>
+                <div class="ps-4">
+                  <button
+                    onClick={() => {
+                      setSearchButtonClicked(true);
+                      filterSalesData();
+                    }}
+                    class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                      <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                    <span>ค้นหา</span>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div class="p-4 flex flex-row-reverse">
-              <div class="ps-4">
-                <button
-                  onClick={handleReset}
-                  class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                  รีเซต
-                </button>
-              </div>
-              <div class="ps-4">
-                <button
-                  onClick={() => setSearchButtonClicked(true)}
-                  class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                  </svg>
-                  <span>ค้นหา</span>
-                </button>
+            <div class="font-bold mx-4 mt-8">ประวัติการขายสินค้า</div>
 
-              </div>
-            </div>
-          </div>
-
-          <div class="flex justify-between mx-4 mt-8">
-            <div class="font-bold">ประวัติการขายสินค้า</div>
-          </div>
-
-          <div class="flex flex-col m-4">
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                  <table class="min-w-full text-center text-sm font-light">
-                    <thead
-                      class="border-b bg-[#777777] font-medium text-white">
-                      <tr>
-                        <th scope="col" class=" px-6 py-4">#</th>
-                        <th scope="col" class=" px-6 py-4">เลขที่บิล</th>
-                        <th scope="col" class=" px-6 py-4">วันที่ทำรายการ</th>
-                        <th scope="col" class=" px-6 py-4">ยอดขาย</th>
-                        <th scope="col" class=" px-6 py-4">พนักงาน</th>
-                        <th scope="col" class=" px-6 py-4">ลูกค้า</th>
-                        <th scope="col" class=" px-6 py-4">หมายเหตุ</th>
-                        <th scope="col" class=" px-6 py-4">คำสั่ง</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displayData.map((sale, index) => (
-                        <tr class="border-b dark:border-neutral-500" key={index}>
-                          <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.Item_ItemId}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerPrice}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.fertilizerName}</td>
-                          <td class="whitespace-nowrap  px-6 py-4 ">
-                            <div class="direc">
-                              <button id="dots"
-                                onClick={() => toggleDropdown(index)}
-                                class="block p-2 bg-white bg-gray-100 rounded-md">
-                                <svg class="h-6 w-6 text-gray-500 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <circle cx="12" cy="12" r="1" />  <circle cx="12" cy="5" r="1" />  <circle cx="12" cy="19" r="1" /></svg>
-                              </button>
-
-                              {sale.isDropdownOpen && (
-                                <div class="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
-                                  <button
-                                    class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
-                                    <div class="flex items-start p-1">
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 mr-1">
-                                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
-                                      <span>รายละเอียดบิล</span>
-                                    </div>
-                                  </button>
-                                  <button id="cancle"
-                                    onClick={() => toggleDropdown(index, 'cancel')}
-                                    class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
-                                    <div class="flex items-start p-1">
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                      </svg>
-                                      <span>ยกเลิกรายการ</span>
-                                    </div>
-                                  </button>
-                                </div>
-                              )}
-
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                      {salesData.length === 0 && (
-                        <tr>
-                          <td colspan="8" class="text-center py-4">No data available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+            <div class="flex flex-col m-4">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div class="overflow-hidden">
+                    <Posts posts={displayData} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {isModalOpen && <Modal itemId={isModalOpen} />}
-        {/* <TestS2/> */}
       </body>
     </>
   );
-
 }
