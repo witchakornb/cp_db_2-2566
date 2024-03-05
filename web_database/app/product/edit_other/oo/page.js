@@ -6,8 +6,8 @@ import styles from "./edit_other.css";
 import axios from 'axios';
 
 // export default function Page() {
-export default async function EditFertilizer({ itemId }) {
-  console.log("itemId ",itemId);
+export default async function EditFertilizer({ params }) {
+  console.log("itemId ",params.oo);
   
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
@@ -78,7 +78,7 @@ export default async function EditFertilizer({ itemId }) {
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`,
           {
-            Item_ItemId: itemId,
+            Item_ItemId: params.oo,
           },
           {
             withCredentials: true,
