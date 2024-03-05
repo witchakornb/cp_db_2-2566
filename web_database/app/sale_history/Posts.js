@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import styles from "./sale_history.css";
 import axios from 'axios';
-import EditFertilizer from "../product/edit_fertilizer/page";
+import EditFertilizer from "../product/edit_fertilizer/[slug]/page";
 import { useState, useEffect } from "react";
 const Swal = require('sweetalert2')
 
@@ -80,12 +80,8 @@ const Posts = ({ posts }) => {
                             <td class="whitespace-nowrap  px-6 py-4">{post.OrderNote}</td>
                             <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
-                                    <Link
-                                        href={{
-                                            pathname: '/sale_history/bill_detail',
-                                            query: {
-                                                ItemId: post.OrderId
-                                            }
+                                    <Link href={{
+                                            pathname: `/sale_history/${post.OrderId}`,
                                         }}
                                     >
                                         <button

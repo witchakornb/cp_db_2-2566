@@ -69,7 +69,7 @@ export default function Sell() {
   return (
     <>
       <head>
-        <title>Add Chemical</title>
+        <title>Add Fertilizer</title>
       </head>
       <body>
         <Navbar toggleAside={toggleAside} />
