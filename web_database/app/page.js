@@ -1,58 +1,73 @@
 'use client';
-import Image from "next/image";
-import Link from "next/link";
-import RootLayout from "./layout";
-import styles from "./login.css";
-// import axios from 'axios';
+import axios from "axios";
+import { useRouter } from 'next/navigation'
+import './login.css'
+import Swal from 'sweetalert2'
+
 
 export default function Login() {
-  const ooo = async () => {
-    // Get username and password values from input elements
-    const username = document.querySelector('input[name=username]').value;
-    const password = document.querySelector('input[name=password]').value;
-    console.log(username);
-    console.log(password);
-    alert("ggggggggggggg")
-    console.log(process.env.NEXT_PUBLIC_IP);
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/login`,
-      {
-        username: username,
-        password: password,
-      }, {
-      withCredentials: true
-    });
-    console.log(response.data);
-    alert("iiiiiiiiiiiii")
-  };
+  const Swal = require('sweetalert2')
+  const router = useRouter()
 
+  async function handleSubmit(event) {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const username_form = formData.get('username')
+    const password_form = formData.get('password')
+    const payload = new URLSearchParams({
+      username: username_form,
+      password: password_form
+    });
+    try {
+      const response = await axios.post('http://10.48.104.125:8080/login', payload, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "เข้าสู่ระบบสำเร็จ",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        router.push('/sale')
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "เข้าสู่ระบบไม่สำเร็จ",
+        text: "กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ถูกต้อง"
+      });
+    }
+  }
   return (
     <>
-      <head>
-        <title>Login</title>
-        <link rel="icon" type="image/x-icon" href="/logo3.png" />
-      </head>
       <body>
         <div className="container">
-          <div className="login-box">
-            <div className="box-1">
-              <img className="img-logo" src="/logo3.png" width={120} height={100} alt="logo" />
-            </div>
-            <div className="box-2">
-              <h2>ระบบบริหารร้านค้า</h2>
-              <h4>กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้ระบบ</h4>
-              <div className="input-box">
-                <label for="username">ชื่อผู้ใช้งาน</label><br />
-                <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br />
-                <label for="password">รหัสผ่าน</label><br />
-                <input type="password" name="password" placeholder="กรอกรหัสผ่าน" /><br />
-                <button type="submit" href="/sale" onClick={ooo}>เข้าสู่ระบบ</button>
-                <br />
-                <div class="forget_btn">
-                  <a href="/forget_password">ลืมรหัสผ่าน</a>
+          <form onSubmit={handleSubmit}>
+            <div className="login-box">
+              <div className="box-1">
+                <img className="img-logo" src="/logo3.png" width={120} height={100} alt="logo" />
+              </div>
+              <div className="box-2">
+                <h2>ระบบบริหารร้านค้า</h2>
+                <h4>กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้ระบบ</h4>
+                <div className="input-box">
+                  <label htmlFor="username">ชื่อผู้ใช้งาน</label><br />
+                  <input type="text" name="username" placeholder="กรอกชื่อผู้ใช้" /><br />
+                  <label htmlFor="password">รหัสผ่าน</label><br />
+                  <input type="password" name="password" placeholder="กรอกรหัสผ่าน" /><br />
+                  <button type="submit">เข้าสู่ระบบ</button>
+                  <br />
+                  <div className="forget_btn">
+                    <a href="/forget_password">ลืมรหัสผ่าน</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </body>
     </>

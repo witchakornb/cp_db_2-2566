@@ -1,4 +1,8 @@
-a{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;  
+
+/* a{
      text-decoration: none;
 }
 body{
@@ -47,4 +51,4 @@ form .btn-box a{
      color:black;
      background-color: #D9D9D9;
      border-radius: 5px;
-}
+} */

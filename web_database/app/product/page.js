@@ -1,22 +1,18 @@
 'use client';
-
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./product.css";
-
-import { useState, useEffect } from "react";
+import Posts from "./Posts";
 import axios from 'axios';
+import { useState, useEffect } from "react";
 
-export default function Product() {
+export default function Customer() {
 
-  //เพิ่มสินค้าใหม่
-  const [isDropdownAdd, setIsDropdownAdd] = useState(false);
-  const toggleDropdownAdd = () => {
-    setIsDropdownAdd((prev) => !prev);
-  };
+  // get Data Api
+  const [customerIdOptions, setcustomerIdOptions] = useState([]);
+  const [customerNameOptions, setcustomerNameOptions] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  //get Data Api
-  const [salesData, setSalesData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,56 +24,92 @@ export default function Product() {
         const crafts = Craft || [];
         const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
         console.log(allData);
-        setSalesData(allData);
+        setPosts(allData);
+
+        // Set options for search
+        const optionsCustomerId = allData.map((item) => (
+          <option key={item.Item_ItemId} value={item.Item_ItemId}></option>
+        ));
+        setcustomerIdOptions(optionsCustomerId);
+        console.log('options customerId :', optionsCustomerId);
+
+        // Helper function to get the appropriate display name based on ItemType
+        const getDisplayName = (item) => {
+          switch (item.ItemType) {
+            case "Fertilizer":
+              return item.fertilizerName;
+            case "Chemicals":
+              return item.ChemicalName;
+            case "Other":
+              return item.OtherName;
+            case "Craft":
+              return item.Craft_fertilizerName;
+            default:
+              return "";
+          }
+        };
+
+        const optionsCustomerName = allData.map((item) => (
+          <option key={item.Item_ItemId} value={getDisplayName(item)}></option>
+        ));
+        setcustomerNameOptions(optionsCustomerName);
+        console.log('options customerName :', optionsCustomerName);
+
       } catch (error) {
-        console.error('Error fetching sales data:', error);
+        console.error('Error fetching data:', error);
       }
     };
-
 
     fetchData();
   }, []);
 
-  //filter search
+  //search
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
-  const [item_id, setItem_id] = useState('');
-  const [item_name, setItem_name] = useState('');
   const [filteredSalesData, setFilteredSalesData] = useState([]);
+  const [InputcustomerID, setInputcustomerID] = useState('');
+  const [InputcustomerName, setInputcustomerName] = useState('');
   const filterSalesData = () => {
-    // Only filter if the user has clicked the Search button
     if (searchButtonClicked) {
-      const filteredData = salesData.filter(sale => {
-        const item_idMatch = !item_id || sale.Item_ItemId.includes(item_id);
-        const item_nameMatch = !item_name || (
-          (sale.fertilizerName && sale.fertilizerName.includes(item_name)) ||
-          (sale.ChemicalName && sale.ChemicalName.includes(item_name)) ||
-          (sale.OtherName && sale.OtherName.includes(item_name)) ||
-          (sale.Craft_fertilizerName && sale.Craft_fertilizerName.includes(item_name))
-        );
+      console.log('customerID input:', InputcustomerID);
+      console.log('customerName input:', InputcustomerName);
 
-        if (item_id && item_name) {
-          return item_idMatch && item_nameMatch;
-        } else if (item_id) {
-          return item_idMatch;
-        } else if (item_name) {
-          return item_nameMatch;
-        }
+      const filteredData = posts.filter((sale) => {
+        const inputCustomerIDMatch = !InputcustomerID || sale.Item_ItemId.includes(InputcustomerID);
+        const inputCustomerNameMatch =
+          !InputcustomerName ||
+          ((sale.fertilizerName && sale.fertilizerName.includes(InputcustomerName)) ||
+            (sale.ChemicalName && sale.ChemicalName.includes(InputcustomerName)) ||
+            (sale.OtherName && sale.OtherName.includes(InputcustomerName)) ||
+            (sale.Craft_fertilizerName && sale.Craft_fertilizerName.includes(InputcustomerName)));
 
-        return true; // No search criteria, so include all data
+        return InputcustomerID && InputcustomerName
+          ? inputCustomerIDMatch && inputCustomerNameMatch
+          : InputcustomerID
+            ? inputCustomerIDMatch
+            : InputcustomerName
+              ? inputCustomerNameMatch
+              : true;
       });
 
       setFilteredSalesData(filteredData);
     }
   };
-
+  const displayData = searchButtonClicked ? filteredSalesData : posts;
   useEffect(() => {
     filterSalesData();
   }, [searchButtonClicked]);
 
+  //เพิ่มสินค้าใหม่
+  const [isDropdownAdd, setIsDropdownAdd] = useState(false);
+  const toggleDropdownAdd = () => {
+    setIsDropdownAdd((prev) => !prev);
+  };
+
+  //resat button
   const handleReset = () => {
     // Reset input values
-    setItem_id('');
-    setItem_name('');
+    setInputcustomerID('');
+    setInputcustomerName('');
 
     // Clear the filtered data
     setFilteredSalesData([]);
@@ -86,43 +118,14 @@ export default function Product() {
     setSearchButtonClicked(false);
   };
 
-  //วางไว้หลัง fetsh ค่า และ filter
-  const displayData = searchButtonClicked ? filteredSalesData : salesData;
-
-  //ปุ่ม kbub
-  const toggleDropdown = (index, action) => {
-    setSalesData((prevSalesData) => {
-      const updatedSalesData = [...prevSalesData];
-      updatedSalesData[index] = {
-        ...updatedSalesData[index],
-        isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
-      };
-
-      return updatedSalesData;
-    });
-  };
-
-  //delete item
-  const handleCancelItem = (itemId) => {
-    // ทำสิ่งที่คุณต้องการก่อนส่ง HTTP request เช่น แสดง confirm modal หรือตรวจสอบการกรอกข้อมูล
-    console.log(itemId);
-    // const response = await axios.post(`${ process.env.NEXT_PUBLIC_IP } / delete_item`,
-    //   {
-    //     itemId,
-    //   },
-    //   {
-    //     withCredentials: true,
-    //   });
-  };
-
-
   return (
     <>
       <head>
-        <title>Product</title>
+        <title>Customer</title>
       </head>
       <body>
-        <div className="">
+        <div className="" style={{ width: '100%' }}>
+
           <div class="m-4 border-solid border-2 rounded">
             <div class="p-4 bg-[#777777] font-bold text-white">
               ค้นหาข้อมูล
@@ -133,26 +136,35 @@ export default function Product() {
                 <div class="w-1/2 px-2">
                   <div class="h-12">
                     <div class="mb-4">
-                      <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                        รหัสสินค้า
-                      </label>
-                      <input
-                        value={item_id}
-                        onChange={(e) => setItem_id(e.target.value)}
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="รหัสสินค้า" />
+                      <form action="" method="get">
+                        <label for="customerID">รหัสสินค้า</label>
+                        <input
+                          value={InputcustomerID}
+                          onChange={(e) => setInputcustomerID(e.target.value)}
+                          type="text" list="customerID"
+                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกรหัสสินค้า" />
+                        <datalist id="customerID">
+                          {customerIdOptions}
+                        </datalist>
+                      </form>
                     </div>
                   </div>
                 </div>
                 <div class="w-1/2 px-2">
                   <div class="h-12">
                     <div class="mb-4">
-                      <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                        ชื่อสินค้า
-                      </label>
-                      <input
-                        value={item_name}
-                        onChange={(e) => setItem_name(e.target.value)}
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="ชื่อสินค้า" />
+                      <form action="" method="get">
+                        <label for="customerName">ชื่อสินค้า</label>
+                        <input
+                          value={InputcustomerName}
+                          onChange={(e) => setInputcustomerName(e.target.value)}
+                          type="text" list="customerName"
+                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกชื่อสินค้า" />
+                        <datalist id="customerName">
+                          {customerNameOptions}
+                        </datalist>
+                      </form>
+
                     </div>
                   </div>
                 </div>
@@ -161,8 +173,7 @@ export default function Product() {
 
             <div class="p-4 flex flex-row-reverse">
               <div class="ps-4">
-                <button
-                  onClick={handleReset}
+                <button onClick={handleReset}
                   class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                   รีเซต
                 </button>
@@ -252,111 +263,12 @@ export default function Product() {
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                  <table class="min-w-full text-center text-sm font-light">
-                    <thead
-                      class="border-b bg-[#777777] font-medium text-white">
-                      <tr>
-                        <th scope="col" class=" px-6 py-4">#</th>
-                        <th scope="col" class=" px-6 py-4">รหัสสินค้า</th>
-                        <th scope="col" class=" px-6 py-4">ชื่อสินค้า</th>
-                        <th scope="col" class=" px-6 py-4">ประเภท</th>
-                        <th scope="col" class=" px-6 py-4">ราคาที่ขาย</th>
-                        <th scope="col" class=" px-6 py-4">จำนวน</th>
-                        <th scope="col" class=" px-6 py-4">หน่วย</th>
-                        <th scope="col" class=" px-6 py-4">คำสั่ง</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displayData.map((sale, index) => (
-                        <tr class="border-b dark:border-neutral-500" key={index}>
-                          <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
-                          <td class="whitespace-nowrap  px-6 py-4">{sale.Item_ItemId}</td>
-                          {sale.ItemType === "Fertilizer" && (
-                            <>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.fertilizerName}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.fertilizerPrice}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
-                            </>
-                          )}
-                          {sale.ItemType === "Chemicals" && (
-                            <>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ChemicalName}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ChemicalPrice}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
-                            </>
-                          )}
-                          {sale.ItemType === "Craft" && (
-                            <>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.Craft_fertilizerName}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.Craft_fertilizerPrice}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
-                            </>
-                          )}
-                          {sale.ItemType === "Other" && (
-                            <>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.OtherName}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.OtherPrice}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemType}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.ItemAmount}</td>
-                              <td className="whitespace-nowrap px-6 py-4">{sale.UnitName}</td>
-                            </>
-                          )}
-                          <td class="whitespace-nowrap  px-6 py-4 ">
-                            <div class="direc">
-                              <button id="dots"
-                                onClick={() => toggleDropdown(index)}
-                                class="block p-2 bg-white bg-gray-100 rounded-md">
-                                <svg class="h-6 w-6 text-gray-500 " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  <circle cx="12" cy="12" r="1" />  <circle cx="12" cy="5" r="1" />  <circle cx="12" cy="19" r="1" /></svg>
-                              </button>
-
-                              {sale.isDropdownOpen && (
-                                <div class="absolute mt-2 right-8 w-40 bg-white bg-gray-100 rounded-md shadow-xl z-10 ">
-                                  <button
-                                    class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
-                                    <div class="flex items-start p-1">
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                      </svg>
-                                      <span>แก้ไขข้อมูล</span>
-                                    </div>
-                                  </button>
-                                  <button id="cancle"
-                                    onClick={() => handleCancelItem(sale.Item_ItemId)}
-                                    class="w-full block px-2 py-2 text-sm text-gray-300 text-gray-700 hover:bg-gray-400 hover:text-white">
-                                    <div class="flex items-start p-1">
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                      </svg>
-                                      <span>ยกเลิกรายการ</span>
-                                    </div>
-                                  </button>
-                                </div>
-                              )}
-
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                      {salesData.length === 0 && (
-                        <tr>
-                          <td colspan="8" class="text-center py-4">No data available</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                  <Posts posts={displayData} />
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-
       </body>
     </>
   );

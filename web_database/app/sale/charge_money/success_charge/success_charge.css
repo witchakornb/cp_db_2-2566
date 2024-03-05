@@ -1,4 +1,7 @@
-a{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;  
+/* a{
      text-decoration: none;
 }
 body{
@@ -6,7 +9,6 @@ body{
      align-items: center;
      justify-content: center;
      height: 90vh;
-     background-color: rgba(255, 255, 255, 0.2);
 }
 .box-alert{
      border: 1px solid;
@@ -45,4 +47,4 @@ body{
 .btn-box a span img.icon{
      margin-bottom: -0.25rem;
      width: 1rem;
-}
+} */

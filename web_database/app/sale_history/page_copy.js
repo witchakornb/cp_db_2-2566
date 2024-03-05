@@ -18,7 +18,7 @@ export default function SaleHistory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big`);
         const { Fertilizer, Chemicals, Other, Craft } = response.data;
         const fertilizers = Fertilizer || [];
         const chemicals = Chemicals || [];
@@ -34,6 +34,9 @@ export default function SaleHistory() {
         console.error('Error fetching sales data:', error);
       }
     };
+
+
+
     fetchData();
   }, []);
 
@@ -92,7 +95,7 @@ export default function SaleHistory() {
     if (searchButtonClicked) {
       filterSalesData();
     }
-  }, [searchButtonClicked]);
+  }, [searchButtonClicked]);  
 
   const handleReset = () => {
     // Reset input values
@@ -124,20 +127,20 @@ export default function SaleHistory() {
         ...updatedSalesData[index],
         isDropdownOpen: !updatedSalesData[index]?.isDropdownOpen,
       };
-
+  
       // Get the Item_ItemId of the selected row
       const canceledItemId = updatedSalesData[index]?.Item_ItemId;
-
+  
       // Open the modal only when the "ยกเลิกรายการ" button is clicked
       if (action === 'cancel') {
         setIsModalOpen(canceledItemId);
       } else {
         setIsModalOpen(false);
       }
-
+  
       return updatedSalesData;
     });
-
+  
     // Update isDropdownOpen state for the corresponding item in filteredSalesData
     setFilteredSalesData((prevFilteredSalesData) => {
       const updatedFilteredSalesData = [...prevFilteredSalesData];
@@ -145,7 +148,7 @@ export default function SaleHistory() {
         ...updatedFilteredSalesData[index],
         isDropdownOpen: !updatedFilteredSalesData[index]?.isDropdownOpen,
       };
-
+  
       // Open the modal only when the "ยกเลิกรายการ" button is clicked
       if (action === 'cancel') {
         setIsModalOpen(
@@ -156,13 +159,13 @@ export default function SaleHistory() {
       } else {
         setIsModalOpen(false);
       }
-
+  
       return updatedFilteredSalesData;
     });
   };
+  
 
-
-
+  
   return (
     <>
       <body>
@@ -177,16 +180,17 @@ export default function SaleHistory() {
             <div class="p-4">
               <div class="flex -mx-2">
                 <div class="w-1/3 px-2">
-                  <form action="" method="get">
-                    <label for="customer">เลขที่บิล</label>
-                    <input type="text" list="customer"
-                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="กรอกเลขที่บิล" />
-                    <datalist id="customer">
-                      {/* {this.fertilizers.map(item =>
-                        <option key={item} value={item.Item_ItemId} />
-                      )} */}
-                    </datalist>
-                  </form>
+                  <div class="h-12">
+                    <div class="mb-4">
+                      <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        เลขที่บิล
+                      </label>
+                      <input
+                        value={billNumber}
+                        onChange={(e) => setBillNumber(e.target.value)}
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="กรอกเลขที่บิล" />
+                    </div>
+                  </div>
                 </div>
                 <div class="w-1/3 px-2">
                   <div class="h-12">
