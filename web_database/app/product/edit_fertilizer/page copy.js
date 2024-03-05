@@ -72,6 +72,7 @@ export default function Sell() {
         <div className="flex flex-1">
           <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
           <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
+            
             <h2 className="font-bold text-xl mb-5">ข้อมูลปุ๋ย</h2>
             <form action="#" method="post">
               <div className="flex items-start mb-5">

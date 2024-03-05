@@ -1,5 +1,8 @@
 'use client'
 import { useState, useEffect } from "react";
+import Sidebar from "../../Sidebar";
+import Navbar from "../../Navbar";
+
 import axios from 'axios';
 
 // export default function Page() {
@@ -141,59 +144,170 @@ export default function EditFertilizer({ itemId }) {
     };
     reader.readAsDataURL(image);
   };
+  // ---------- Nav Bar ----------
+  const [asideVisible, setAsideVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState({
+    venta: false,
+    resumen: false,
+    financiero: false,
+    stock: false,
+    clientes: false,
+  });
 
+  const handleDropdownToggle = (key) => {
+    setDropdownVisible((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
+  };
+
+  useEffect(() => {
+    const isClient = typeof window !== 'undefined';
+    if (isClient) {
+      document.addEventListener('click', handleDropdownClick);
+
+      return () => {
+        document.removeEventListener('click', handleDropdownClick);
+      };
+    }
+  }, []);
+
+  const toggleAside = () => {
+    setAsideVisible((prev) => !prev);
+  };
+
+  // ---------- Nav Bar ----------
   // ItemUnitId[0].
   return (
-    <div className='mb-16'>
-      <form onSubmit={onSubmit} method="post">
-        <div>
-          {image ? (
-            <img src={URL.createObjectURL(image)} alt="Uploaded Image" />
-          ) : (
-            <img src={`data:image/jpeg;base64,${dataPreset.ItemPhoto}`} alt="logo" />
-            // <h1>hi</h1>
-          )}
-          <label htmlFor="sdfsf">บันทุึกรูปภาพ: </label>
-          <input type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
+    <>
+      <head>
+        <title>Edit Fertilizer</title>
+      </head>
+      <body style={{ width: '100%' }}>
+        <Navbar toggleAside={toggleAside} />
+        <div className="flex flex-1">
+          <Sidebar asideVisible={asideVisible} handleDropdownToggle={handleDropdownToggle} handleDropdownClick={handleDropdownClick} dropdownVisible={dropdownVisible} />
+          <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
+
+            <div className="w-full">
+              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลปุ๋ย</h2>
+              <div className='mb-16'>
+
+                <form onSubmit={onSubmit} method="post">
+                  <div className="flex items-start mb-5">
+
+                    <label
+                      for="number"
+                      className="inline-block w-40 mr-6 text-left text-black"
+                    >
+                      ภาพสินค้า
+                    </label>
+
+                    <div className="mb-5 block m-auto">
+                      {image ? (
+                        <img className="w-40 h-40" src={URL.createObjectURL(image)} alt="Uploaded Image" />
+                      ) : (
+                        <img className="w-40 h-40" src={`data:image/jpeg;base64,${dataPreset.ItemPhoto}`} alt="logo" />
+                        // <h1>hi</h1>
+                      )}
+                      <div className="flex">
+                        <label htmlFor="sdfsf" className="w-40 mt-5">บันทึกรูปภาพ: </label>
+                        <input 
+                        className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
+                        type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">รหัสสินค้า: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="Item_ItemId" value={dataPreset.Item_ItemId} readOnly /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">ชื่อปุ๋ย: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="FertilizerName" value={dataPreset.FertilizerName} onChange={e => setDataPreset({ ...dataPreset, FertilizerName: e.target.value })} /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="FertilizerFormulaName" value={dataPreset.FertilizerFormulaName} onChange={e => setDataPreset({ ...dataPreset, FertilizerFormulaName: e.target.value })} /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="FertilizerType" value={dataPreset.FertilizerType} onChange={e => setDataPreset({ ...dataPreset, FertilizerType: e.target.value })} /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">ราคาขาย: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="number" name="FertilizerPrice" value={dataPreset.FertilizerPrice} onChange={e => setDataPreset({ ...dataPreset, FertilizerPrice: e.target.value })} min={0} /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">หน่วยนับ: </label>
+                    <select
+                      className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      name="ItemUnitId">
+                      {ItemUnitId.map(unit => (
+                        <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.ItemUnitId}>
+                          {unit.UnitName}
+                        </option>
+                      ))}
+                    </select><br /><br />
+                  </div>
+                  <div className="relative mb-4 flex flex-wrap items-stretch">
+                    <label
+                      className="flex items-center w-40 mr-1 text-left text-black"
+                      htmlFor="sdfsf">ปริมาณ: </label>
+                    <input
+                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
+                      type="number" name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0} />
+                   
+                    <div className="inline-block relative">
+                      <select
+                        className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        name="FertilizerUnitId">
+                        {fertilizerUnitId.map(unit => (
+                          <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.FertilizerUnitId}>
+                            {unit.UnitName}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-right mt-10">
+                    <button type="submit" className="py-2 px-6 text-white rounded-md" style={{ background: "#00A84F" }}>บันทึก</button>
+                    <button className="py-2 px-6 ms-4 text-black rounded-md" style={{ background: "#D9D9D9" }}>ยกเลิก</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <label htmlFor="sdfsf">รหัสสินค้า: </label>
-        <input type="text" name="Item_ItemId" value={dataPreset.Item_ItemId} readOnly /><br /><br />
-
-        <label htmlFor="sdfsf">ชื่อปุ๋ย: </label>
-        <input type="text" name="FertilizerName" value={dataPreset.FertilizerName} onChange={e => setDataPreset({ ...dataPreset, FertilizerName: e.target.value })} /><br /><br />
-
-        <label htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
-        <input type="text" name="FertilizerFormulaName" value={dataPreset.FertilizerFormulaName} onChange={e => setDataPreset({ ...dataPreset, FertilizerFormulaName: e.target.value })} /><br /><br />
-
-        <label htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
-        <input type="text" name="FertilizerType" value={dataPreset.FertilizerType} onChange={e => setDataPreset({ ...dataPreset, FertilizerType: e.target.value })} /><br /><br />
-
-        <label htmlFor="sdfsf">ราคาขาย: </label>
-        <input type="number" name="FertilizerPrice" value={dataPreset.FertilizerPrice} onChange={e => setDataPreset({ ...dataPreset, FertilizerPrice: e.target.value })} min={0} /><br /><br />
-
-        <label htmlFor="sdfsf">หน่วยนับ: </label>
-        <select name="ItemUnitId">
-          {ItemUnitId.map(unit => (
-            <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.ItemUnitId}>
-              {unit.UnitName}
-            </option>
-          ))}
-        </select><br /><br />
-
-        <label htmlFor="sdfsf">ปริมาณ: </label>
-        <input type="number" name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0} />
-
-        <select className="ml-2" name="FertilizerUnitId">
-          {fertilizerUnitId.map(unit => (
-            <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.FertilizerUnitId}>
-              {unit.UnitName}
-            </option>
-          ))}
-        </select><br /><br />
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+      </body>
+    </>
   );
 }
