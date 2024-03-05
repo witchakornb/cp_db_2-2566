@@ -34,7 +34,7 @@ const Posts = ({ posts }) => {
         try {
             setPosts(posts.filter((p) => p.Item_ItemId != post.Item_ItemId))
             console.log("ItemId : ", post.Item_ItemId);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/show_all_item_big/remove`,
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/show_all_item_big/remove`,
                 {
                     ItemId: post.Item_ItemId,
                 },
@@ -42,6 +42,7 @@ const Posts = ({ posts }) => {
                     withCredentials: true,
                 }
             );
+            console.log("hihihihihihihi");
         } catch (error) {
             console.log(error);
         }
