@@ -1,13 +1,13 @@
 'use client'
 import { useState, useEffect } from "react";
-import Sidebar from "../../Sidebar";
-import Navbar from "../../Navbar";
+import Sidebar from "../../../Sidebar";
+import Navbar from "../../../Navbar";
 
 import axios from 'axios';
 
 // export default function Page() {
 export default async function EditFertilizer({ itemId }) {
-  console.log("itemId ",itemId);
+  console.log("itemId ",itemId.slug);
   
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
@@ -78,7 +78,7 @@ export default async function EditFertilizer({ itemId }) {
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`,
           {
-            Item_ItemId: itemId,
+            Item_ItemId: itemId.slug,
           },
           {
             withCredentials: true,
