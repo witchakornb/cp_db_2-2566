@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
-import Sidebar from "../../Sidebar";
-import Navbar from "../../Navbar";
+import Sidebar from "../../../Sidebar";
+import Navbar from "../../../Navbar";
 import styles from "./edit_other.css";
 import axios from 'axios';
 

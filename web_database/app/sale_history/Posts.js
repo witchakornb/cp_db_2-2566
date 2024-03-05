@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import styles from "./sale_history.css";
 import axios from 'axios';
-import EditFertilizer from "../product/edit_fertilizer/[slug]/page";
+import EditFertilizer from "../product/edit_fertilizer/[oo]/page";
 import { useState, useEffect } from "react";
 const Swal = require('sweetalert2')
 

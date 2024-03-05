@@ -1,14 +1,14 @@
 'use client';
 import { useState, useEffect } from "react";
-import Sidebar from "../../Sidebar";
-import Navbar from "../../Navbar";
-import styles from "./edit_craft_fertilizer.css";
+import Sidebar from "../../../Sidebar";
+import Navbar from "../../../Navbar";
+import styles from "./edit_chemical.css";
 import axios from 'axios';
 
 // export default function Page() {
-export default async function EditFertilizer({ itemId }) {
-  console.log("itemId ", itemId);
-
+export default async function EditChemical({ itemId }) {
+  console.log("itemId ",itemId);
+  
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
   const [dataPreset, setDataPreset] = useState({
@@ -179,7 +179,7 @@ export default async function EditFertilizer({ itemId }) {
   return (
     <>
       <head>
-        <title>Edit Craft Fertilizer</title>
+        <title>Edit Chemical</title>
       </head>
       <body style={{ width: '100%' }}>
         <Navbar toggleAside={toggleAside} />
@@ -210,9 +210,9 @@ export default async function EditFertilizer({ itemId }) {
                       )}
                       <div className="flex">
                         <label htmlFor="sdfsf" className="w-40 mt-5">บันทึกรูปภาพ: </label>
-                        <input
-                          className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                          type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
+                        <input 
+                        className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
+                        type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
                       </div>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ export default async function EditFertilizer({ itemId }) {
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
                       type="text" name="FertilizerName" value={dataPreset.FertilizerName} onChange={e => setDataPreset({ ...dataPreset, FertilizerName: e.target.value })} /><br /><br />
@@ -236,7 +236,7 @@ export default async function EditFertilizer({ itemId }) {
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อสามัญของเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       type="text" name="FertilizerFormulaName" value={dataPreset.FertilizerFormulaName} onChange={e => setDataPreset({ ...dataPreset, FertilizerFormulaName: e.target.value })} /><br /><br />
@@ -244,7 +244,15 @@ export default async function EditFertilizer({ itemId }) {
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
+                      htmlFor="sdfsf">ประเภทของเคมีภัณฑ์: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="FertilizerType" value={dataPreset.FertilizerType} onChange={e => setDataPreset({ ...dataPreset, FertilizerType: e.target.value })} /><br /><br />
+                  </div>
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">กลุ่มสารตาม IRAC: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md"
                       type="text" name="FertilizerType" value={dataPreset.FertilizerType} onChange={e => setDataPreset({ ...dataPreset, FertilizerType: e.target.value })} /><br /><br />
@@ -278,7 +286,7 @@ export default async function EditFertilizer({ itemId }) {
                     <input
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
                       type="number" name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0} />
-
+                   
                     <div className="inline-block relative">
                       <select
                         className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -293,120 +301,6 @@ export default async function EditFertilizer({ itemId }) {
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                       </div>
                     </div>
-                  </div>
-
-                  <h3 className="font-bold text-lg mt-10 mb-10 w-full">สูตรการผสมปุ๋ย</h3>
-
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">แม่ปุ๋ยตัวที่ 1: </label>
-                    <select
-                      className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      name="ItemUnitId">
-                      {ItemUnitId.map(unit => (
-                        <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.ItemUnitId}>
-                          {unit.UnitName}
-                        </option>
-                      ))}
-                    </select><br /><br />
-                  </div>
-
-                  <div class="relative mb-4 flex flex-wrap items-stretch">
-                    <label for="name" class="flex items-center w-40 mr-0 text-left 
-                            text-black">ปริมาณ:</label>
-                    <div className="w-40 flex">
-                      <input type="number"
-                        class="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
-                        name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0}
-                      />
-                      <div className="inline-block relative">
-                        <select
-                          class="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-6 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          name="FertilizerUnitId">
-                          {fertilizerUnitId.map(unit => (
-                            <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.FertilizerUnitId}>
-                              {unit.UnitName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">แม่ปุ๋ยตัวที่ 2: </label>
-                    <select
-                      className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      name="ItemUnitId">
-                      {ItemUnitId.map(unit => (
-                        <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.ItemUnitId}>
-                          {unit.UnitName}
-                        </option>
-                      ))}
-                    </select><br /><br />
-                  </div>
-
-                  <div class="relative mb-4 flex flex-wrap items-stretch">
-                    <label for="name" class="flex items-center w-40 mr-0 text-left 
-                            text-black">ปริมาณ:</label>
-                    <div className="w-40 flex">
-                      <input type="number"
-                        class="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
-                        name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0}
-                      />
-                      <div className="inline-block relative">
-                        <select
-                          class="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-6 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          name="FertilizerUnitId">
-                          {fertilizerUnitId.map(unit => (
-                            <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.FertilizerUnitId}>
-                              {unit.UnitName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">แม่ปุ๋ยตัวที่ 3: </label>
-                    <select
-                      className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      name="ItemUnitId">
-                      {ItemUnitId.map(unit => (
-                        <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.ItemUnitId}>
-                          {unit.UnitName}
-                        </option>
-                      ))}
-                    </select><br /><br />
-                  </div>
-
-                  <div class="relative mb-4 flex flex-wrap items-stretch">
-                    <label for="name" class="flex items-center w-40 mr-0 text-left 
-                            text-black">ปริมาณ:</label>
-                    <div className="w-40 flex">
-                      <input type="number"
-                        class="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
-                        name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0}
-                      />
-                      <div className="inline-block relative">
-                        <select
-                          class="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-6 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          name="FertilizerUnitId">
-                          {fertilizerUnitId.map(unit => (
-                            <option key={unit.UnitId} value={unit.UnitId} selected={unit.UnitId === dataPreset.FertilizerUnitId}>
-                              {unit.UnitName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
                   </div>
 
                   <div className="text-right mt-10">

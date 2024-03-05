@@ -6,9 +6,9 @@ import Navbar from "../../../Navbar";
 import axios from 'axios';
 
 // export default function Page() {
-export default async function EditFertilizer({ itemId }) {
-  console.log("itemId ",itemId.slug);
-  
+export default function EditFertilizer({ params }) {
+  console.log("itemId ", params.oo);
+
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
   const [dataPreset, setDataPreset] = useState({
@@ -72,46 +72,48 @@ export default async function EditFertilizer({ itemId }) {
     }
     alert("Update Successful");
   }
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("oooooooooooo")
-      try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`,
-          {
-            Item_ItemId: itemId.slug,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        setDataPreset(response.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-      // -------------------
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
-          {
-            withCredentials: true,
-          }
-        );
-        setItemUnitId(response.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-      // -------------------
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
-          {
-            withCredentials: true,
-          }
-        );
-        setfertilizerUnitId(response.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+
+  async function oik() {
+    console.log("oooooooooooo")
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`,
+        {
+          Item_ItemId: params.oo,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setDataPreset(response.data);
+    } catch (error) {
+      console.error('Error:', error);
     }
-    fetchData();
+    // -------------------
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
+        {
+          withCredentials: true,
+        }
+      );
+      setItemUnitId(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    // -------------------
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_product`,
+        {
+          withCredentials: true,
+        }
+      );
+      setfertilizerUnitId(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    oik()
   }, []);
 
 
@@ -210,9 +212,9 @@ export default async function EditFertilizer({ itemId }) {
                       )}
                       <div className="flex">
                         <label htmlFor="sdfsf" className="w-40 mt-5">บันทึกรูปภาพ: </label>
-                        <input 
-                        className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                        type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
+                        <input
+                          className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
+                          type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} /><br />
                       </div>
                     </div>
                   </div>
@@ -278,7 +280,7 @@ export default async function EditFertilizer({ itemId }) {
                     <input
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
                       type="number" name="FertilizerWeigth" value={dataPreset.FertilizerWeigth} onChange={e => setDataPreset({ ...dataPreset, FertilizerWeigth: e.target.value })} min={0} />
-                   
+
                     <div className="inline-block relative">
                       <select
                         className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
