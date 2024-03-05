@@ -194,7 +194,7 @@ export default function Edit_customer() {
               </div>
             </div>
 
-            <div class="m-4 border-solid border-2 rounded">
+            {/* <div class="m-4 border-solid border-2 rounded">
               <div class="p-4 bg-[#777777] font-bold text-white">
                 ข้อมูลภาษี
               </div>
@@ -226,7 +226,7 @@ export default function Edit_customer() {
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
               </div>
-            </div>
+            </div> */}
 
             <div class="p-4 flex flex-row-reverse">
               <div class="ps-4">
