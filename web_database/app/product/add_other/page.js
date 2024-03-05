@@ -12,17 +12,17 @@ export default function Sell() {
   function thisFileUpload(event) {
     const fileInput = event.target;
     const file = fileInput.files[0];
-
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-
+      
       reader.onloadend = () => {
+        console.log("hhhhhhhhhhhhhh");
         setSelectedImage(reader.result);
       };
 
       reader.readAsDataURL(file);
     } else {
-      alert("Please select a valid image file.");
+      alert("กรุณาเลือกรูปภาพที่ถูกต้อง");
     }
   }
   const [asideVisible, setAsideVisible] = useState(false);
@@ -93,11 +93,14 @@ export default function Sell() {
                 </label>
                 <div className="mb-5 block mx-auto">
                   {selectedImage ? (
-                    <img
-                      src={selectedImage}
-                      alt="photo product"
-                      className="w-40 h-40"
-                    />
+                    <>
+                      <p>{selectedImage}</p>
+                      <img
+                        src={selectedImage}
+                        alt="photo product"
+                        className="w-40 h-40"
+                      />
+                    </>
                   ) : (
                     <img
                       src="/logo.jpg"

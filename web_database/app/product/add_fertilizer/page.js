@@ -67,7 +67,7 @@ export default function Sell() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [base64String, setBase64String] = useState(''); // Initially empty
 
-  const handleFileChange = (event) => {
+    const handleFileChange = (event) => {
     const imageInput = event.target;
     const image = imageInput.files[0];
 
@@ -75,7 +75,7 @@ export default function Sell() {
       console.error('No image file selected.');
       return;
     }
-
+    setSelectedImage(image)
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -111,11 +111,6 @@ export default function Sell() {
         alert('Unsupported image format. Please select a PNG or JPEG.');
         return;
       }
-
-      // setFertilizerData((prevData) => ({
-      //   ...prevData,
-      //   OtherPhoto: base64String,
-      // }));
 
       setSelectedFile(image);
       console.log('Image File Selected:', image.name);
@@ -234,18 +229,23 @@ export default function Sell() {
     else {
       console.log('Fertilizer Data validation:', fertilizerData);
       try {
-        setLoading(true);
-        setError(null);
-
+        console.log("uuuuuuuuuuuuuuuuuuuuuuu");
+        // setLoading(true);
+        // setError(null);
+        console.log("ffffffffffffffffffffffffffffffffff");
         console.log('Fertilizer Data:', fertilizerData);
-
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_IP}/insert_customer`,
-          fertilizerData,
+        
+        console.log("ssssssssssssssssssssssssssssssssssss");
+        const response = await axios.post(`http://127.0.0.1:8080/user/insert_fertilizer`,
+          // fertilizerData,
+          {
+            Item_ItemId: "I000000001",
+          },
           {
             withCredentials: true,
           }
         );
+        console.log("llllllllllllllllllllllllllllllllllllllll");
 
         console.log('else :', fertilizerData);
         console.log(response.data);
@@ -294,7 +294,7 @@ export default function Sell() {
                 <div className="mb-5 block mx-auto">
                   {selectedImage ? (
                     <img
-                      src={selectedImage}
+                      src={"/"+selectedImage}
                       alt="photo product"
                       className="w-40 h-40"
                     />
