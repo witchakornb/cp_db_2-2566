@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import styles from "./product.css";
 import axios from 'axios';
-import EditFertilizer from "../product/edit_fertilizer/page";
+import EditFertilizer from "./edit_fertilizer/[slug]/page";
 import { useState, useEffect } from "react";
 const Swal = require('sweetalert2')
 
@@ -86,10 +86,7 @@ const Posts = ({ posts }) => {
                                 <div class="">
                                     <Link
                                         href={{
-                                            pathname: '/product/edit_fertilizer',
-                                            query: {
-                                                ItemId: post.Item_ItemId
-                                            }
+                                            pathname: `/product/edit_fertilizer/${post.Item_ItemId}`
                                         }}
                                     >
                                         <button 
