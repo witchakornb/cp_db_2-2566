@@ -33,8 +33,11 @@ const Posts = ({ posts }) => {
     const handleDelete = async (post) => {
         try {
             setPosts(posts.filter((p) => p.Item_ItemId != post.Item_ItemId))
-            console.log("Item_ItemId : ", post.Item_ItemId);
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/show_all_item_big/remove`, post.Item_ItemId,
+            console.log("ItemId : ", post.Item_ItemId);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/show_all_item_big/remove`,
+                {
+                    ItemId: post.Item_ItemId,
+                },
                 {
                     withCredentials: true,
                 }
