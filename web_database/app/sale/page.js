@@ -8,11 +8,12 @@ import '../tailwind.css';
 import ProductCard from './card-product';
 import axios from 'axios';
 import ProductDetail from "./product_detail/page";
+import ChargeMoney from "./charge_money/page";
 const Swal = require('sweetalert2')
 
 
 export default function Sell() {
-  console.log('Sell page');
+  console.log('Sell page เฟรชหน้า');
   useEffect(() => {
     const reloadCount = parseInt(localStorage.getItem('reloadCount') || '0', 10);
 
@@ -76,17 +77,17 @@ export default function Sell() {
         const { Fertilizer, Chemicals, Other, Craft } = response.data;
 
         const fertilizers = (Fertilizer || []).map(product => ({ ...product, category: 'fertilizer' }));
-        console.log('Fertilizers all: ', fertilizers);
+        // console.log('Fertilizers all: ', fertilizers);
         fertilizers.forEach(fertilizer => {
           console.log('Fertilizer Name: ', fertilizer.fertilizerName);
         }); const chemicals = (Chemicals || []).map(product => ({ ...product, category: 'chemicals' }));
-        console.log(Chemicals);
+        // console.log(Chemicals);
         const others = (Other || []).map(product => ({ ...product, category: 'other' }));
-        console.log(others);
+        // console.log(others);
         const crafts = (Craft || []).map(product => ({ ...product, category: 'craft' }));
-        console.log(crafts);
+        // console.log(crafts);
         const allData = [...fertilizers, ...chemicals, ...others, ...crafts];
-        console.log(allData);
+        // console.log(allData);
 
         setSalesData(allData);
       } catch (error) {
@@ -108,7 +109,7 @@ export default function Sell() {
   const [filteredSalesData, setFilteredSalesData] = useState([]);
   const filterSalesData = () => {
     if (searchButtonClicked) {
-      console.log('ProductName input:', productName);
+      // console.log('ProductName input:', productName);
       const filteredData = salesData.filter(sale => {
         const productNameMatch = !productName || (
           (sale.fertilizerName && sale.fertilizerName.includes(productName)) ||
@@ -134,7 +135,7 @@ export default function Sell() {
   }, [searchButtonClicked]);
   const [selectproduct, setSelectProduct] = useState('');
   const handleViewDetails = (productId) => {
-    console.log('use client in sell product id:', productId);
+    // console.log('use client in sell product id:', productId);
     setSelectProduct(productId); // เปลี่ยนค่า selectproduct โดยใช้ setSelectProduct
     // You can perform any actions with the productId here
   };
@@ -164,12 +165,14 @@ export default function Sell() {
         updatedCount[itemId] = {
           ...updatedCount[itemId],
           quantity: updatedCount[itemId].quantity + 1,
+          productAmount: productAmount, //ADD CODE
         };
       } else {
         updatedCount[itemId] = {
           productName,
           productPrice,
           quantity: 1,
+          productAmount: productAmount, // ADD CODE
         };
       }
 
@@ -217,7 +220,7 @@ export default function Sell() {
       const updatedTotalDiscount = totalDiscount - (deletedItem?.discount || 0);
       setTotalDiscount(updatedTotalDiscount);
 
-      // Calculate and update the total amount
+      // Calculate and up date the total amount
       const updatedTotalAmount = Object.values(updatedCount).reduce((total, item) => {
         return total + item.productPrice * item.quantity;
       }, 0);
@@ -234,7 +237,7 @@ export default function Sell() {
   const [discountError, setDiscountError] = useState('');
   const [totalDiscount, setTotalDiscount] = useState(0);
   const handleDiscountChange = (itemId, discount) => {
-    console.log('Discount:', discount);
+    // console.log('Discount:', discount);
     // Check if the entered value is not a number or less than 0
     if (isNaN(parseFloat(discount)) || parseFloat(discount) < 0) {
       Swal.fire({
@@ -277,8 +280,82 @@ export default function Sell() {
     });
   };
 
+  const [chargeMoneyVisible, setChargeMoneyVisible] = useState(false);
 
+  
+  const handlePayment = () => {
+    const orderIdValue = orderId?.OrderId;
+console.log('OrderId:', orderIdValue);
+    const totalDiscount = Object.values(clickCount).reduce((total, item) => total + (item.discount || 0), 0);
+    console.log('TotalDiscount:', totalDiscount);
+    const note = document.getElementById('note').value;
+    console.log('Note:', note);
+    const netTotal = totalAmount - totalDiscount;
+    console.log('NetTotal:', netTotal);
+    const combinedData = {
+      orderId: orderIdValue,
+      totalDiscount,
+      note,
+      netTotal,
+    };
+    
+    console.log('Combined Data:', combinedData);
+    Object.keys(clickCount).forEach((itemId) => {
+      const { productName, productPrice, quantity, discount, productAmount } = clickCount[itemId];
+  
+      console.log('ItemId:', itemId);
+      console.log('ProductName:', productName);
+      console.log('ProductPrice:', productPrice);
+      console.log('Quantity:', quantity);
+      console.log('Discount:', discount);
+      console.log('ProductAmount:', productAmount);
+  
+      // Check if the quantity to be paid exceeds the available product amount
+      const availableAmount = productAmount || 0; // Replace with the actual available product amount
+      const remainingAmount = availableAmount - quantity;
+      console.log('Product Amount : ', productAmount);
+      console.log('Remaining Amount : ', remainingAmount);
+      console.log('back');
 
+      if (remainingAmount < 0) {
+        setChargeMoneyVisible(false);
+        Swal.fire({
+          title: "Error",
+          text: `${productName} does not have enough stock for the selected quantity.`,
+          icon: "error",
+        });
+
+        return; // Stop the payment process if there's an error
+      } else {
+        setChargeMoneyVisible(true);
+
+      }
+    });
+    console.log('okayayyyyyyyyyyyyyyy')
+
+    const paymentData = {
+      orderId: orderId?.OrderId,
+      selectedItems: Object.keys(clickCount).map((itemId) => ({
+        itemId,
+        productName: clickCount[itemId].productName,
+        productPrice: clickCount[itemId].productPrice,
+        quantity: clickCount[itemId].quantity,
+        discount: clickCount[itemId].discount,
+        productAmount: clickCount[itemId].productAmount,
+      })),
+      totalDiscount,
+      note,
+      netTotal,
+    };
+    console.log('ioedfasfkljdfkaldjfaksdfjas');
+    
+    onPaymentComplete(paymentData);
+    console.log('PaymentDATA : ',paymentData);
+  };
+    
+  async function sentvalue(){
+
+  }
   return (
     <>
       <head>
@@ -454,8 +531,8 @@ export default function Sell() {
                   <div className="py-2 ">
                     <form action="#" method="post">
                       <div className="px-0 flex justify-between items-center mb-2">
-                        <label for="ส่วนลดท้ายบิล" className="text-md">หมายเหตุ</label>
-                        <input type="text" className="border-gray-200 px-2 py-1 rounded-md" placeholder="กรอกหมายเหตุ" />
+                        <label for="หมายเหตุ" className="text-md" >หมายเหตุ</label>
+                        <input type="text" className="border-gray-200 px-2 py-1 rounded-md" placeholder="กรอกหมายเหตุ" id="note"/>
                       </div>
                     </form>
                     <div className=" px-0 flex justify-between mb-2">
@@ -473,10 +550,14 @@ export default function Sell() {
                       <span className="text-2xl font-semibold">{totalAmount - totalDiscount} บาท</span>
                     </div>
                   </div>
-                  <div className=" bg-blue-200 ">
-                    <div className="px-4 py-2 rounded-full shadow-lg  text-2xl text-center bg-[#00A84F] text-white font-semibold">
+                  <div className="flex items-center justify-center">
+                    <button
+                      onClick={handlePayment}
+                      className="px-4 py-3 rounded-full shadow-lg w-full text-2xl text-center bg-[#00A84F] text-white font-semibold"
+                    >
                       ชำระเงิน
-                    </div>
+                    </button>
+                    {chargeMoneyVisible && <ChargeMoney onPaymentComplete={handlePayment} />}
                   </div>
                 </div>
               </div>
