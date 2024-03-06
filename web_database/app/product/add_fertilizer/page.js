@@ -10,7 +10,7 @@ import axios from 'axios';
 
 export default function Add_fertilizer() {
 
-  const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
+  const [ChemicalUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
   const [ItemId, setItemId] = useState("");
 
@@ -29,17 +29,18 @@ export default function Add_fertilizer() {
 
     const output = {
       Item_ItemId: form.Item_ItemId.value,
-      FertilizerName: form.FertilizerName.value,
-      FertilizerFormulaName: form.FertilizerFormulaName.value,
-      FertilizerType: form.FertilizerType.value,
-      FertilizerPrice: parseFloat(form.FertilizerPrice.value),
-      FertilizerUnitId: parseInt(form.FertilizerUnitId.value),
+      ChemicalName: form.ChemicalName.value,
+      ChemicalCommonName: form.ChemicalCommonName.value,
+      ChemicalIRAC: form.ChemicalIRAC.value,
+      ChemicalType: form.ChemicalType.value,
+      ChemicalPrice: parseFloat(form.ChemicalPrice.value),
+      ChemicalUnitId: parseInt(form.ChemicalUnitId.value),
       ItemUnitId: parseInt(form.ItemUnitId.value),
-      FertilizerWeigth: parseFloat(form.FertilizerWeigth.value),
-      FertilizerPhoto: base64String,
+      Chemicalweight: parseFloat(form.Chemicalweight.value),
+      ChemicalPhoto: base64String,
     };
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_fertilizer`,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_chemicals`,
         output,
         {
           withCredentials: true,
@@ -59,7 +60,7 @@ export default function Add_fertilizer() {
           }
         );
         setItemId(ItemId.data.ItemId);
-        fertilizerUnitId
+        ChemicalUnitId
         console.log("ItemId ", ItemId);
       } catch (error) {
         console.error('Error:', error);
@@ -72,7 +73,7 @@ export default function Add_fertilizer() {
           }
         );
         setItemUnitId(response.data);
-        fertilizerUnitId
+        ChemicalUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -84,7 +85,7 @@ export default function Add_fertilizer() {
           }
         );
         setfertilizerUnitId(response.data);
-        fertilizerUnitId
+        ChemicalUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -172,7 +173,7 @@ export default function Add_fertilizer() {
           <div className={`p-10 pt-4 mx-auto ${asideVisible ? 'flex-1' : 'w-full'}`}>
 
             <div className="w-full">
-              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลปุ๋ย</h2>
+              <h2 className="font-bold text-xl mb-5 w-full">ข้อมูลเคมีภัณฑ์</h2>
               <div className='mb-16'>
                 <form onSubmit={onSubmit} method="post">
                   <div className="flex items-start mb-5">
@@ -192,7 +193,7 @@ export default function Add_fertilizer() {
                         <label htmlFor="sdfsf" className="w-40 mt-5">เลือกรูปภาพ : </label>
                         <input
                           className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                          type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} />
+                          type="file" name="ChemicalPhoto" accept="image/*" onChange={handleFileChange} />
                       </div>
                     </div>
                   </div>
@@ -209,28 +210,37 @@ export default function Add_fertilizer() {
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerName" />
+                      type="text" name="ChemicalName" />
                   </div>
 
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
+                      htmlFor="sdfsf">ชื่อสามัญของเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerFormulaName" />
+                      type="text" name="ChemicalCommonName" />
                   </div>
 
                   <div className="flex items-center mb-5">
                     <label
                       className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
+                      htmlFor="sdfsf">ประเภทของเคมีภัณฑ์: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerType" />
+                      type="text" name="ChemicalType" />
+                  </div>
+
+                  <div className="flex items-center mb-5">
+                    <label
+                      className="inline-block w-40 mr-6 text-left text-black"
+                      htmlFor="sdfsf">กลุ่มสารตาม IRAC: </label>
+                    <input
+                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      type="text" name="ChemicalIRAC" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -239,7 +249,7 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ราคาขาย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="number" name="FertilizerPrice" min={0} />
+                      type="number" name="ChemicalPrice" min={0} />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -266,12 +276,12 @@ export default function Add_fertilizer() {
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
                     ปริมาณ / น้ำหนัก: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
+                    <input type="number" name="ChemicalUnitId" min={0}
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
 
                     <div className="inline-block relative">
                       <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        name="FertilizerUnitId">
+                        name="ChemicalUnitId">
                         {/* <option value="" disabled>เลือกหน่วยปริมาณ</option> */}
                         {fertilizerUnitId.map(unit => (
                           <option key={unit.UnitId} value={unit.UnitId}>

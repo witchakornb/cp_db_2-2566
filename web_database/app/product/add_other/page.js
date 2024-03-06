@@ -10,7 +10,7 @@ import axios from 'axios';
 
 export default function AddOther() {
 
-  const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
+  const [OtherUnitId, setOtherUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
   const [ItemId, setItemId] = useState("");
 
@@ -29,17 +29,17 @@ export default function AddOther() {
 
     const output = {
       Item_ItemId: form.Item_ItemId.value,
-      FertilizerName: form.FertilizerName.value,
-      FertilizerFormulaName: form.FertilizerFormulaName.value,
-      FertilizerType: form.FertilizerType.value,
-      FertilizerPrice: parseFloat(form.FertilizerPrice.value),
-      FertilizerUnitId: parseInt(form.FertilizerUnitId.value),
+      OtherName: form.OtherName.value,
+      OtherSize: form.OtherSize.value,
+      OtherType: form.OtherType.value,
+      OtherPrice: parseFloat(form.OtherPrice.value),
+      OtherUnitId: parseInt(form.OtherUnitId.value),
       ItemUnitId: parseInt(form.ItemUnitId.value),
-      FertilizerWeigth: parseFloat(form.FertilizerWeigth.value),
-      FertilizerPhoto: base64String,
+      OtherWeigth: parseFloat(form.OtherWeigth.value),
+      OtherPhoto: base64String,
     };
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_fertilizer`,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_other`,
         output,
         {
           withCredentials: true,
@@ -59,7 +59,7 @@ export default function AddOther() {
           }
         );
         setItemId(ItemId.data.ItemId);
-        fertilizerUnitId
+        OtherUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -71,7 +71,7 @@ export default function AddOther() {
           }
         );
         setItemUnitId(response.data);
-        fertilizerUnitId
+        OtherUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -82,8 +82,8 @@ export default function AddOther() {
             withCredentials: true,
           }
         );
-        setfertilizerUnitId(response.data);
-        fertilizerUnitId
+        setOtherUnitId(response.data);
+        OtherUnitId
       } catch (error) {
         console.error('Error:', error);
       }
@@ -191,7 +191,7 @@ export default function AddOther() {
                         <label htmlFor="sdfsf" className="w-40 mt-5">เลือกรูปภาพ : </label>
                         <input
                           className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                          type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} />
+                          type="file" name="OtherPhoto" accept="image/*" onChange={handleFileChange} />
                       </div>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ export default function AddOther() {
                       htmlFor="sdfsf">ชื่อสินค้า: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      placeholder="กรอกชื่อสินค้า" type="text" name="FertilizerName" />
+                      placeholder="กรอกชื่อสินค้า" type="text" name="OtherName" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -220,7 +220,7 @@ export default function AddOther() {
                       htmlFor="sdfsf">ประเภทของสินค้า: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      placeholder="กรอกประเภทของสินค้า" type="text" name="FertilizerFormulaName" />
+                      placeholder="กรอกประเภทของสินค้า" type="text" name="OtherType" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -229,7 +229,7 @@ export default function AddOther() {
                       htmlFor="sdfsf">ขนาดของสินค้า: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      placeholder="กรอกขนาดของสินค้า" type="text" name="FertilizerType" />
+                      placeholder="กรอกขนาดของสินค้า" type="text" name="OtherSize" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -238,7 +238,7 @@ export default function AddOther() {
                       htmlFor="sdfsf">ราคาขาย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      placeholder="กรอกราคาขาย" type="number" name="FertilizerPrice" min={0} />
+                      placeholder="กรอกราคาขาย" type="number" name="OtherPrice" min={0} />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -246,23 +246,15 @@ export default function AddOther() {
                       htmlFor="sdfsf"
                       className="inline-block w-40 mr-6 text-left text-black">
                       หน่วยนับ: </label>
-                      
                     <div className="w-full">
-                      <select
-                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md">
-                        
-                        <option value="" disabled selected hidden>เลือกหน่วยนับ</option>
-                        <option>กิโลกรัม</option>
-                        <option>กรัม</option>
-                        <option>ขีด</option>
-                        <option>ปอนด์</option>
-                        <option>ออนซ์</option>
-                        <option>ลิตร</option>
-                        <option>มิลลิลิตร</option>
+                      <select name="ItemUnitId" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                        <option value="" disabled>เลือกหน่วยนับ</option>
+                        {ItemUnitId.map(unit => (
+                          <option key={unit.UnitId} value={unit.UnitId}>
+                            {unit.UnitName}
+                          </option>
+                        ))}
                       </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                      </div>
 
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 ">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -270,19 +262,17 @@ export default function AddOther() {
                     </div>
                   </div>
 
-                  <div className="flex items-center mb-5">
-                    <label
-                      className="inline-block w-40 mr-6 text-left text-black"
-                      htmlFor="sdfsf">ปริมาณ / น้ำหนัก: </label>
-                    <input
-                      className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      placeholder="กรอกปริมาณ / น้ำหนัก" type="number" name="FertilizerPrice" min={0} />
-                  </div>
-                    {/* <div className="inline-block relative">
+                  <div className="relative mb-4 flex flex-wrap items-stretch">
+                    <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
+                      ปริมาณ / น้ำหนัก: </label>
+                    <input type="number" name="OtherWeigth" min={0}
+                      className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
+
+                    <div className="inline-block relative">
                       <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-8 text-base outline-none focus:border-[#6A64F1] focus:shadow-md"
-                        name="FertilizerUnitId">
-                        <option value="" disabled>เลือกหน่วยปริมาณ</option>
-                        {fertilizerUnitId.map(unit => (
+                        name="OtherUnitId">
+                        {/* <option value="" disabled>เลือกหน่วยปริมาณ</option> */}
+                        {OtherUnitId.map(unit => (
                           <option key={unit.UnitId} value={unit.UnitId}>
                             {unit.UnitName}
                           </option>
@@ -291,7 +281,8 @@ export default function AddOther() {
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                       </div>
-                    </div> */}
+                    </div>
+                  </div>
 
                   <div className="text-right mt-10">
                     <button type="submit"

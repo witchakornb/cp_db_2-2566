@@ -12,7 +12,9 @@ export default function Add_fertilizer() {
 
   const [fertilizerUnitId, setfertilizerUnitId] = useState([]);
   const [ItemUnitId, setItemUnitId] = useState([]);
-  const [craftName, setCraftName] = useState([]);
+  const [MotherFer1, setMotherFer1] = useState([]);
+  const [MotherFer2, setMotherFer2] = useState([]);
+  const [MotherFer3, setMotherFer3] = useState([]);
   const [ItemId, setItemId] = useState("");
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -30,17 +32,24 @@ export default function Add_fertilizer() {
 
     const output = {
       Item_ItemId: form.Item_ItemId.value,
-      FertilizerName: form.FertilizerName.value,
-      FertilizerFormulaName: form.FertilizerFormulaName.value,
-      FertilizerType: form.FertilizerType.value,
-      FertilizerPrice: parseFloat(form.FertilizerPrice.value),
-      FertilizerUnitId: parseInt(form.FertilizerUnitId.value),
-      ItemUnitId: parseInt(form.ItemUnitId.value),
-      FertilizerWeigth: parseFloat(form.FertilizerWeigth.value),
-      FertilizerPhoto: base64String,
+      CraftUnitId: 0,
+      Craft_fertilizerFormulaName: form.Craft_fertilizerFormulaName.value,
+      Craft_fertilizerName: form.Craft_fertilizerName.value,
+      Craft_fertilizerPrice: parseFloat(form.Craft_fertilizerPrice.value),
+      Craft_fertilizerType: form.Craft_fertilizerType.value,
+      Craft_fertilizerWeigth: 0,
+      ItemPhoto: base64String,
+      ItemUnitId: 0,
+      MotherFer1: form.MotherFer1.value,
+      MotherFer2: form.MotherFer2.value,
+      MotherFer3: form.MotherFer3.value,
+      WeigthFer1: parseFloat(form.WeigthFer1.value),
+      WeigthFer2: parseFloat(form.WeigthFer2.value),
+      WeigthFer3: parseFloat(form.WeigthFer3.value),
     };
+    console.log("output", output);
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/insert_fertilizer`,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/create_formula_craft`,
         output,
         {
           withCredentials: true,
@@ -50,6 +59,7 @@ export default function Add_fertilizer() {
     } catch (error) {
       console.error('Error:', error);
     }
+    console.error('output:', output);
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -67,27 +77,14 @@ export default function Add_fertilizer() {
       }
       // -------------------
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`,
-          {
-            withCredentials: true,
-          }
-        );
-        setItemUnitId(response.data);
-        fertilizerUnitId
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_all_craftName`, {
+          withCredentials: true,
+        });
+        setMotherFer1(response.data);
+        setMotherFer2(response.data);
+        setMotherFer3(response.data);
       } catch (error) {
-        console.error('Error:', error);
-      }
-      // -------------------
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_all_craftName`,
-          {
-            withCredentials: true,
-          }
-        );
-        setCraftName(response.data);
-        craftName
-      } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching craft names:', error);
       }
 
     }
@@ -193,7 +190,7 @@ export default function Add_fertilizer() {
                         <label htmlFor="sdfsf" className="w-40 mt-5">เลือกรูปภาพ : </label>
                         <input
                           className="py-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#00A84F] file:text-white hover:file:bg--[#000000]"
-                          type="file" name="FertilizerPhoto" accept="image/*" onChange={handleFileChange} />
+                          type="file" name="ItemPhoto" accept="image/*" onChange={handleFileChange} />
                       </div>
                     </div>
                   </div>
@@ -213,7 +210,7 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ชื่อปุ๋ย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerName" />
+                      type="text" name="Craft_fertilizerName" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -222,7 +219,7 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ชื่อสูตรปุ๋ย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerFormulaName" />
+                      type="text" name="Craft_fertilizerFormulaName" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -231,7 +228,7 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ประเภทของปุ๋ย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="text" name="FertilizerType" />
+                      type="text" name="Craft_fertilizerType" />
                   </div>
 
                   <div className="flex items-center mb-5">
@@ -240,7 +237,7 @@ export default function Add_fertilizer() {
                       htmlFor="sdfsf">ราคาขาย: </label>
                     <input
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-black outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      type="number" name="FertilizerPrice" min={0} />
+                      type="number" name="Craft_fertilizerPrice" min={0} />
                   </div>
 
                   <h2 className="font-bold text-xl mb-5 w-full">สูตรการผสมปุ๋ย</h2>
@@ -251,9 +248,9 @@ export default function Add_fertilizer() {
                       className="inline-block w-40 mr-6 text-left text-black">
                       แม่ปุ๋ยตัวที่ 1: </label>
                     <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                      <select name="MotherFer1" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
                         <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
+                        {MotherFer1.map(craft => (
                           <option key={craft.ItemId} value={craft.FertilizerName}>
                             {craft.FertilizerName}
                           </option>
@@ -269,7 +266,7 @@ export default function Add_fertilizer() {
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
                       ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
+                    <input type="number" name="WeigthFer1" min={0}
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
 
                     <div className="inline-block relative">
@@ -283,11 +280,11 @@ export default function Add_fertilizer() {
                     <label
                       htmlFor="sdfsf"
                       className="inline-block w-40 mr-6 text-left text-black">
-                      แม่ปุ๋ยตัวที่ 1: </label>
+                      แม่ปุ๋ยตัวที่ 2: </label>
                     <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                      <select name="MotherFer2" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
                         <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
+                        {MotherFer2.map(craft => (
                           <option key={craft.ItemId} value={craft.FertilizerName}>
                             {craft.FertilizerName}
                           </option>
@@ -303,7 +300,7 @@ export default function Add_fertilizer() {
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
                       ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
+                    <input type="number" name="WeigthFer2" min={0}
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
 
                     <div className="inline-block relative">
@@ -317,11 +314,11 @@ export default function Add_fertilizer() {
                     <label
                       htmlFor="sdfsf"
                       className="inline-block w-40 mr-6 text-left text-black">
-                      แม่ปุ๋ยตัวที่ 1: </label>
+                      แม่ปุ๋ยตัวที่ 3: </label>
                     <div className="w-full">
-                      <select name="craftName" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
+                      <select name="MotherFer3" className="w-full bg-white items-stretch flex rounded border-l border border-[#e0e0e0] py-2 px-2 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
                         <option value="" disabled>เลือกปุ๋ย</option>
-                        {craftName.map(craft => (
+                        {MotherFer3.map(craft => (
                           <option key={craft.ItemId} value={craft.FertilizerName}>
                             {craft.FertilizerName}
                           </option>
@@ -337,7 +334,7 @@ export default function Add_fertilizer() {
                   <div className="relative mb-4 flex flex-wrap items-stretch">
                     <label htmlFor="sdfsf" className="flex items-center w-40 mr-1 text-left text-black">
                       ปริมาณ: </label>
-                    <input type="number" name="FertilizerWeigth" min={0}
+                    <input type="number" name="WeigthFer3" min={0}
                       className="relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none" />
 
                     <div className="inline-block relative">
