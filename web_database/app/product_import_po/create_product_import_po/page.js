@@ -17,6 +17,20 @@ export default function CreateProductImportPo() {
 
   const [data_form, setData_form] = useState([]);
   const [isLoading_form_2, setLoading_form_2] = useState(true)
+
+  const [data_unit, setData_unit] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const unit = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_unit_for_item`);
+      setData_unit(unit.data);
+    };
+
+    fetchData();
+  }, []);
+
+
+
   async function onSubmit(event) {
     event.preventDefault()
     setIsLoading_form(true)
@@ -74,6 +88,9 @@ export default function CreateProductImportPo() {
       setIsLoading_form(false)
     }
   }
+
+
+
   // ---------- Nav Bar ----------
   const [asideVisible, setAsideVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState({
@@ -189,7 +206,6 @@ export default function CreateProductImportPo() {
                     </div>
                   </div>
                 </form>
-              {console.log(data_form)}
               </div>
               <div className="box-table">
                 <div className="flex flex-col m-4">
@@ -209,12 +225,14 @@ export default function CreateProductImportPo() {
                               <th scope="col" className=" px-6 py-4">คำสั่ง</th>
                             </tr>
                           </thead>
-                          <tbody className="overflow-auto	">
-                            <tr className="border-b dark:border-neutral-500">
-                              <td className="whitespace-nowrap  px-6 py-4">1</td>
-                              <td className="whitespace-nowrap  px-6 py-4">C000000001</td>
-                              <td className="whitespace-nowrap  px-6 py-4">ปุ๋ย K</td>
-                              <td className="whitespace-nowrap  px-6 py-4">
+
+                          {data_form.map((unit, index) => (
+                            <tbody className="overflow-auto">
+                              <tr className="border-b dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4">{index + 1 }</td>
+                                <td className="whitespace-nowrap px-6 py-4">{unit.Item_ItemId}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{unit.FertilizerName}</td>
+                                <td className="whitespace-nowrap  px-6 py-4">
                                 <div className="relative mb-2 mt-2 flex flex-wrap items-stretch">
                                   {/* <label for="name" className="flex items-center w-40 mr-0 text-left text-black">ปริมาณ</label> */}
                                   <input type="number"
@@ -224,14 +242,11 @@ export default function CreateProductImportPo() {
                                   />
                                   <div className="inline-block relative">
                                     <select className="z-[2] bg-[#D8D8D8] appearance-none items-stretch flex rounded-r-md border-l-0 border border-[#e0e0e0] py-2 px-6 text-base outline-none focus:border-[#6A64F1] focus:shadow-md">
-                                      <option>กิโลกรัม</option>
-                                      <option>กรัม</option>
-                                      <option>ขีด</option>
-                                      <option>ปอนด์</option>
-                                      <option>ออนซ์</option>
-                                      <option>ลิตร</option>
-                                      <option>มิลลิลิตร</option>
+                                      {data_unit.map(unit => (
+                                        <option key={unit.UnitId} value={unit.UnitId}>{unit.UnitName}</option>
+                                      ))}
                                     </select>
+
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 ">
                                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                                     </div>
@@ -260,8 +275,9 @@ export default function CreateProductImportPo() {
                                   </svg>
                                 </button>
                               </td>
-                            </tr>
-                          </tbody>
+                              </tr>
+                            </tbody>
+                          ))}
                         </table>
                       </div>
                     </div>
