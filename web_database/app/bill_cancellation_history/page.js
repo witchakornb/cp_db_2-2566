@@ -69,7 +69,7 @@ export default function Customer() {
         const apiDate = sale.OrderDate.split(' ')[0];
         // Comparing with the extracted date part
         const inputDateMatch = !InputDate || apiDate.includes(InputDate);
-        const inputCustomerNameMatch = !InputcustomerName || sale.CustomerName.includes(InputcustomerID);
+        const inputCustomerNameMatch = !InputcustomerName || sale.CustomerName.includes(InputcustomerName);
 
         return InputcustomerID && InputcustomerName && InputDate
           ? inputCustomerIDMatch && inputCustomerNameMatch && inputDateMatch
@@ -172,7 +172,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="customerID">รหัสสินค้า</label>
+                          <label for="customerID">เลขที่บิล</label>
                           <input
                             value={InputcustomerID}
                             onChange={(e) => setInputcustomerID(e.target.value)}
@@ -204,7 +204,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="customerName">ชื่อสินค้า</label>
+                          <label for="customerName">ชื่อลูกค้า</label>
                           <input
                             value={InputcustomerName}
                             onChange={(e) => setInputcustomerName(e.target.value)}

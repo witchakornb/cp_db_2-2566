@@ -155,7 +155,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="EmployeeEId">รหัสลูกค้า</label>
+                          <label for="EmployeeEId">รหัสพนักงาน</label>
                           <input
                             value={InputEmployeeEId}
                             onChange={(e) => setInputEmployeeEId(e.target.value)}
@@ -172,7 +172,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="customerName">ชื่อลูกค้า</label>
+                          <label for="customerName">ชื่อพนักงาน</label>
                           <input
                             value={InputcustomerName}
                             onChange={(e) => setInputcustomerName(e.target.value)}
