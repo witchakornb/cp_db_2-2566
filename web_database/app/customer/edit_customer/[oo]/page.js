@@ -87,7 +87,7 @@ export default function Add_customer({ params }) {
 
     event.preventDefault();
     const form = event.target;
-
+    const email = document.getElementById('email').value;
 
 
 
@@ -105,6 +105,7 @@ export default function Add_customer({ params }) {
       AddressMoo: form.AddressMoo.value,
     }
     try {
+      console.log("ddddddddddddddddddd");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_IP}/user/insert_customer`,
         output,
@@ -112,6 +113,7 @@ export default function Add_customer({ params }) {
           withCredentials: true,
         }
       );
+      console.log("ssssssssssssssssssssss");
       alert("Create fertilizer success!");
     } catch (error) {
       console.error('Error:', error);
