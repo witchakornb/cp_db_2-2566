@@ -64,7 +64,7 @@ const Posts = ({ posts }) => {
                         <th scope="col" class=" px-6 py-4">ลูกค้า</th>
                         <th scope="col" class=" px-6 py-4">หมายเหตุ</th>
                         <th scope="col" class=" px-6 py-4">ดูรายละเอียด</th>
-                        <th scope="col" class=" px-6 py-4">ยกเลิกรายการ</th>
+                        {/* <th scope="col" class=" px-6 py-4">ยกเลิกรายการ</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -81,7 +81,7 @@ const Posts = ({ posts }) => {
                             <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
                                     <Link href={{
-                                            pathname: `../sale_history/sale_history${post.OrderId}`,
+                                            pathname: `../sale_history/${post.OrderId}`,
                                         }}
                                     >
                                         <button
@@ -93,7 +93,7 @@ const Posts = ({ posts }) => {
                                     </Link>
                                 </div>
                             </td>
-                            <td class="whitespace-nowrap  px-6 py-4">
+                            {/* <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
                                     <button onClick={() => Swal.fire({
                                         title: "Are you sure?",
@@ -120,7 +120,7 @@ const Posts = ({ posts }) => {
                                         </svg>
                                     </button>
                                 </div>
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
 

@@ -18,7 +18,7 @@ export default function Customer() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/select_customerMini`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/admin/select_employeeMini`);
         console.log("res cus : ", response);
         const posts = response.data;
         setPosts(posts);
@@ -155,7 +155,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="EmployeeEId">รหัสลูกค้า</label>
+                          <label for="EmployeeEId">รหัสพนักงาน</label>
                           <input
                             value={InputEmployeeEId}
                             onChange={(e) => setInputEmployeeEId(e.target.value)}
@@ -172,7 +172,7 @@ export default function Customer() {
                     <div class="h-12">
                       <div class="mb-4">
                         <form action="" method="get">
-                          <label for="customerName">ชื่อลูกค้า</label>
+                          <label for="customerName">ชื่อพนักงาน</label>
                           <input
                             value={InputcustomerName}
                             onChange={(e) => setInputcustomerName(e.target.value)}
@@ -213,12 +213,12 @@ export default function Customer() {
             </div>
 
             <div class="flex justify-between mx-4 mt-8">
-              <div class="font-bold">ข้อมูลลูกค้า</div>
+              <div class="font-bold">ข้อมูลพนักงาน</div>
               <div class="">
-                <Link href={`/add_customer/`}>
+                <Link href={`/add_employee/`}>
                   <div class="ps-4">
                     <button class="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                      <span>เพิ่มลูกค้าใหม่</span>
+                      <span>เพิ่มพนักงานใหม่</span>
                     </button>
                   </div>
                 </Link>
