@@ -9,6 +9,11 @@ import styles from "./product_import_po.css";
 
 // import { useState } from "react";
 
+async function fetchAPI() {
+
+}
+
+
 export default function Product_import_po() {
 
   const [isDropdown1Open, setIsDropdown1Open] = useState(false);
