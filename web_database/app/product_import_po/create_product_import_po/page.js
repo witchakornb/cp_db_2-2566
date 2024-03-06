@@ -4,11 +4,76 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./create_product_import_po.css";
+import axios from "axios";
 
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
 
+
 export default function CreateProductImportPo() {
+  let itemsWith0001 = null;
+  const [isLoading_form, setIsLoading_form] = useState(false)
+  const [error_form, setError_form] = useState(null)
+
+  const [data_form, setData_form] = useState([]);
+  const [isLoading_form_2, setLoading_form_2] = useState(true)
+  async function onSubmit(event) {
+    event.preventDefault()
+    setIsLoading_form(true)
+    setError_form(null) // Clear previous errors when a new request starts
+
+    try {
+      const formData = new FormData(event.currentTarget)
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/get_itemId_and_type`);
+      const itemsWith0 = response.data.filter(item => item.ItemId.includes(formData.get('amount')));
+      itemsWith0001 = response.data.filter(item => item.ItemId === formData.get('amount'));
+      console.log(itemsWith0001)
+      if (itemsWith0001.length === 0) {
+        const itemsString = itemsWith0?.map(item => `Item ID: ${item.ItemId}, Item Type: ${item.ItemType}`).join('\n');
+        alert(itemsString)
+      }
+      if (itemsWith0001.length === 1) {
+        let type = itemsWith0001[0].ItemType;
+        if (type === 'Chemicals') {
+          const chem = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_chemicalsById`, { Item_ItemId: itemsWith0001[0].ItemId });
+          const exists = data_form.some(item => item.Item_ItemId === chem.data.Item_ItemId);
+          if (!exists) {
+            setData_form([...data_form, chem.data]);
+          }
+          setLoading_form_2(false)
+        }
+        else if (type === 'Fertilizer') {
+          const fert = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_fertilizerById`, { Item_ItemId: itemsWith0001[0].ItemId });
+          const exists = data_form.some(item => item.Item_ItemId === fert.data.Item_ItemId);
+          if (!exists) {
+            setData_form([...data_form, fert.data]);
+          }
+          setLoading_form_2(false)
+        } else if (type === 'Craft') {
+          const craft = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_craftById`, { Item_ItemId: itemsWith0001[0].ItemId });
+          const exists = data_form.some(item => item.Item_ItemId === craft.data.Item_ItemId);
+          if (!exists) {
+            setData_form([...data_form, craft.data]);
+          }
+          setLoading_form_2(false)
+        } else if (type === 'Other') {
+          const other = await axios.post(`${process.env.NEXT_PUBLIC_IP}/user/select_otherById`, { Item_ItemId: itemsWith0001[0].ItemId });
+          const exists = data_form.some(item => item.Item_ItemId === other.data.Item_ItemId);
+          if (!exists) {
+            setData_form([...data_form, other.data]);
+          }
+          setLoading_form_2(false)
+        }
+      }
+
+    } catch (error) {
+      // Capture the error message to display to the user
+      setError_form(error.message)
+      console.error(error)
+    } finally {
+      setIsLoading_form(false)
+    }
+  }
   // ---------- Nav Bar ----------
   const [asideVisible, setAsideVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState({
@@ -19,6 +84,18 @@ export default function CreateProductImportPo() {
     clientes: false,
   });
   const [isDropdown2Open, setIsDropdown2Open] = useState(false);
+
+
+  const [data, setData] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_IP}/gen_import_licenceId`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [])
 
   const toggleDropdown2 = () => {
     setIsDropdown2Open((prev) => !prev);
@@ -43,6 +120,8 @@ export default function CreateProductImportPo() {
     }
   }, []);
 
+  if (isLoading) return <p>Loading...</p>
+  if (!data) return <p>No profile data</p>
   const toggleAside = () => {
     setAsideVisible((prev) => !prev);
   };
@@ -66,7 +145,7 @@ export default function CreateProductImportPo() {
                 <div className="ip-1 mb-5 text-left pe-0">
                   <div className="flex items-center mb-6">
                     <label for="slip-code" className="w-40">รหัสใบสั่งซื้อสินค้า</label>
-                    <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="id" placeholder="รหัสใบสั่งซื้อสินค้า" />
+                    <input className="ml-1 w-full border py-2 px-3 rounded" type="text" name="id" placeholder="รหัสใบสั่งซื้อสินค้า" value={data.ImportLicenceId} />
                   </div>
                   <div className="flex items-center mb-6">
                     <label for="po" className="w-40">วันที่รับเข้า</label>
@@ -93,21 +172,24 @@ export default function CreateProductImportPo() {
             </div>
             <div className="box-2 border mx-10">
               <div className="box-search pe-4">
-                <div className="relative mb-2 mt-4 px-10 flex flex-wrap items-stretch">
-                  <label for="name" className="flex items-center w-40 mr-4 text-left text-black font-bold text-lg">รายการสินค้านำเข้า</label>
-                  <input type="text"
-                    className="w-20 relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
-                    placeholder="พิมพ์ชื่อสินค้าที่ต้องการค้นหา"
-                    name="amount"
-                  />
-                  <div className="inline-block relative">
-                    <button className="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded-r inline-flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
-                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
-                      <span>ค้นหา</span>
-                    </button>
+                <form onSubmit={onSubmit}>
+                  <div className="relative mb-2 mt-4 px-10 flex flex-wrap items-stretch">
+                    <label for="name" className="flex items-center w-40 mr-4 text-left text-black font-bold text-lg">รายการสินค้านำเข้า</label>
+                    <input type="text"
+                      className="w-20 relative border rounded-l-md border-[#e0e0e0] bg-white py-2 px-3 text-base outline-none focus:border-[#6A64F1] focus:shadow-md flex-auto rounded-none"
+                      placeholder="พิมพ์ชื่อสินค้าที่ต้องการค้นหา"
+                      name="amount"
+                    />
+                    <div className="inline-block relative">
+                      <button className="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded-r inline-flex items-center" type="submit" disabled={isLoading_form}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                        <span>ค้นหา </span>
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </form>
+              {console.log(data_form)}
               </div>
               <div className="box-table">
                 <div className="flex flex-col m-4">
