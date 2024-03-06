@@ -12,7 +12,7 @@ const Posts = ({ posts }) => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/admin/select_employeeMini`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_IP}/user/show_importMini`);
                 console.log("res : ", response);
                 const posts = response.data;
                 console.log(data);
@@ -29,9 +29,9 @@ const Posts = ({ posts }) => {
 
     // const handleDelete = async (post) => {
     //     try {
-    //         setPosts(posts.filter((p) => p.EmployeeEId != post.EmployeeEId))
-    //         console.log("EmployeeEId : ", post.EmployeeEId);
-    //         const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/insert_customer`,post.EmployeeEId,
+    //         setPosts(posts.filter((p) => p.ImportId != post.ImportId))
+    //         console.log("ImportId : ", post.ImportId);
+    //         const response = await axios.post(`${process.env.NEXT_PUBLIC_IP}/insert_customer`,post.ImportId,
     //         {
     //             withCredentials: true,
     //         }
@@ -48,28 +48,30 @@ const Posts = ({ posts }) => {
                     class="border-b bg-[#777777] font-medium text-white">
                     <tr>
                         <th scope="col" class=" px-6 py-4">#</th>
-                        <th scope="col" class=" px-6 py-4">รหัสพนักงาน</th>
-                        <th scope="col" class=" px-6 py-4">ชื่อ</th>
-                        <th scope="col" class=" px-6 py-4">นามสกุล</th>
-                        <th scope="col" class=" px-6 py-4">เบอร์โทร</th>
-                        <th scope="col" class=" px-6 py-4">สิทธื</th>
-                        <th scope="col" class=" px-6 py-4">แก้ไข</th>
+                        <th scope="col" class=" px-6 py-4">รหัสใบนำเข้า</th>
+                        <th scope="col" class=" px-6 py-4">วันที่นำเข้า</th>
+                        <th scope="col" class=" px-6 py-4">ประเภทการชำระเงิน</th>
+                        <th scope="col" class=" px-6 py-4">จำนวน</th>
+                        <th scope="col" class=" px-6 py-4">รวมราคา</th>
+                        <th scope="col" class=" px-6 py-4">สถานะ</th>
+                        {/* <th scope="col" class=" px-6 py-4">แก้ไข</th> */}
                         {/* <th scope="col" class=" px-6 py-4">ลบ</th> */}
                     </tr>
                 </thead>
                 <tbody>
                     {posts.map((post, index) => (
-                        <tr key={post.EmployeeEId}
+                        <tr key={post.ImportId}
                             class="border-b dark:border-neutral-500">
                             <td class="whitespace-nowrap  px-6 py-4">{index + 1}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.EmployeeEId}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.PersonFname}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.PersonLname}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.PersonPhone}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">{post.RoleName}</td>
-                            <td class="whitespace-nowrap  px-6 py-4">
+                            <td class="whitespace-nowrap  px-6 py-4">{post.ImportId}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.ImportDate}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.ImportPayment}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.ImportItem_Amount}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.Import_TotalPrice}</td>
+                            <td class="whitespace-nowrap  px-6 py-4">{post.ImportStatus}</td>
+                            {/* <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
-                                    <Link href={`/edit_customer/${post.EmployeeEId}`}>
+                                    <Link href={`/edit_customer/${post.ImportId}`}>
                                         <button
                                             class="bg-[#777777] hover:bg-[#008B41] text-white font-bold p-1 rounded inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -78,7 +80,7 @@ const Posts = ({ posts }) => {
                                         </button>
                                     </Link>
                                 </div>
-                            </td>
+                            </td> */}
                             {/* <td class="whitespace-nowrap  px-6 py-4">
                                 <div class="">
                                     <button onClick={() => handleDelete(post)}
