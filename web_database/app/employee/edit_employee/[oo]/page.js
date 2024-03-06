@@ -1,16 +1,34 @@
 'use client';
-import Sidebar from "../../Sidebar";
-import Navbar from "../../Navbar";
+import Sidebar from "../../../Sidebar";
+import Navbar from "../../../Navbar";
 import axios from 'axios';
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./add_employee.css";
+import styles from "../../add_employee/add_employee.css";
 
 import { useState, useEffect } from "react";
 
-export default function Add_employee() {
-  const [employeeId, setEmployeeId] = useState(null);
+export default function Add_employee({ params }) {
+  console.log(params.oo);
   const [role, setRole] = useState([]);
+  const [dataPreset, setDataPreset] = useState({
+    EmployeeEId: '',
+    EmployeeSalary: 0,
+    EmployeeUsername: '',
+    EmployeeEmail: '',
+    EmployeeBirthday: '',
+    PersonFname: '',
+    PersonLname: '',
+    PersonPhone: '',
+    RoleName: '',
+    AddressZipcode: '',
+    AddressProvince: '',
+    AddressDistrict: '',
+    AddressSubdistrict: '',
+    Address: '',
+    AddressMoo: '',
+    PersonPhoto: '',
+  });
 
 
   const [base64String, setBase64String] = useState('');
@@ -18,13 +36,16 @@ export default function Add_employee() {
 
   async function api() {
     try {
-      const employeeId = await axios.get(
-        `${process.env.NEXT_PUBLIC_IP}/gen_employeeId`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_IP}/admin/select_employee`,
+        {
+          EmployeeEId: params.oo,
+        },
         {
           withCredentials: true,
         }
       );
-      setEmployeeId(employeeId.data.EmployeeEId);
+      setDataPreset(response.data);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -36,18 +57,15 @@ export default function Add_employee() {
           withCredentials: true,
         }
       );
-      console.log("dsssssssssssssssssssssssssssssssssssssssssssssss");
-      console.log(role.data);
-      console.log("dsssssssssssssssssssssssssssssssssssssssssssssss");
       setRole(role.data);
     } catch (error) {
       console.error('Error:', error);
     }
   }
 
-
   useEffect(() => {
     api()
+    console.log(dataPreset);
   }, []);
 
 
@@ -79,9 +97,49 @@ export default function Add_employee() {
   };
 
   async function onSubmit(event) {
+    let output = {}
     if (!base64String) {
-      alert('Please select an image first.')
-      return
+     output = {
+        EmployeeEId: form.EmployeeEId.value,
+        EmployeePId: form.EmployeePId.value,
+        EmployeeSalary: parseFloat(form.EmployeeSalary.value),
+        EmployeeUsername: form.EmployeeUsername.value,
+        EmployeePassword: form.EmployeePassword.value,
+        EmployeeEmail: form.EmployeeEmail.value,
+        EmployeeBirthday: form.EmployeeBirthday.value,
+        PersonFname: form.PersonFname.value,
+        PersonLname: form.PersonLname.value,
+        PersonPhone: form.PersonPhone.value,
+        RoleId: parseInt(form.RoleId.value),
+        AddressZipcode: form.AddressZipcode.value,
+        AddressProvince: form.AddressProvince.value,
+        AddressDistrict: form.AddressDistrict.value,
+        AddressSubdistrict: form.AddressSubdistrict.value,
+        Address: form.Address.value,
+        AddressMoo: form.AddressMoo.value,
+        PersonPhoto: dataPreset.PersonPhoto,
+      }
+    }else{
+    output = {
+        EmployeeEId: form.EmployeeEId.value,
+        EmployeePId: form.EmployeePId.value,
+        EmployeeSalary: parseFloat(form.EmployeeSalary.value),
+        EmployeeUsername: form.EmployeeUsername.value,
+        EmployeePassword: form.EmployeePassword.value,
+        EmployeeEmail: form.EmployeeEmail.value,
+        EmployeeBirthday: form.EmployeeBirthday.value,
+        PersonFname: form.PersonFname.value,
+        PersonLname: form.PersonLname.value,
+        PersonPhone: form.PersonPhone.value,
+        RoleId: parseInt(form.RoleId.value),
+        AddressZipcode: form.AddressZipcode.value,
+        AddressProvince: form.AddressProvince.value,
+        AddressDistrict: form.AddressDistrict.value,
+        AddressSubdistrict: form.AddressSubdistrict.value,
+        Address: form.Address.value,
+        AddressMoo: form.AddressMoo.value,
+        PersonPhoto: base64String,
+      }
     }
 
     event.preventDefault();
@@ -90,29 +148,10 @@ export default function Add_employee() {
 
 
 
-    const output = {
-      EmployeeEId: form.EmployeeEId.value,
-      EmployeePId: form.EmployeePId.value,
-      EmployeeSalary: parseFloat(form.EmployeeSalary.value),
-      EmployeeUsername: form.EmployeeUsername.value,
-      EmployeePassword: form.EmployeePassword.value,
-      EmployeeEmail: form.EmployeeEmail.value,
-      EmployeeBirthday: form.EmployeeBirthday.value,
-      PersonFname: form.PersonFname.value,
-      PersonLname: form.PersonLname.value,
-      PersonPhone: form.PersonPhone.value,
-      RoleId: parseInt(form.RoleId.value),
-      AddressZipcode: form.AddressZipcode.value,
-      AddressProvince: form.AddressProvince.value,
-      AddressDistrict: form.AddressDistrict.value,
-      AddressSubdistrict: form.AddressSubdistrict.value,
-      Address: form.Address.value,
-      AddressMoo: form.AddressMoo.value,
-      PersonPhoto: base64String,
-    }
+
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_IP}/admin/insert_employee`,
+        `${process.env.NEXT_PUBLIC_IP}/admin/update_employee`,
         output,
         {
           withCredentials: true,
@@ -126,7 +165,6 @@ export default function Add_employee() {
 
 
   //----------------------------------
-
 
 
 
@@ -218,7 +256,7 @@ export default function Add_employee() {
                       {image ? (
                         <img src={URL.createObjectURL(image)} alt="Uploaded Image" />
                       ) : (
-                        <img src="/logo.jpg" alt="logo" />
+                        <img src={`data:image/jpeg;base64,${dataPreset.PersonPhoto}`} alt="logo" />
 
                       )}
                       <input
@@ -247,36 +285,36 @@ export default function Add_employee() {
                   <div className="w-2/3 m-4">
                     <div className="flex">
                       <div className="w-1/2 mr-4">
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">รหัสพนักงาน</label>
-                        <input readOnly value={employeeId} type="text" id="name" name="EmployeeEId" placeholder="รหัสพนักงาน"
+                        <input readOnly value={dataPreset.EmployeeEId} type="text" id="name" name="EmployeeEId" placeholder="รหัสพนักงาน"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">ชื่อ</label>
-                        <input type="text" id="name" name="PersonFname" placeholder="ชื่อ"
+                        <input value={dataPreset.PersonFname} onChange={e => setDataPreset({ ...dataPreset, PersonFname: e.target.value })} type="text" id="name" name="PersonFname" placeholder="ชื่อ"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">เบอร์โทร</label>
-                        <input type="text" id="name" name="PersonPhone" placeholder="เบอร์โทร"
+                        <input value={dataPreset.PersonPhone} onChange={e => setDataPreset({ ...dataPreset, PersonPhone: e.target.value })} type="text" id="name" name="PersonPhone" placeholder="เบอร์โทร"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                       </div>
                       <div className="w-1/2">
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">รหัสบัตรประชาชน</label>
-                        <input type="text" id="name" name="EmployeePId" placeholder="รหัสบัตประชาชน"
+                        <input value={dataPreset.EmployeePId} onChange={e => setDataPreset({ ...dataPreset, EmployeePId: e.target.value })} type="text" id="name" name="EmployeePId" placeholder="รหัสบัตประชาชน"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">นามสกุล</label>
-                        <input type="text" id="name" name="PersonLname" placeholder="นามสกุล"
+                        <input value={dataPreset.PersonLname} onChange={e => setDataPreset({ ...dataPreset, PersonLname: e.target.value })} type="text" id="name" name="PersonLname" placeholder="นามสกุล"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                        <label for="name" className="inline-block w-40 mr-6 text-left 
+                        <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">อีเมล</label>
-                        <input type="text" id="name" name="EmployeeEmail" placeholder="อีเมล"
+                        <input value={dataPreset.EmployeeEmail} onChange={e => setDataPreset({ ...dataPreset, EmployeeEmail: e.target.value })} type="text" id="name" name="EmployeeEmail" placeholder="อีเมล"
                           className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                       </div>
@@ -285,18 +323,19 @@ export default function Add_employee() {
                 </div>
                 <div className="flex">
                   <div className="w-1/3 px-4 pb-4">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">วันเกิด</label>
-                    <input type="date" id="name" name="EmployeeBirthday" placeholder="วันเกิด"
+                    <input value={dataPreset.EmployeeBirthday} onChange={e => setDataPreset({ ...dataPreset, EmployeeBirthday: e.target.value })} type="date" id="name" name="EmployeeBirthday" placeholder="วันเกิด"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
                   <div className="w-1/3 px-4 pb-4">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">ตำแหน่ง</label>
-                    <select name="RoleId">
+
+                    <select name="RoleId" className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md">
                       {role.map(unit => (
-                        <option key={unit.RoleID} value={unit.RoleID}>
+                        <option key={unit.RoleID} value={unit.RoleID} selected={unit.RoleID === dataPreset.RoleID}>
                           {unit.RoleName}
                         </option>
                       ))}
@@ -305,27 +344,28 @@ export default function Add_employee() {
 
 
 
+
                   </div>
                   <div className="w-1/3 px-4 pb-4">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">เงินเดือน</label>
-                    <input type="text" id="name" name="EmployeeSalary" placeholder="เงินเดือน"
+                    <input value={dataPreset.EmployeeSalary} onChange={e => setDataPreset({ ...dataPreset, EmployeeSalary: e.target.value })} type="text" id="name" name="EmployeeSalary" placeholder="เงินเดือน"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
                 </div>
                 <div className="flex px-4 pb-6">
                   <div className="w-1/2 pr-4">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left
                             text-black">ชื่อผู้ใช้</label>
-                    <input type="text" id="name" name="EmployeeUsername" placeholder="ชื่อผู้ใช้"
+                    <input value={dataPreset.EmployeeUsername} onChange={e => setDataPreset({ ...dataPreset, EmployeeUsername: e.target.value })} type="text" id="name" name="EmployeeUsername" placeholder="ชื่อผู้ใช้"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
                   <div className="w-1/2">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">รหัสผ่าน</label>
-                    <input type="text" id="name" name="EmployeePassword" placeholder="รหัสผ่าน"
+                    <input value={dataPreset.EmployeePassword} onChange={e => setDataPreset({ ...dataPreset, EmployeePassword: e.target.value })} type="text" id="name" name="EmployeePassword" placeholder="รหัสผ่าน"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
@@ -338,36 +378,36 @@ export default function Add_employee() {
                 </div>
                 <div className="p-4 flex">
                   <div className="w-1/2 mr-4">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">เลขที่</label>
-                    <input type="text" id="name" name="Address" placeholder="เลขที่"
+                    <input value={dataPreset.Address} onChange={e => setDataPreset({ ...dataPreset, Address: e.target.value })} type="text" id="name" name="Address" placeholder="เลขที่"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">ตำบล/แขวง</label>
-                    <input type="text" id="name" name="AddressSubdistrict" placeholder="ตำบล/แขวง"
+                    <input value={dataPreset.AddressSubdistrict} onChange={e => setDataPreset({ ...dataPreset, AddressSubdistrict: e.target.value })} type="text" id="name" name="AddressSubdistrict" placeholder="ตำบล/แขวง"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">จังหวัด</label>
-                    <input type="text" id="name" name="AddressProvince" placeholder="จังหวัด"
+                    <input value={dataPreset.AddressProvince} onChange={e => setDataPreset({ ...dataPreset, AddressProvince: e.target.value })} type="text" id="name" name="AddressProvince" placeholder="จังหวัด"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
                   <div className="w-1/2">
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">หมู่ที่</label>
-                    <input type="text" id="name" name="AddressMoo" placeholder="หมู่ที่"
+                    <input value={dataPreset.AddressMoo} onChange={e => setDataPreset({ ...dataPreset, AddressMoo: e.target.value })} type="text" id="name" name="AddressMoo" placeholder="หมู่ที่"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">อำเภอ/เขต</label>
-                    <input type="text" id="name" name="AddressDistrict" placeholder="อำเภอ/เขต"
+                    <input value={dataPreset.AddressDistrict} onChange={e => setDataPreset({ ...dataPreset, AddressDistrict: e.target.value })} type="text" id="name" name="AddressDistrict" placeholder="อำเภอ/เขต"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
-                    <label for="name" className="inline-block w-40 mr-6 text-left 
+                    <label htmlFor="name" className="inline-block w-40 mr-6 text-left 
                             text-black">รหัสไปรษณีย์</label>
-                    <input type="text" id="name" name="AddressZipcode" placeholder="รหัสไปรษณีย์"
+                    <input value={dataPreset.AddressZipcode} onChange={e => setDataPreset({ ...dataPreset, AddressZipcode: e.target.value })} type="text" id="name" name="AddressZipcode" placeholder="รหัสไปรษณีย์"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-3 text-base text-[#737373] outline-none focus:border-[#6A64F1] focus:shadow-md
                   "/>
                   </div>
