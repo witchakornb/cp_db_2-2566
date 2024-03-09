@@ -9,22 +9,37 @@ import styles from "./add_customer.css";
 
 import { useState, useEffect } from "react";
 
-export default function Add_customer() {
-  const [customerId, setCustomerId] = useState(null);
-
+export default function Add_customer({ params }) {
+  const [dataPreset, setDataPreset] = useState({
+    CustomerId: '',
+    CustomerType: '',
+    AddressZipcode: '',
+    AddressProvince: '',
+    AddressDistrict: '',
+    AddressSubdistrict: '',
+    Address: '',
+    AddressMoo: '',
+    PersonFname: '',
+    PersonLname: '',
+    PersonPhone: '',
+    PersonPhoto: '',
+  });
 
   const [base64String, setBase64String] = useState('');
   const [image, setImage] = useState("");
 
   async function api() {
     try {
-      const customerId = await axios.get(
-        `${process.env.NEXT_PUBLIC_IP}/gen_customerId`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_IP}/user/select_customer`,
+        {
+          CustomerId: params.oo,
+        },
         {
           withCredentials: true,
         }
       );
-      setCustomerId(customerId.data.CustomerId);
+      setDataPreset(response.data);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -72,7 +87,7 @@ export default function Add_customer() {
 
     event.preventDefault();
     const form = event.target;
-
+    const email = document.getElementById('email').value;
 
 
 
@@ -90,6 +105,7 @@ export default function Add_customer() {
       AddressMoo: form.AddressMoo.value,
     }
     try {
+      console.log("ddddddddddddddddddd");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_IP}/user/insert_customer`,
         output,
@@ -97,6 +113,7 @@ export default function Add_customer() {
           withCredentials: true,
         }
       );
+      console.log("ssssssssssssssssssssss");
       alert("Create fertilizer success!");
     } catch (error) {
       console.error('Error:', error);
@@ -179,7 +196,7 @@ export default function Add_customer() {
                       {image ? (
                         <img src={URL.createObjectURL(image)} alt="Uploaded Image" />
                       ) : (
-                        <img src="/logo.jpg" alt="logo" />
+                        <img src={`data:image/jpeg;base64,${dataPreset.PersonPhoto}`} alt="logo" />
                       )}
                       <input
                         type="file"

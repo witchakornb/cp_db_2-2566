@@ -194,7 +194,7 @@ export default function CreateProductImportPo() {
             {/* --nav bar-- */}
             <h3 className="ml-5 mb-10 mt-5 px-5 font-bold text-xl">รายละเอียดใบสั่งซื้อสินค้า</h3>
             <div className="box-1 w-auto mx-10 px-5">
-              <form action="" method="post">
+            <form onSubmit={onSubmit} method="post">
                 <div className="ip-1 mb-5 text-left pe-0">
                   <div className="flex items-center mb-6">
                     <label for="slip-code" className="w-40">รหัสใบสั่งซื้อสินค้า</label>
@@ -338,6 +338,11 @@ export default function CreateProductImportPo() {
               </div>
             </div>
             <div className="p-4 mr-10 flex flex-row-reverse">
+              <div className="ps-4">
+                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                  ยกเลิก
+                </button>
+              </div>
               <div className="ps-4">
                 <button type="submit" className="bg-[#00A84F] hover:bg-[#008B41] text-white font-bold py-2 px-4 rounded">
                   บันทึก

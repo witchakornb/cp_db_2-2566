@@ -75,6 +75,7 @@ export default function Add_employee({ params }) {
     setImage(image);
     if (!image) {
       console.error('No image file selected.');
+      alert("dddddddddddddddddddd")
       return;
     }
     const reader = new FileReader();
@@ -87,6 +88,7 @@ export default function Add_employee({ params }) {
         setBase64String(result.replace('data:image/jpeg;base64,', ''));
       } else {
         console.error('Unsupported image format. Please select a PNG or JPEG.');
+      alert("fffffffffffffffffff")
         return;
       }
     };
@@ -98,6 +100,8 @@ export default function Add_employee({ params }) {
 
   async function onSubmit(event) {
     let output = {}
+    event.preventDefault();
+    const form = event.target;
     if (!base64String) {
      output = {
         EmployeeEId: form.EmployeeEId.value,
@@ -142,11 +146,8 @@ export default function Add_employee({ params }) {
       }
     }
 
-    event.preventDefault();
-    const form = event.target;
 
-
-
+console.log(output);
 
 
     try {
@@ -182,24 +183,24 @@ export default function Add_employee({ params }) {
 
 
   //image
-  const [selectedImage, setSelectedImage] = useState(null);  // State to hold selected image
+  // const [selectedImage, setSelectedImage] = useState(null);  // State to hold selected image
 
-  function thisFileUpload(event) {
-    const fileInput = event.target;
-    const file = fileInput.files[0];
+  // function thisFileUpload(event) {
+  //   const fileInput = event.target;
+  //   const file = fileInput.files[0];
 
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
+  //   if (file && file.type.startsWith("image/")) {
+  //     const reader = new FileReader();
 
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
+  //     reader.onloadend = () => {
+  //       setSelectedImage(reader.result);
+  //     };
 
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please select a valid image file.");
-    }
-  }
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     alert("Please select a valid image file.");
+  //   }
+  // }
   // ---------- Nav Bar ----------
   const [asideVisible, setAsideVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState({
